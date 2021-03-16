@@ -1,37 +1,25 @@
 "use strict";
 
-//required classes
-//
-//schema() - contains the protocol
-/*******
- * datatypes
- ***********
- * double() -- native IEEE double
- * float() -- native IEEE float
- * int(size)
- * uint(size)
- * packedNum(size, min, max)
- * scaledNum(size, scale)
- * enum(name) - the name of the enum
- ********/
-
-/********
- * modifiers
- ******
- * $variableLength(size) - read and int and the size of the next field will be 
- *                        overwritten with that int
- * source(size, enum) - prepend the string of the enum to the tree pos
- * position(size, enum) - append the string of the enum to the tree pos
- * index(size, max_len) - append the read index to the next field name
- */
-
 class Schema {
     constructor() {
+        this.config = {
+            name: "protGen",
+            idType: "uint8",
+        };
         this.enums = {};
         this.datatypes = {};
         this.messages = {};
 
+        this.units = []
         this.sourceDatatypeCombinations = []
+    }
+
+    setIdType(type) {
+        this.config.idType =type 
+    }
+
+    setName(name) {
+        this.config.name = name
     }
 
     decodeMsg(msg) {
@@ -52,6 +40,12 @@ class Schema {
         }
         if (!msg.source) {
             throw `Message has no source: id ${msg.id}`
+        }
+        if (this.units.indexOf(msg.source) == -1) {
+            this.units.push(msg.source);
+        }
+        if (this.units.indexOf(msg.target) == -1) {
+            this.units.push(msg.target);
         }
         this.sourceDatatypeCombinations.push(combined)
 
@@ -127,19 +121,21 @@ class Schema {
     }
 
     getObject() {
+        this.addEnum("units", this.units);
         let obj = {
+            config: this.config,
             enums: this.enums,
-            messages: this.messages,
             datatypes: this.datatypes,
+            messages: this.messages,
         };
         return obj;
     }
 
-    createJson() {
+    createJson(path) {
         let obj = this.getObject()
         let raw = JSON.stringify(obj)
         let fs = require('fs');
-        fs.writeFileSync('./out/json/protocol.json', raw)
+        fs.writeFileSync(path, raw)
     }
 
     verifyIntSize(size) {

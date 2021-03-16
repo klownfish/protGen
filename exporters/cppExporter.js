@@ -1,26 +1,35 @@
 "use strict";
+console.log(process.cwd())
 const { exec } = require("child_process");
 let fs = require('fs');
 
-let raw = fs.readFileSync("./out/json/protocol.json").toString()
+
+
+if (process.argv.length < 4) {
+    console.log(`usage: node INPUT_FILE OUTPUT_DIR`)
+    return
+}
+let input = process.argv[2]
+let output = process.argv[3]
+let raw = fs.readFileSync(input).toString()
 let schema = JSON.parse(raw);
+let baseName = output + `/${schema.config.name}`
 
 let warning = 
 `/*****************************
 GENERATED FILE DO NOT EDIT
 ******************************/\n\n`
 
-
 //generate enums
 let enum_out = warning 
 for (let name in schema.enums) {
-    enum_out += `enum ${name}: ${schema.enums[name].nativeType} {\n`
+    enum_out += `enum struct ${name}: ${schema.enums[name].nativeType} {\n`
     for (let value in schema.enums[name].entries) {
-        enum_out += `    ${value} = ${schema.enums[name].entries[value]},\n`
+        enum_out += `    ${value.toUpperCase()} = ${schema.enums[name].entries[value]},\n`
     }
     enum_out += "};\n"
 }
-fs.writeFileSync("./out/cpp/protocol_enums.h", enum_out)
+fs.writeFileSync(`${baseName}_enums.h`, enum_out)
 
 
 //generate flags
@@ -35,13 +44,13 @@ for (let datatype in schema.datatypes) {
     }
     flags_out += "\n"
 }
-fs.writeFileSync("./out/cpp/protocol_flags.h", flags_out)
+fs.writeFileSync(`${baseName}_flags.h`, flags_out)
 
 
 //generate structs
 let structs_out = warning
 structs_out += "#include <stdint.h>\n"
-structs_out += `#include "protocol_enums.h"\n\n`
+structs_out += `#include "${schema.config.name}_enums.h"\n\n`
 for (let datatype in schema.datatypes) {
     structs_out += `struct __attribute__((packed)) struct_${datatype} {\n`
     if (schema.datatypes[datatype].bitField) {
@@ -61,13 +70,13 @@ for (let datatype in schema.datatypes) {
     }
     structs_out += "}; \n"
 }
-fs.writeFileSync("./out/cpp/protocol_structs.h", structs_out)
+fs.writeFileSync(`${baseName}_structs.h`, structs_out)
 
 
 //generate classes
 let classes_out = warning;
-classes_out += `#include "protocol_structs.h"\n`;
-classes_out += `#include "protocol_functions.h"\n`;
+classes_out += `#include "${schema.config.name}_structs.h"\n`;
+classes_out += `#include "${schema.config.name}_functions.h"\n`;
 for (let msg in schema.messages) {
     let datatype = schema.messages[msg].datatype
     classes_out += 
@@ -142,11 +151,10 @@ for (let msg in schema.messages) {
                 `}\n`
                 break;
         }
-        //classes_out += `\n`
     }
     classes_out += "};\n\n\n"
 }
-fs.writeFileSync("./out/cpp/protocol_classes.h", classes_out)
+fs.writeFileSync(`${baseName}_classes.h`, classes_out)
 
 
 //generate functions
@@ -188,25 +196,53 @@ functions_out += "}\n\n"
 
 //generate parse macro
 functions_out +=
-`#define PARSE_MESSAGE(id, callback, buf) \\
+`#define PARSE_MESSAGE(id, buf) \\
 switch(id) { \\\n `
 for (let msg in schema.messages) {
     functions_out += `    case ${schema.messages[msg].id}:\\\n` +
     `        ${schema.messages[msg].source}_${schema.messages[msg].datatype} __message;\\\n` +
-    `        __message_struct.set_bytes(__message);\\\n` +
-    `        callback(__message);\\\n` +
+    `        __message.set_bytes(buf);\\\n` +
+    `        ${schema.config.name}_rx(__message);\\\n` +
     `        break;\\\n`
 }
 functions_out += "}\n\n"
-fs.writeFileSync("./out/cpp/protocol_functions.h", functions_out)
+
+//generate id to source macro
+functions_out +=
+`#define ID_TO_SOURCE(id, source) \\
+switch(id) { \\\n `
+for (let msg in schema.messages) {
+    functions_out += `    case ${schema.messages[msg].id}:\\\n` +
+    `        source = units::${schema.messages[msg].source.toUpperCase()};\\\n` +
+    `        break;\\\n`
+}
+functions_out += "}\n\n"
+
+//generate id to target macro
+functions_out +=
+`#define ID_TO_TARGET(id, source) \\
+switch(id) { \\\n `
+for (let msg in schema.messages) {
+    functions_out += `    case ${schema.messages[msg].id}:\\\n` +
+    `        source = units::${schema.messages[msg].target.toUpperCase()};\\\n` +
+    `        break;\\\n`
+}
+functions_out += "}\n\n"
+
+//create function constructor
+for (let msg in schema.messages) {
+    functions_out += `void ${schema.config.name}_rx(${schema.messages[msg].source}_${schema.messages[msg].datatype} __message);\n` 
+}
+
+fs.writeFileSync(`${baseName}_functions.h`, functions_out)
 
 //generate the FINAL ULTIMATE COMBINING FILE
 let protocol_out = warning +
-`#include "protocol_flags.h"\n` +
-`#include "protocol_classes.h"\n`
-fs.writeFileSync("./out/cpp/protocol.h", protocol_out)
+`#include "${schema.config.name}_flags.h"\n` +
+`#include "${schema.config.name}_classes.h"\n`
+fs.writeFileSync(`${baseName}.h`, protocol_out)
 
-exec(`clang-format --style="LLVM" -i ./out/cpp/*`, ((error) => {
+exec(`clang-format --style="LLVM" -i ${baseName}*`, ((error) => {
     if (error)
         console.log("install clang-format in PATH to format the output")
 }))

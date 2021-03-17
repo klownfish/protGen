@@ -18,7 +18,8 @@ GENERATED FILE DO NOT EDIT
 ******************************/\n\n`
 let h_file = warning 
 h_file +=
-`#include <stdint.h>\n\n`
+`#include <stdint.h>
+#include <string.h>\n\n`
 //generate flags
 for (let datatype in schema.datatypes) {
     if (!schema.datatypes[datatype].bitField) {

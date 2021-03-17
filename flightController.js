@@ -143,8 +143,8 @@ s.addMsg({
     target: gs_tc,
     datatype: "onboard_battery_voltage",
     fields: {
-        battery_1: s.scaledFloat(2, 100),
-        battery_2: s.scaledFloat(2, 100)
+        battery_1: s.scaledFloat(2, 100, false),
+        battery_2: s.scaledFloat(2, 100, false)
     }
 })
 
@@ -157,7 +157,7 @@ s.addMsg({
         gnss_time: s.uint(4),
         latitude: s.int(4),
         longitude: s.int(4),
-        h_dop: s.scaledFloat(2, 100),
+        h_dop: s.scaledFloat(2, 100, false),
         n_satellites: s.uint(1)
     }
 })

@@ -66,9 +66,8 @@ void uint_to_packedFloat(T value, double min, double max, double* out) {
 }\n\n`
 
 //generate receiving classes
-for (let key in schema.messages) {
-    let msg = schema.messages[key]
-    let datatype = schema.datatypes[msg.datatype]
+for (let key in schema.datatypes) {
+    let datatype = schema.datatypes[key]
     //create class definition
     h_file += 
     `class ${datatype.name} {\n` +
@@ -76,16 +75,16 @@ for (let key in schema.messages) {
     //generate fields
     for (let field of datatype.fields) {
         h_file += `${field.nativeType} ${field.name};\n`
+        h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
     }
     if (datatype.bitField) {
         h_file += `${datatype.bitFieldNativeType} bit_field;\n`
-        h_file += `${datatype.bitFieldNativeType} get_bit_field() {return bit_field;}`
+        h_file += `${datatype.bitFieldNativeType} get_bit_field() {return bit_field;}\n`
+        h_file += `static_assert((sizeof(bit_field) == ${datatype.bitFieldSize}), "invalid size");\n`
     }
     h_file +=
     `uint8_t size = ${datatype.totalSize};\n` +
     `uint8_t get_size() {return size;}\n` +
-    `uint64_t id = ${msg.id};\n` +
-    `uint64_t get_id() {return id;}\n` +
     `enum units source;\n` +
     `enum units target;\n` +
     `enum units get_source() {return source;}\n` +
@@ -147,16 +146,18 @@ for (let key in schema.messages) {
     `public:\n`
     for (let field of datatype.fields) {
         h_file += `${field.nativeType} ${field.name};\n`
+        h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
     }
     if (datatype.bitField) {
         h_file += `${datatype.bitFieldNativeType} bit_field;\n`
-        h_file += `void set_bit_field(${datatype.bitFieldNativeType} value) {bit_field = value;}`
+        h_file += `static_assert((sizeof(bit_field) == ${datatype.bitFieldSize}), "invalid size");\n`
+        h_file += `void set_bit_field(${datatype.bitFieldNativeType} value) {bit_field = value;}\n`
     }
     h_file +=
     `uint8_t size = ${datatype.totalSize};\n` +
     `uint8_t get_size() {return size;}\n` +
-    `uint64_t id = ${msg.id};\n` +
-    `uint64_t get_id() {return id;}\n` +
+    `${schema.config.idNativeType} id = ${msg.id};\n` +
+    `${schema.config.idNativeType} get_id() {return id;}\n` +
     `enum units source;\n` +
     `enum units target;\n` +
     `enum units get_source() {return source;}\n` +
@@ -176,7 +177,6 @@ for (let key in schema.messages) {
     }
     h_file += `}\n`
     for (let field of datatype.fields) {
-        h_file += '\n'
         //setters
         switch(field.type) {
             case "packedFloat":

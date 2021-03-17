@@ -4,7 +4,7 @@ class Schema {
     constructor() {
         this.config = {
             name: "protGen",
-            idType: "uint8",
+            idNativeType: "uint8_t",
         };
         this.enums = {};
         this.datatypes = {};
@@ -229,15 +229,20 @@ class Schema {
         return obj
     }
     
-    scaledFloat(size, scale) {
+    scaledFloat(size, scale, signed) {
         if (!this.verifyIntSize(size)) {
             throw `size can not be converted to an int: ${size}` 
+        }
+        type = this.sizeToUint(size)
+
+        if (signed) {
+            type = type.substring(1)
         }
         let obj = {
             type: "scaledFloat",
             size: size,
             scale: scale,
-            nativeType: this.sizeToUint(size)
+            nativeType: type
         }
         return obj
     }

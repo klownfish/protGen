@@ -143,8 +143,8 @@ s.addMsg({
     target: gs_tc,
     datatype: "onboard_battery_voltage",
     fields: {
-        battery_1: s.uint(2),
-        battery_2: s.uint(2)
+        battery_1: s.scaledFloat(2, 100),
+        battery_2: s.scaledFloat(2, 100)
     }
 })
 

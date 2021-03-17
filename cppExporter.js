@@ -41,111 +41,97 @@ for (let name in schema.enums) {
 }
 
 h_file +=
-`
-auto scaledFloat_to_uint(double value, double scale) {
-    return value * scale;
+`template <typename T>
+void scaledFloat_to_uint(double value, double scale, T* out) {
+    *out = value * scale;
 }
 
 template <typename T>
-double uint_to_scaledFloat(T value, double scale) {
-    return value / scale;
+void uint_to_scaledFloat(T value, double scale, double* out ) {
+    *out = value / scale;
 }
 
 template <typename T>
-T packedFloat_to_uint(double value, double min, double max) {
+void packedFloat_to_uint(double value, double min, double max, T* out) {
     T max_value = ~0;
     double difference = max - min;
-    return (value - min) / difference * max_value;
+    *out = (value - min) / difference * max_value;
 }
 
 template <typename T>
-double uint_to_packedFloat(T value, double min, double max) {
+void uint_to_packedFloat(T value, double min, double max, double* out) {
     T max_value = ~0;
     double difference = max - min;
-    return difference * max_value / value;
+    *out = difference * value / max_value;
 }\n\n`
 
-//generate structs
-for (let datatype in schema.datatypes) {
-    if (schema.datatypes[datatype].totalSize == 0) {
-        continue;
-    }
-    h_file += `struct __attribute__((__packed__)) struct_${datatype} {\n`
-    if (schema.datatypes[datatype].bitField) {
-        h_file += `    ${schema.datatypes[datatype].bitFieldNativeType} bitField;\n`
-    }
-    if (!schema.datatypes[datatype].fields) {
-        continue
-    }
-    for (let field of schema.datatypes[datatype].fields) {
-        switch (field.type) {
-            case "enum":
-                h_file += `    enum ${field.enumName} ${field.name};\n`
-                break;
-            default:
-                h_file += `    ${field.nativeType} ${field.name};\n`
-        }
-    }
-    h_file += "}; \n"
-    h_file += `static_assert((sizeof(struct_${datatype}) == ${schema.datatypes[datatype].totalSize}), "sizeof is not equal to the calculated size!");\n\n`
-}
-
 //generate receiving classes
-for (let msg in schema.messages) {
-    let datatype = schema.messages[msg].datatype
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    let datatype = schema.datatypes[msg.datatype]
+    //create class definition
     h_file += 
-    `class ${schema.datatypes[datatype].name} {\n` +
+    `class ${datatype.name} {\n` +
     `public:\n`
-    if (schema.datatypes[datatype].totalSize != 0) {
-        h_file += `struct struct_${schema.datatypes[datatype].name}* storage;\n` +
-        `uint8_t size = sizeof(*storage);\n` +
-        `uint8_t get_size() {return size;}\n` +
-        `void set_bytes(uint8_t* pointer) {\n` +
-        `storage = (struct_${schema.datatypes[datatype].name}*) pointer;\n` +
-        `}\n`
-    } else {
-        h_file += `void set_bytes(uint8_t* pointer) {}`
-        h_file += `uint8_t get_size() {return 0;}`
+    //generate fields
+    for (let field of datatype.fields) {
+        h_file += `${field.nativeType} ${field.name};\n`
+    }
+    if (datatype.bitField) {
+        h_file += `${datatype.bitFieldNativeType} bit_field;\n`
+        h_file += `${datatype.bitFieldNativeType} get_bit_field() {return bit_field;}`
     }
     h_file +=
-    `uint64_t id = ${schema.messages[msg].id};\n` +
+    `uint8_t size = ${datatype.totalSize};\n` +
+    `uint8_t get_size() {return size;}\n` +
+    `uint64_t id = ${msg.id};\n` +
     `uint64_t get_id() {return id;}\n` +
-    `enum units source;` +
-    `enum units target;` +
-    `enum units get_source() {return source;}` +
-    `enum units get_target() {return target;}` +
-    `void set_source(enum units value) {source = value;}` +
-    `void set_target(enum units value) {target = value;}`
-    
-
-    if (schema.datatypes[datatype].bitField) {
-        h_file += `${schema.datatypes[datatype].bitFieldNativeType} get_bit_field() {return storage->bitField;}`
+    `enum units source;\n` +
+    `enum units target;\n` +
+    `enum units get_source() {return source;}\n` +
+    `enum units get_target() {return target;}\n` +
+    `void set_source(enum units value) {source = value;}\n` +
+    `void set_target(enum units value) {target = value;}\n`+
+    `void parse_buf(uint8_t* buf) {\n` +
+    `uint8_t index = 0;\n` 
+    if (datatype.bitField) {
+        h_file += `memcpy(&bit_field, buf +  index, sizeof(bit_field));\n`
+        h_file += `index += sizeof(bit_field);\n`
     }
+    for (let field of datatype.fields) {
+        h_file += `memcpy(&${field.name}, buf + index, sizeof(${field.name}));\n` 
+        h_file += `index += sizeof(${field.name});\n`  
+    }
+    h_file += `}`
     //getters
-    for (let field of schema.datatypes[datatype].fields) {
+    for (let field of datatype.fields) {
         switch(field.type) {
             case "packedFloat":
                 h_file += 
                 `double get_${field.name}() {\n` +
-                `return uint_to_packedFloat(storage->${field.name}, ${field.min}, ${field.max});\n` +
+                `double out;\n` +
+                `uint_to_packedFloat(${field.name}, ${field.min}, ${field.max}, &out);\n` +
+                `return out\n;`
                 `}\n`
                 break;
             case "scaledFloat":
                 h_file += 
                 `double get_${field.name}() {\n` +
-                `return uint_to_scaledFloat(storage->${field.name}, ${field.scale});\n` +
+                `double out;\n` +
+                `uint_to_scaledFloat(${field.name}, ${field.scale}, &out);\n` +
+                `return out;\n` +
                 `}\n`
                 break;
             case "enum":
                 h_file += 
                 `enum ${field.enumName} get_${field.name}() {\n` +
-                `return storage->${field.name};\n`+
+                `return ${field.name};\n`+
                 `}\n`
                 break;
             default:
                 h_file += 
                 `${field.nativeType} get_${field.name}() {\n` +
-                `return storage->${field.name};\n`+
+                `return ${field.name};\n`+
                 `}\n`
         }
     }
@@ -153,54 +139,68 @@ for (let msg in schema.messages) {
 }
 
 //generate senders
-for (let msg in schema.messages) {
-    let datatype = schema.messages[msg].datatype
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    let datatype = schema.datatypes[msg.datatype]
     h_file +=
-    `class ${datatype}_to_${schema.messages[msg].target} {\n` +
+    `class ${datatype.name}_from_${msg.source}_to_${msg.target} {\n` +
     `public:\n`
-    if (schema.datatypes[datatype].totalSize != 0) {
-        h_file += `struct struct_${schema.datatypes[datatype].name}* storage;\n` +
-        `uint8_t size = sizeof(*storage);\n` +
-        `uint8_t get_size() {return size;}\n` +
-        `void set_bytes(uint8_t* pointer) {\n` +
-        `storage = (struct_${schema.datatypes[datatype].name}*) pointer;\n` +
-        `}\n`
-    } else {
-        h_file += `void set_bytes(uint8_t* pointer) {}`
-        h_file += `uint8_t get_size() {return 0;}`
+    for (let field of datatype.fields) {
+        h_file += `${field.nativeType} ${field.name};\n`
     }
-    h_file += 
-    `uint64_t id = ${schema.messages[msg].id};\n` +
-    `uint64_t get_id() {return id;}\n`
-    if (schema.datatypes[datatype].bitField) {
-        h_file += `void set_bit_field(${schema.datatypes[datatype].bitFieldNativeType} value) {storage->bitField = value;}`
+    if (datatype.bitField) {
+        h_file += `${datatype.bitFieldNativeType} bit_field;\n`
+        h_file += `void set_bit_field(${datatype.bitFieldNativeType} value) {bit_field = value;}`
     }
-    for (let field of schema.datatypes[datatype].fields) {
+    h_file +=
+    `uint8_t size = ${datatype.totalSize};\n` +
+    `uint8_t get_size() {return size;}\n` +
+    `uint64_t id = ${msg.id};\n` +
+    `uint64_t get_id() {return id;}\n` +
+    `enum units source;\n` +
+    `enum units target;\n` +
+    `enum units get_source() {return source;}\n` +
+    `enum units get_target() {return target;}\n` +
+    `void set_source(enum units value) {source = value;}\n` +
+    `void set_target(enum units value) {target = value;}\n`+
+
+    `void build_buf(uint8_t* buf, uint8_t* len) {\n` +
+    `*len = 0;\n` 
+    if (datatype.bitField) {
+        h_file += `memcpy(buf + *len, &bit_field, sizeof(bit_field));\n`
+        h_file += `*len += sizeof(bit_field);\n`
+    }
+    for (let field of datatype.fields) {
+        h_file += `memcpy(buf + *len, &${field.name}, sizeof(${field.name}));\n` 
+        h_file += `*len += sizeof(${field.name});\n`  
+    }
+    h_file += `}\n`
+    for (let field of datatype.fields) {
         h_file += '\n'
         //setters
         switch(field.type) {
             case "packedFloat":
                 h_file += 
                 `void set_${field.name}(double value) {\n` +
-                `storage->${field.name} = packedFloat_to_uint(value, ${field.min}, ${field.max});\n` +
+                `packedFloat_to_uint(value, ${field.min}, ${field.max}, &${field.name});\n` +
                 `}\n`
                 break;
             case "scaledFloat":
                 h_file += 
                 `void set_${field.name}(double value) {\n` +
-                `storage->${field.name} = scaledFloat_to_uint(value, ${field.scale});\n` +
+                `scaledFloat_to_uint(value, ${field.scale}, &${field.name});\n` +
                 `}\n`
                 break;
             case "enum":
                 h_file += 
                 `void set_${field.name}(enum ${field.enumName} value) {\n` +
-                `storage->${field.name} = value;\n`+
+                `${field.name} = value;\n`+
                 `}\n`
                 break;
             default:
                 h_file += 
                 `void set_${field.name}(${field.nativeType} value) {\n` +
-                `storage->${field.name} = value;\n`+
+                `${field.name} = value;\n`+
                 `}\n`
                 break;
         }
@@ -226,7 +226,7 @@ switch(id) { \\\n `
 for (let msg in schema.messages) {
     h_file += `    case ${schema.messages[msg].id}: {\\\n` +
     `        ${schema.messages[msg].datatype} __message;\\\n` +
-    `        __message.set_bytes(buf);\\\n` +
+    `        __message.parse_buf(buf);\\\n` +
     `        __message.set_source(units::${schema.messages[msg].source});\\\n` +
     `        __message.set_target(units::${schema.messages[msg].target});\\\n` +
     `        ${schema.config.name}_rx(__message);\\\n` +

@@ -97,12 +97,21 @@ s.addMsg({
     datatype: "handshake"
 })
 
-//responses
+
+
+////////////////////responses
 s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
     datatype: "return_time_sync",
+})
+
+s.addMsg({
+    id: fc_to_gs++,
+    source: fc,
+    target: gs_tc,
+    datatype: "return_power_mode",
 })
 
 s.addMsg({

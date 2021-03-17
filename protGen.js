@@ -11,7 +11,6 @@ class Schema {
         this.messages = {};
 
         this.units = []
-        this.sourceDatatypeCombinations = []
     }
 
     setIdType(type) {
@@ -32,9 +31,6 @@ class Schema {
             throw `Redeclaration of datatype: ${msg.datatype}`;
         }
         let combined = msg.source + msg.datatype
-        if (this.sourceDatatypeCombinations.indexOf(combined) != -1) {
-            throw `Reused source + name combination: ${msg.source} and ${msg.datatype}`
-        }
         if (!msg.datatype) {
             throw `Message has no datatype: id ${msg.id}`
         }
@@ -47,7 +43,6 @@ class Schema {
         if (this.units.indexOf(msg.target) == -1) {
             this.units.push(msg.target);
         }
-        this.sourceDatatypeCombinations.push(combined)
 
         let outDatatype = {};
         outDatatype = {}

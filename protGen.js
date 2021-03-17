@@ -133,7 +133,7 @@ class Schema {
 
     createJson(path) {
         let obj = this.getObject()
-        let raw = JSON.stringify(obj)
+        let raw = JSON.stringify(obj, null, 4)
         let fs = require('fs');
         fs.writeFileSync(path, raw)
     }
@@ -233,7 +233,7 @@ class Schema {
         if (!this.verifyIntSize(size)) {
             throw `size can not be converted to an int: ${size}` 
         }
-        type = this.sizeToUint(size)
+        let type = this.sizeToUint(size)
 
         if (signed) {
             type = type.substring(1)

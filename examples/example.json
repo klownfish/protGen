@@ -1,8 +1,7 @@
 {
     "config": {
         "name": "fc",
-        "idNativeType": "uint8_t",
-        "idType": "uint8_t"
+        "idNativeType": "uint8"
     },
     "enums": {
         "units": {
@@ -11,10 +10,11 @@
                 "ground_station": 0,
                 "flight_controller_tc": 1,
                 "flight_controller": 2,
-                "ground_station_tc": 3
+                "ground_station_tc": 3,
+                "ground_station_tm": 4
             },
             "size": 1,
-            "nativeType": "uint8_t"
+            "nativeType": "uint8"
         }
     },
     "datatypes": {
@@ -24,7 +24,7 @@
                 {
                     "type": "uint",
                     "size": 4,
-                    "nativeType": "uint32_t",
+                    "nativeType": "uint32",
                     "name": "system_time"
                 }
             ],
@@ -43,7 +43,7 @@
                 "is_tm_en"
             ],
             "bitFieldSize": 1,
-            "bitFieldNativeType": "uint8_t",
+            "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
         "set_parachute_output": {
@@ -55,7 +55,7 @@
                 "is_parachute2_en"
             ],
             "bitFieldSize": 1,
-            "bitFieldNativeType": "uint8_t",
+            "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
         "set_data_logging": {
@@ -65,7 +65,7 @@
                 "is_logging_en"
             ],
             "bitFieldSize": 1,
-            "bitFieldNativeType": "uint8_t",
+            "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
         "dump_flash_chip": {
@@ -76,7 +76,7 @@
                 "dump_usb"
             ],
             "bitFieldSize": 1,
-            "bitFieldNativeType": "uint8_t",
+            "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
         "handshake": {
@@ -102,7 +102,7 @@
                 "is_tm_en"
             ],
             "bitFieldSize": 1,
-            "bitFieldNativeType": "uint8_t",
+            "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
         "return_parachute_output": {
@@ -114,7 +114,7 @@
                 "is_parachute2_en"
             ],
             "bitFieldSize": 1,
-            "bitFieldNativeType": "uint8_t",
+            "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
         "onboard_battery_voltage": {
@@ -124,14 +124,14 @@
                     "type": "scaledFloat",
                     "size": 2,
                     "scale": 100,
-                    "nativeType": "uint16_t",
+                    "nativeType": "uint16",
                     "name": "battery_1"
                 },
                 {
                     "type": "scaledFloat",
                     "size": 2,
                     "scale": 100,
-                    "nativeType": "uint16_t",
+                    "nativeType": "uint16",
                     "name": "battery_2"
                 }
             ],
@@ -143,32 +143,32 @@
                 {
                     "type": "uint",
                     "size": 4,
-                    "nativeType": "uint32_t",
+                    "nativeType": "uint32",
                     "name": "gnss_time"
                 },
                 {
                     "type": "int",
                     "size": 4,
-                    "nativeType": "int32_t",
+                    "nativeType": "int32",
                     "name": "latitude"
                 },
                 {
                     "type": "int",
                     "size": 4,
-                    "nativeType": "int32_t",
+                    "nativeType": "int32",
                     "name": "longitude"
                 },
                 {
                     "type": "scaledFloat",
                     "size": 2,
                     "scale": 100,
-                    "nativeType": "uint16_t",
+                    "nativeType": "uint16",
                     "name": "h_dop"
                 },
                 {
                     "type": "uint",
                     "size": 1,
-                    "nativeType": "uint8_t",
+                    "nativeType": "uint8",
                     "name": "n_satellites"
                 }
             ],
@@ -180,19 +180,19 @@
                 {
                     "type": "uint",
                     "size": 1,
-                    "nativeType": "uint8_t",
+                    "nativeType": "uint8",
                     "name": "HW_state"
                 },
                 {
                     "type": "uint",
                     "size": 1,
-                    "nativeType": "uint8_t",
+                    "nativeType": "uint8",
                     "name": "SW_state"
                 },
                 {
                     "type": "uint",
                     "size": 1,
-                    "nativeType": "uint8_t",
+                    "nativeType": "uint8",
                     "name": "mission_state"
                 }
             ],
@@ -205,7 +205,7 @@
                 "is_logging_en"
             ],
             "bitFieldSize": 1,
-            "bitFieldNativeType": "uint8_t",
+            "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
         "return_dump_flash": {
@@ -216,13 +216,25 @@
                 "dump_usb"
             ],
             "bitFieldSize": 1,
-            "bitFieldNativeType": "uint8_t",
+            "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
         "return_handshake": {
             "name": "return_handshake",
             "fields": [],
             "totalSize": 0
+        },
+        "ms_since_boot": {
+            "name": "ms_since_boot",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 4,
+                    "nativeType": "uint32",
+                    "name": "ms_since_boot"
+                }
+            ],
+            "totalSize": 4
         }
     },
     "messages": {
@@ -327,6 +339,12 @@
             "source": "flight_controller",
             "target": "ground_station_tc",
             "datatype": "return_handshake"
+        },
+        "80": {
+            "id": 80,
+            "source": "flight_controller",
+            "target": "ground_station_tm",
+            "datatype": "ms_since_boot"
         }
     }
 }

@@ -1,6 +1,6 @@
 "use strict";
 
-let protGen = require("./protGen.js")
+let protGen = require("../protGen.js")
 
 if (process.argv.length < 3) {
     console.log(`usage: node OUTPUT_FILE `)
@@ -13,6 +13,7 @@ let s = new protGen.Schema()
 
 let gs_to_fc = 0x10
 let fc_to_gs = 0x20
+let fc_to_gs_tm = 0x50
 
 let fc = "flight_controller"
 let gs = "ground_station"
@@ -25,7 +26,7 @@ let fc_can = "flight_controller_can"
 let ec_tc = "edda_controller_tc"
 let ec_can = "edda_controller_can"
 
-s.setIdType("uint8_t")
+s.setIdType("uint8")
 s.setName("fc")
 
 s.addMsg({
@@ -200,6 +201,17 @@ s.addMsg({
     source: fc,
     target: gs_tc,
     datatype: "return_handshake",
+})
+
+///////////////////////////////fc telemetry
+s.addMsg({
+    id: fc_to_gs_tm++,
+    source: fc,
+    target: gs_tm,
+    datatype: "ms_since_boot",
+    fields: {
+        ms_since_boot: s.uint(4)
+    }
 })
 
 s.createJson(output);

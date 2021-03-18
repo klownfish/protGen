@@ -15,7 +15,7 @@ class Schema {
     }
 
     setIdType(type) {
-        this.config.idType =type 
+        this.config.idNativeType =type 
     }
 
     setName(name) {
@@ -161,15 +161,15 @@ class Schema {
         if (size <= 0)
             return "void"
         else if (size <= 1)
-            return "uint8_t"
+            return "uint8"
         else if (size <= 2)
-            return "uint16_t";
+            return "uint16";
         else if (size <= 4)
-            return "uint32_t";
+            return "uint32";
         else if (size <= 8)
-            return "uint64_t";
+            return "uint64";
         else if (size <= 16)
-            return "uint128_t";
+            return "uint128";
     }
     
     double() {

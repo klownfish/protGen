@@ -4,11 +4,11 @@ The exporter will generate receiver and sender classes.
 receiver classes have the datatype as name
 sender classes are named ```{datatype}_from_{source}_to_{target}```
 
-for the bit field flags will be generated with the capitalized name ```{datatype}_{bit field name}```
-
-messages are parsed by calling PARSE_MSG(id, buf) and creating a callback
+messages are parsed by calling PARSE_MESSAGE(id, buf) and creating a callback
 
 enums are saved as ```enums struct``` using their name
+
+everything except macros are in the ```protocol name``` namespace. Macros are prefixed with ```{protocol name}_``` instead.
 
 ### receivers
 functions
@@ -20,8 +20,6 @@ functions
     * parses a buf and sets the values
 * get_size()
     * gets the size of the message
-* get_bit_field()
-    * gets the bit field
 * get_{field name}()
     * generated for all fields, gets the value of the field
 
@@ -33,20 +31,21 @@ functions
     * gets the source
 * get_size()
     * gets the size of the message
-* set_bit_field(value)
-    * sets the bitfield
 * build_buf(*buf, *len)
     * builds the buf and sets the length
 * set_```{field name}```(value)
     * generated for all fields, set the value of a field
-### macros
-* ID_TO_LEN(id, len)
+
+### functions
+* id_to_len(id, len)
     * sets the len according to the id
-* ID_TO_SOURCE(id, source)
+* id_to_source(id, source)
     * set the source according to the id
-* ID_TO_TARGET(id, target)
+* id_to_target(id, target)
     * set the target according to the id
-* PARSE_MSG(id, buf)
+
+### macros
+* PARSE_MESSAGE(id, buf)
     * parses the msg and calls the ```{protocol name}_rx({datatype} msg)``` function
 
 pro tip: overload your ```{protocol name}_rx()``` to receive messages.\

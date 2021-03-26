@@ -16,12 +16,18 @@ functions
     * gets the target
 * enum units get_source()
     * gets the source
+* enum datatypes get_datatype()
+    * gets the datatype
+* get_id()
+    * gets the id
 * parse_buf()
     * parses a buf and sets the values
 * get_size()
     * gets the size of the message
-* get_{field name}()
+* get_```{field name}```()
     * generated for all fields, gets the value of the field
+* get_all_data()
+    * returns an array with ```(name, value)``` tuples with all the data
 
 ### senders
 functions
@@ -29,20 +35,24 @@ functions
     * gets the target
 * enum units get_source()
     * gets the source
+* enum datatypes get_datatype()
+    * gets the datatype
 * get_size()
     * gets the size of the message
-* build_buf(*buf, *len)
-    * builds the buf and sets the length
+* get_id()
+    * gets the id
+* build_buf(*buf, *index)
+    * builds the buf starting at and sets the index accordingly
 * set_```{field name}```(value)
     * generated for all fields, set the value of a field
 
 ### functions
-* id_to_len(id, len)
-    * sets the len according to the id
-* id_to_source(id, source)
-    * set the source according to the id
-* id_to_target(id, target)
-    * set the target according to the id
+* id_to_len(id)
+    * returns the len according to the id
+* id_to_source(id)
+    * returns the source according to the id
+* id_to_target(id)
+    * returns the target according to the id
 
 ### macros
 * PARSE_MESSAGE(id, buf)

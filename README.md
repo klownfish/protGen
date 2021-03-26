@@ -70,4 +70,42 @@ let s = new protGen.Schema()
 ```
 ## requirements
 * NodeJS
-* Clang-format (optional)
+
+## example
+Imagine a data protocol with two units, a base station("base") and two temperature sensors("temp_sensor1", "temp_sensor1"). The base station can send an enable/disable command and the sensors send the current time and a measurement.
+
+the code for that would look like this
+```
+let protGen = require("./protGen.js")
+let s = new protGen.Schema()
+s.setName("temperature_sensor_prot")
+s.addMsg({
+    id: 0,
+    source: "base",
+    target: "temp_sensor1",
+    datatype: "set_state",
+    bitFields: [
+        "enabled"
+    ]
+})
+s.addMsg({
+    id: 1,
+    source: "base",
+    target: "temp_sensor2"
+    datatype: "set_state
+})
+s.addMsg({
+    id: 2,
+    source: "temp_sensor1"
+    datatye: "measurement",
+    fields: [
+        time: s.uint(4), // same size as arduino's millis()
+        measurement: s.packedFloat(4, -30, 40) // -30 to 40 should cover all temperatures 
+    ]
+})
+s.addMsg({
+    id: 3,
+    source: "temp_sensor2"
+    datatye: "measurement"
+})
+```

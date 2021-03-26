@@ -10,8 +10,9 @@ class Schema {
         this.datatypes = {};
         this.messages = {};
 
-        this.units = []
-        this.sourceDatatypeCombinations = []
+        this.unitsEnum = []
+        this.datatypesEnum = []
+        this.fieldsEnum = []
     }
 
     setIdType(type) {
@@ -31,23 +32,21 @@ class Schema {
         if (this.datatypes[msg.datatype] && (msg.fields || msg.bitField)) {
             throw `Redeclaration of datatype: ${msg.datatype}`;
         }
-        let combined = msg.source + msg.datatype
-        if (this.sourceDatatypeCombinations.indexOf(combined) != -1) {
-            throw `Reused source + name combination: ${msg.source} and ${msg.datatype}`
-        }
         if (!msg.datatype) {
             throw `Message has no datatype: id ${msg.id}`
         }
         if (!msg.source) {
             throw `Message has no source: id ${msg.id}`
         }
-        if (this.units.indexOf(msg.source) == -1) {
-            this.units.push(msg.source);
+        if (this.unitsEnum.indexOf(msg.source) == -1) {
+            this.unitsEnum.push(msg.source);
         }
-        if (this.units.indexOf(msg.target) == -1) {
-            this.units.push(msg.target);
+        if (this.unitsEnum.indexOf(msg.target) == -1) {
+            this.unitsEnum.push(msg.target);
         }
-        this.sourceDatatypeCombinations.push(combined)
+        if (this.datatypesEnum.indexOf(msg.datatype) == -1) {
+            this.datatypesEnum.push(msg.datatype);
+        }
 
         let outDatatype = {};
         outDatatype = {}
@@ -58,6 +57,9 @@ class Schema {
         //extract fields
         outDatatype["fields"] = [];
         for (let key in msg.fields) {
+            if (this.fieldsEnum.indexOf(key) == -1) {
+                this.fieldsEnum.push(key);
+            }
             if (key.match(/[^A-Za-z0-9\-_]/)) {
                 throw "only a-z, A-Z and '_' can be used in field names"
             }
@@ -66,10 +68,15 @@ class Schema {
         }
         delete msg.fields;
 
-        this.datatypes[outDatatype.name] = outDatatype
+        if (!this.datatypes[outDatatype.name]) {
+            this.datatypes[outDatatype.name] = outDatatype
+        }
         //extracts bitField
         if (msg.bitField) {
             for (let bit of msg.bitField) {
+                if (this.fieldsEnum.indexOf(bit) == -1) {
+                    this.fieldsEnum.push(bit);
+                }
                 if (bit.match(/[^A-Za-z0-9\-_]/)) {
                     throw "only a-z, A-Z and '_' can be used in bit field names"
                 }
@@ -99,9 +106,15 @@ class Schema {
         this.messages[msg.id] = msg;
     }
 
-    addEnum(name, enumerator) {
+    addEnum(name, enumerator, overwrite_error = false) {
         if (this.enums[name]) {
             throw `Duplicate enum name: ${name}`
+        }
+        if (name == "units" && !overwrite_error) {
+            throw "reserved enum name: units"
+        }
+        if (name == "datatypes" && !overwrite_error) {
+            throw "reserved enum name: datatypes"
         }
 
         let reversed = {};
@@ -121,7 +134,10 @@ class Schema {
     }
 
     getObject() {
-        this.addEnum("units", this.units);
+        this.addEnum("units", this.unitsEnum, true);
+        this.addEnum("datatypes", this.datatypesEnum, true);
+        this.addEnum("fields", this.fieldsEnum, true);
+        
         let obj = {
             config: this.config,
             enums: this.enums,
@@ -248,6 +264,9 @@ class Schema {
     }
     
     enumerator(name) {
+        if (this.enums.indexOf(name) == -1) {
+            throw `undefined enum: ${name}`
+        }
         let obj = {
             type: "enum",
             enumName: name,

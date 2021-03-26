@@ -30,14 +30,16 @@ h_file +=
 h_file += `namespace  ${schema.config.name}{`
 
 //generate enums
-for (let name in schema.enums) {
-    h_file += `enum struct ${name}: ${schema.enums[name].nativeType}_t {\n`
-    for (let value in schema.enums[name].entries) {
-        h_file += `    ${value} = ${schema.enums[name].entries[value]},\n`
+for (let key in schema.enums) {
+    let enumerator = schema.enums[key]
+    h_file += `enum struct ${enumerator.name}: ${enumerator.nativeType}_t {\n`
+    for (let index in enumerator.entries) {
+        h_file += `    ${index} = ${enumerator.entries[index]},\n`
     }
     h_file += "};\n"
 }
 
+//hand written functions to encode / decode
 h_file +=
 `template <typename T>
 void scaledFloat_to_uint(double value, double scale, T* out) {
@@ -87,8 +89,11 @@ for (let key in schema.datatypes) {
     `uint8_t get_size() {return size;}\n` +
     `enum units source;\n` +
     `enum units target;\n` +
+    `${schema.config.idNativeType}_t id;\n` +
     `enum units get_source() {return source;}\n` +
     `enum units get_target() {return target;}\n` +
+    `${schema.config.idNativeType}_t get_id() {return id;}\n` +
+    `void set_id(${schema.config.idNativeType}_t value) {id = value;}\n` +
     `void set_source(enum units value) {source = value;}\n` +
     `void set_target(enum units value) {target = value;}\n`+
     //parse buf
@@ -144,9 +149,11 @@ for (let key in schema.datatypes) {
 for (let key in schema.messages) {
     let msg = schema.messages[key]
     let datatype = schema.datatypes[msg.datatype]
+    //class definition
     h_file +=
     `class ${datatype.name}_from_${msg.source}_to_${msg.target} {\n` +
     `public:\n`
+    //create fields
     for (let field of datatype.fields) {
         h_file += `${field.nativeType}_t ${field.name};\n`
         h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
@@ -165,12 +172,6 @@ for (let key in schema.messages) {
     `uint8_t get_size() {return size;}\n` +
     `${schema.config.idNativeType}_t id = ${msg.id};\n` +
     `${schema.config.idNativeType}_t get_id() {return id;}\n` +
-    `enum units source;\n` +
-    `enum units target;\n` +
-    `enum units get_source() {return source;}\n` +
-    `enum units get_target() {return target;}\n` +
-    `void set_source(enum units value) {source = value;}\n` +
-    `void set_target(enum units value) {target = value;}\n`+
     //build buf
     `void build_buf(uint8_t* buf, uint8_t* index) {\n` 
     if (datatype.bitField) {
@@ -218,50 +219,68 @@ for (let key in schema.messages) {
 h_file +=
 `#define ${schema.config.name.toUpperCase()}_PARSE_MESSAGE(id, buf) \\
 switch(id) { \\\n `
-for (let msg in schema.messages) {
-    h_file += `    case ${schema.messages[msg].id}: {\\\n` +
-    `        ${schema.config.name}::${schema.messages[msg].datatype} __message;\\\n` +
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    h_file += `    case ${msg.id}: {\\\n` +
+    `        ${schema.config.name}::${msg.datatype} __message;\\\n` +
     `        __message.parse_buf(buf);\\\n` +
-    `        __message.set_source(${schema.config.name}::units::${schema.messages[msg].source});\\\n` +
-    `        __message.set_target(${schema.config.name}::units::${schema.messages[msg].target});\\\n` +
+    `        __message.set_source(${schema.config.name}::units::${msg.source});\\\n` +
+    `        __message.set_target(${schema.config.name}::units::${msg.target});\\\n` +
+    `        __message.set_id(${msg.id});\\\n` +
     `        ${schema.config.name}_rx(__message);\\\n` +
     `        break;}\\\n`
 }
 h_file += "}\n\n"
 
 //generate length function
-h_file += `uint8_t id_to_len(size_t id);`
+h_file += `uint8_t id_to_len(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`uint8_t ${schema.config.name}::id_to_len(size_t id){
+`uint8_t ${schema.config.name}::id_to_len(${schema.config.idNativeType}_t id){
 switch(id) {\n`
-for (let msg in schema.messages) {
-    cpp_file += `    case ${schema.messages[msg].id}:\n` +
-    `        return ${schema.datatypes[schema.messages[msg].datatype].totalSize};\n` +
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    cpp_file += `    case ${msg.id}:\n` +
+    `        return ${schema.datatypes[msg.datatype].totalSize};\n` +
     `        break;\n`
 }
 cpp_file += "}\n}\n\n"
 
 //generate source funtion
-h_file += `enum units id_to_source(size_t id);`
+h_file += `enum units id_to_source(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`enum ${schema.config.name}::units ${schema.config.name}::id_to_source(size_t id){
+`enum ${schema.config.name}::units ${schema.config.name}::id_to_source(${schema.config.idNativeType}_t id){
 switch(id) {\n`
-for (let msg in schema.messages) {
-    cpp_file += `    case ${schema.messages[msg].id}:\n` +
-    `        return units::${schema.messages[msg].source};\n` +
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    cpp_file += `    case ${msg.id}:\n` +
+    `        return units::${msg.source};\n` +
     `        break;\n`
 }
 cpp_file += "}\n}\n\n"
 
 
 //generate target funtion
-h_file += `enum units id_to_target(size_t id);`
+h_file += `enum units id_to_target(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`enum ${schema.config.name}::units ${schema.config.name}::id_to_target(size_t id){
+`enum ${schema.config.name}::units ${schema.config.name}::id_to_target(${schema.config.idNativeType}_t id){
 switch(id) {\n`
-for (let msg in schema.messages) {
-    cpp_file += `    case ${schema.messages[msg].id}:\n` +
-    `        return units::${schema.messages[msg].target};\n` +
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    cpp_file += `    case ${msg.id}:\n` +
+    `        return units::${msg.target};\n` +
+    `        break;\n`
+}
+cpp_file += "}\n}\n\n"
+
+//generate target funtion
+h_file += `enum datatypes id_to_datatype(${schema.config.idNativeType}_t id);`
+cpp_file += 
+`enum ${schema.config.name}::datatypes ${schema.config.name}::id_to_datatype(${schema.config.idNativeType}_t id){
+switch(id) {\n`
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    cpp_file += `    case ${msg.id}:\n` +
+    `        return datatypes::${msg.datatype};\n` +
     `        break;\n`
 }
 cpp_file += "}\n}\n\n"

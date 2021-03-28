@@ -82,7 +82,7 @@ for (let name in schema.datatypes) {
         file += "*empty*\n"
     }
     if (datatype.bitField) {
-        file += `#### bits`
+        file += `#### bits\n`
         file +=
         `<table>\n` +
         `<thead>\n` +
@@ -102,7 +102,7 @@ for (let name in schema.datatypes) {
     }
 
     if (datatype.fields.length > 0) {
-        file += `#### fields`
+        file += `#### fields\n`
         file +=
         `<table>\n` +
         `<thead>\n` +
@@ -131,7 +131,7 @@ for (let name in schema.datatypes) {
                     file += `<td>enum=${field.enumName}</td>\n`
                     break;
                 default:
-                    file += "<td>N/A</td>"
+                    file += "<td>N/A</td>\n"
             }
             file += `</tr>\n`
         }

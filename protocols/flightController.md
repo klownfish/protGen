@@ -679,7 +679,8 @@ GENERATED FILE DO NOT EDIT
 <td>timestamp</td>
 <td>uint</td>
 <td>uint32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -698,7 +699,8 @@ GENERATED FILE DO NOT EDIT
 <td>ms_since_boot</td>
 <td>uint</td>
 <td>uint32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -717,7 +719,8 @@ GENERATED FILE DO NOT EDIT
 <td>altitude</td>
 <td>uint</td>
 <td>uint16</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -736,7 +739,8 @@ GENERATED FILE DO NOT EDIT
 <td>altitude</td>
 <td>uint</td>
 <td>uint8</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -755,7 +759,8 @@ GENERATED FILE DO NOT EDIT
 <td>altitude</td>
 <td>uint</td>
 <td>uint16</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -790,17 +795,20 @@ GENERATED FILE DO NOT EDIT
 <td>x</td>
 <td>uint</td>
 <td>uint8</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>y</td>
 <td>uint</td>
 <td>uint8</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>z</td>
 <td>uint</td>
 <td>uint8</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -819,7 +827,8 @@ GENERATED FILE DO NOT EDIT
 <td>system_time</td>
 <td>uint</td>
 <td>uint32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -996,17 +1005,20 @@ GENERATED FILE DO NOT EDIT
 <td>gnss_time</td>
 <td>uint</td>
 <td>uint32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>latitude</td>
 <td>int</td>
 <td>int32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>longitude</td>
 <td>int</td>
 <td>int32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>h_dop</td>
 <td>scaledFloat</td>
@@ -1017,7 +1029,8 @@ GENERATED FILE DO NOT EDIT
 <td>n_satellites</td>
 <td>uint</td>
 <td>uint8</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -1036,17 +1049,20 @@ GENERATED FILE DO NOT EDIT
 <td>HW_state</td>
 <td>uint</td>
 <td>uint8</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>SW_state</td>
 <td>uint</td>
 <td>uint8</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>mission_state</td>
 <td>uint</td>
 <td>uint8</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -1103,7 +1119,8 @@ GENERATED FILE DO NOT EDIT
 <td>us_since_boot</td>
 <td>uint</td>
 <td>uint32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -1122,7 +1139,8 @@ GENERATED FILE DO NOT EDIT
 <td>ms_since_boot</td>
 <td>uint</td>
 <td>uint32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 
@@ -1141,17 +1159,20 @@ GENERATED FILE DO NOT EDIT
 <td>gnss_time</td>
 <td>uint</td>
 <td>uint32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>latitude</td>
 <td>int</td>
 <td>int32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 <tr>
 <td>longitude</td>
 <td>int</td>
 <td>int32</td>
-<td>N/A</td></tr>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
 

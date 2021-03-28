@@ -665,7 +665,8 @@ GENERATED FILE DO NOT EDIT
 *nothing*
 ## Datatypes
 ### local_timestamp
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -685,7 +686,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### ms_since_boot
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -705,7 +707,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### altitude
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -725,7 +728,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### acceleration
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -745,7 +749,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### pressure
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -765,7 +770,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### catastrophe
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -781,7 +787,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### gyro
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -813,7 +820,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### time_sync
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -835,7 +843,8 @@ GENERATED FILE DO NOT EDIT
 ### set_power_mode
 *empty*
 ### set_radio_equipment
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -855,7 +864,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### set_parachute_output
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -879,7 +889,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### set_data_logging
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -895,7 +906,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### dump_flash
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -921,7 +933,8 @@ GENERATED FILE DO NOT EDIT
 ### return_power_mode
 *empty*
 ### return_radio_equipment
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -941,7 +954,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### return_parachute_output
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -965,7 +979,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### onboard_battery_voltage
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -991,7 +1006,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### gnss_data
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -1035,7 +1051,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### flight_controller_status
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -1067,7 +1084,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### return_data_logging
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -1083,7 +1101,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### return_dump_flash
-#### bits<table>
+#### bits
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -1105,7 +1124,8 @@ GENERATED FILE DO NOT EDIT
 ### return_handshake
 *empty*
 ### us_since_boot
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -1125,7 +1145,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### current_time
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -1145,7 +1166,8 @@ GENERATED FILE DO NOT EDIT
 </table>
 
 ### GNSS_data_1
-#### fields<table>
+#### fields
+<table>
 <thead>
 <tr>
 <th>name</th>

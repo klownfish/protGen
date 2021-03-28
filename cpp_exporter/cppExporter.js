@@ -232,6 +232,21 @@ for (let key in schema.messages) {
 }
 h_file += "}\n\n"
 
+//generate is_valid_id function
+h_file += `bool is_valid_id(${schema.config.idNativeType}_t id);`
+cpp_file += 
+`bool ${schema.config.name}::is_valid_id(${schema.config.idNativeType}_t id){
+switch(id) {\n`
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    cpp_file += `    case ${msg.id}:\n` +
+    `        return true;\n` +
+    `        break;\n`
+}
+cpp_file += `    default:`
+cpp_file += `        return false;`
+cpp_file += "}\n}\n\n"
+
 //generate length function
 h_file += `uint8_t id_to_len(${schema.config.idNativeType}_t id);`
 cpp_file += 

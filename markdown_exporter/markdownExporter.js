@@ -28,18 +28,23 @@ function build_table(iterator) {
     `</tr>\n` +
     `</thead>\n` +
     `<tbody>\n`
-    
+    let count = 0;
     for (let id in iterator) {
+        count++
         let msg = iterator[id];
         output += "<tr>\n"
-        output += `<td>${msg.id}<td>\n`
-        output += `<td>${msg.source}<td>\n`
-        output += `<td>${msg.target}<td>\n`
-        output += `<td>${msg.datatype}<td>\n`
+        output += `<td>${msg.id}</td>\n`
+        output += `<td>${msg.source}</td>\n`
+        output += `<td>${msg.target}</td>\n`
+        output += `<td>${msg.datatype}</td>\n`
         output += "</tr>\n"
     }
     output += `</tbody>\n</table>\n\n`
-    return output
+    if (count){
+        return output
+    } else {
+        return "*nothing*\n"
+    }
 }
 
 let sources = {}
@@ -132,5 +137,27 @@ for (let name in schema.datatypes) {
         }
         file += `</tbody>\n</table>\n\n`
     }
+}
+
+file += `## Enums\n`
+for (let key in schema.enums) {
+    let enumerator = schema.enums[key];
+    file += `### ${enumerator.name}\n`
+    file +=
+        `<table>\n` +
+        `<thead>\n` +
+        `<tr>\n` +
+        `<th>name</th>\n` +
+        `<th>value</th>\n` +
+        `</tr>\n` +
+        `</thead>\n` +
+        `<tbody>\n`
+    for (let entry in enumerator.entries) {
+        file += `<tr>\n`
+        file += `<td>${entry}</td>\n`
+        file += `<td>${enumerator.entries[entry]}</td>\n`
+        file += `</tr>\n`
+    }
+    file += `</tbody>\n</table>\n\n`
 }
 fs.writeFileSync(output, file);

@@ -43,8 +43,8 @@ s.addMsg({
 //############# REMOVE THESE
 s.addMsg({
     id: 64,
-    source: "local",
-    target: "local",
+    source: "test",
+    target: "test",
     datatype: "ms_since_boot",
     fields: {
         ms_since_boot: s.uint(4)

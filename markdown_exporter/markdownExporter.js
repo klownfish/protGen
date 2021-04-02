@@ -49,8 +49,7 @@ function build_small_table(iterator) {
 
 function build_message_table(msg) {
     let output = ''
-    output += `### ${msg.name}\n`
-    output += `### ${msg.source} &rarr; ${msg.target}\n`
+    output += `### ${msg.name} <br> ${msg.source} &rarr; ${msg.target}\n`
     if (!msg.bitField && msg.fields.length == 0) {
         output += "*empty*\n"
         return output

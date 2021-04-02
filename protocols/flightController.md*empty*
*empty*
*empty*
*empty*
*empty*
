@@ -348,7 +348,6 @@ GENERATED output DO NOT EDIT
 </table>
 
 ### set_power_mode: ground_station &rarr; flight_controller
-*empty*
 ### set_radio_equipment: ground_station &rarr; flight_controller
 #### bits
 <table>
@@ -434,11 +433,8 @@ GENERATED output DO NOT EDIT
 </table>
 
 ### handshake: ground_station &rarr; flight_controller
-*empty*
 ### return_time_sync: flight_controller &rarr; ground_station
-*empty*
 ### return_power_mode: flight_controller &rarr; ground_station
-*empty*
 ### return_radio_equipment: flight_controller &rarr; ground_station
 #### bits
 <table>
@@ -629,7 +625,6 @@ GENERATED output DO NOT EDIT
 </table>
 
 ### return_handshake: flight_controller &rarr; ground_station
-*empty*
 ### ms_since_boot: test &rarr; test
 #### fields
 <table>

@@ -7,11 +7,10 @@ class Schema {
             idNativeType: "uint8_t",
         };
         this.enums = {};
-        this.datatypes = {};
         this.messages = {};
 
         this.unitsEnum = []
-        this.datatypesEnum = []
+        this.messageNamesEnum = []
         this.fieldsEnum = []
     }
 
@@ -29,14 +28,14 @@ class Schema {
                 throw `Field names must not be or have the same structure as integers: ${key}`
             }
         }
-        if (this.datatypes[msg.datatype] && (msg.fields || msg.bitField)) {
-            throw `Redeclaration of datatype: ${msg.datatype}`;
-        }
-        if (!msg.datatype) {
-            throw `Message has no datatype: id ${msg.id}`
+        if (!msg.name) {
+            throw `Message has no name: id ${msg.id}`
         }
         if (!msg.source) {
-            throw `Message has no source: id ${msg.id}`
+            throw `Message has no source: id ${msg.name}`
+        }
+        if (!msg.target) {
+            throw `Message has no target: id ${msg.name}`
         }
         if (this.unitsEnum.indexOf(msg.source) == -1) {
             this.unitsEnum.push(msg.source);
@@ -44,33 +43,35 @@ class Schema {
         if (this.unitsEnum.indexOf(msg.target) == -1) {
             this.unitsEnum.push(msg.target);
         }
-        if (this.datatypesEnum.indexOf(msg.datatype) == -1) {
-            this.datatypesEnum.push(msg.datatype);
+        if (this.messageNamesEnum.indexOf(msg.name) == -1) {
+            this.messageNamesEnum.push(msg.name);
         }
+        let outMsg = {}
 
-        let outDatatype = {};
-        outDatatype = {}
-        outDatatype["name"] = msg.datatype;
-        if (msg.datatype.match(/[^A-Za-z0-9\-_]/)) {
-            throw "only a-z, A-Z and '_' can be used in datatype names"
+        //copy misc
+        outMsg.name = msg.name
+        outMsg.id = msg.id
+        outMsg.target = msg.target
+        outMsg.source = msg.source
+
+        //copy datatype
+        outMsg["name"] = msg.name;
+        if (outMsg.name.match(/[^A-Za-z0-9\-_]/)) {
+            throw "only a-z, A-Z and '_' can be used in names"
         }
         //extract fields
-        outDatatype["fields"] = [];
+        outMsg["fields"] = [];
         for (let key in msg.fields) {
             if (this.fieldsEnum.indexOf(key) == -1) {
                 this.fieldsEnum.push(key);
             }
             if (key.match(/[^A-Za-z0-9\-_]/)) {
-                throw "only a-z, A-Z and '_' can be used in field names"
+                throw "only a-z, A-Z and '_' can be used in names"
             }
             msg["fields"][key].name = key;
-            outDatatype["fields"].push(msg["fields"][key]);
+            outMsg["fields"].push(msg["fields"][key]);
         }
-        delete msg.fields;
 
-        if (!this.datatypes[outDatatype.name]) {
-            this.datatypes[outDatatype.name] = outDatatype
-        }
         //extracts bitField
         if (msg.bitField) {
             for (let bit of msg.bitField) {
@@ -81,24 +82,23 @@ class Schema {
                     throw "only a-z, A-Z and '_' can be used in bit field names"
                 }
             }
-            outDatatype.bitField = msg.bitField;
-            outDatatype.bitFieldSize = this.actualSizeToUintSize(Math.ceil(msg.bitField.length / 8))
-            outDatatype.bitFieldNativeType = this.sizeToUint(outDatatype.bitFieldSize)
-            delete msg.bitField;
+            outMsg.bitField = msg.bitField;
+            outMsg.bitFieldSize = this.actualSizeToUintSize(Math.ceil(msg.bitField.length / 8))
+            outMsg.bitFieldNativeType = this.sizeToUint(outMsg.bitFieldSize)
         }
 
         //get total size of datatype
         let totalSize = 0;
-        if (outDatatype.fields) {
-            for (let v of outDatatype.fields) {
+        if (outMsg.fields) {
+            for (let v of outMsg.fields) {
                 totalSize += v.size
             }
         }
-        if (outDatatype.bitField) {
-            totalSize += outDatatype.bitFieldSize;
+        if (outMsg.bitField) {
+            totalSize += outMsg.bitFieldSize;
         }
-        outDatatype.totalSize = totalSize
-        return msg;
+        outMsg.totalSize = totalSize
+        return outMsg;
     }
 
     addMsg(msg) {
@@ -135,9 +135,9 @@ class Schema {
 
     getObject() {
         this.addEnum("units", this.unitsEnum, true);
-        this.addEnum("datatypes", this.datatypesEnum, true);
         this.addEnum("fields", this.fieldsEnum, true);
-        
+        this.addEnum("messages", this.messageNamesEnum, true);
+
         let obj = {
             config: this.config,
             enums: this.enums,
@@ -264,7 +264,7 @@ class Schema {
     }
     
     enumerator(name) {
-        if (this.enums.indexOf(name) == -1) {
+        if (this.enums[name] == null) {
             throw `undefined enum: ${name}`
         }
         let obj = {

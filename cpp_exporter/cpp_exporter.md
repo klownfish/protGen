@@ -24,27 +24,14 @@ functions
     * parses a buf and sets the values
 * get_size()
     * gets the size of the message
-* get_```{field name}```()
-    * generated for all fields, gets the value of the field
-* get_all_data()
-    * returns an array with ```(name, value)``` tuples with all the data
-
-### senders
-functions
-* enum units get_target()
-    * gets the target
-* enum units get_source()
-    * gets the source
-* enum datatypes get_datatype()
-    * gets the datatype
-* get_size()
-    * gets the size of the message
-* get_id()
-    * gets the id
 * build_buf(*buf, *index)
     * builds the buf starting at and sets the index accordingly
 * set_```{field name}```(value)
     * generated for all fields, set the value of a field
+* get_```{field name}```()
+    * generated for all fields, gets the value of the field
+* get_all_data()
+    * returns an array with ```(name, value)``` tuples with all the data
 
 ### functions
 * id_to_len(id)

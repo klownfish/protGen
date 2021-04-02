@@ -74,20 +74,19 @@ for (let key in schema.enums) {
 
 //generate senders
 for(let key in schema.messages) {
-    let message = schema.messages[key]
-    let datatype = schema.datatypes[message.datatype]
-    file += write_line(0, `class ${message.datatype}_from_${message.source}_to_${message.target}:`)
+    let msg = schema.messages[key]
+    file += write_line(0, `class ${msg.name}_from_${msg.source}_to_${msg.target}:`)
     file += write_line(1, `def __init__(self):`)
-    file += write_line(2, `self._source = units.${message.source}`)
-    file += write_line(2, `self._target = units.${message.target}`)
-    file += write_line(2, `self._datatype = datatypes.${message.datatype}`)
-    file += write_line(2, `self._id = ${message.id}`)
-    file += write_line(2, `self._size = ${datatype.totalSize}`)
+    file += write_line(2, `self._source = units.${msg.source}`)
+    file += write_line(2, `self._target = units.${msg.target}`)
+    file += write_line(2, `self._message = messages.${msg.name}`)
+    file += write_line(2, `self._id = ${msg.id}`)
+    file += write_line(2, `self._size = ${msg.totalSize}`)
     //create fields
-    if (datatype.bitField) {
+    if (msg.bitField) {
         file += write_line(2, `self._bit_field = 0`)
     }
-    for (let field of datatype.fields) {
+    for (let field of msg.fields) {
         file += write_line(2, `self._${field.name} = 0`)
     }
     //create known getters
@@ -95,21 +94,22 @@ for(let key in schema.messages) {
     file += write_line(2, "return self._source")
     file += write_line(1, "def get_target(self):")
     file += write_line(2, "return self._target")
-    file += write_line(1, "def get_datatype(self):")
-    file += write_line(2, "return self._datatype")
+    file += write_line(1, "def get_message(self):")
+    file += write_line(2, "return self._message")
     file += write_line(1, "def get_id(self):")
     file += write_line(2, "return self._id")
     file += write_line(1, "def get_size(self):")
     file += write_line(2, "return self._size")
+
     //create setters for bits
-    if (datatype.bitField) {
-        for (let index in datatype.bitField) {
-            file += write_line(1, `def set_${datatype.bitField[index]}(self, value):`)
+    if (msg.bitField) {
+        for (let index in msg.bitField) {
+            file += write_line(1, `def set_${msg.bitField[index]}(self, value):`)
             file += write_line(2, `self._bit_field =  value * (self._bit_field | (1 << ${index})) + (not value) * (self._bit_field & ~(1 << ${index}))`)
         }
     }
     //create setter for byte fields
-    for (let field of datatype.fields) {
+    for (let field of msg.fields) {
         file += write_line(1, `def set_${field.name}(self, value):`)
         switch (field.type) {
             case "scaledFloat":
@@ -126,65 +126,25 @@ for(let key in schema.messages) {
         }
     }
     //generate buf
-    file += write_line(1, `def get_buf(self):`)
+    file += write_line(1, `def build_buf(self):`)
     file += write_line(2, `buf = b""`)
-    if (datatype.bitField) {
-        let bitType = structType[datatype.bitFieldNativeType];
+    if (msg.bitField) {
+        let bitType = structType[msg.bitFieldNativeType];
         file += write_line(2, `buf += struct.pack("<${bitType}", self._bit_field)`)
     }
-    for (let field of datatype.fields) {
+    for (let field of msg.fields) {
         let type = structType[field.nativeType]
         file += write_line(2, `buf += struct.pack("<${type}", self._${field.name})`)
     }
     file += write_line(2, `return buf`)
-}
 
-
-//generate receivers
-for(let key in schema.messages) {
-    let message = schema.messages[key]
-    let datatype = schema.datatypes[message.datatype]
-    file += write_line(0, `class ${message.datatype}:`)
-    file += write_line(1, `def __init__(self):`)
-    file += write_line(2, `self._source = 0`)
-    file += write_line(2, `self._target = 0`)
-    file += write_line(2, `self._datatype = 0`)
-    file += write_line(2, `self._id = 0`)
-    file += write_line(2, `self._size = ${datatype.totalSize}`)
-    //create fields
-    if (datatype.bitField) {
-        file += write_line(2, `self._bit_field = 0`)
-    }
-    for (let field of datatype.fields) {
-        file += write_line(2, `self._${field.name} = 0`)
-    }
-    //setters
-    file += write_line(1, "def set_source(self, value):")
-    file += write_line(2, "self._source = value")
-    file += write_line(1, "def set_target(self, value):")
-    file += write_line(2, "self._target = value")
-    file += write_line(1, "def set_datatype(self, value):")
-    file += write_line(2, "self._datatype = value")
-    file += write_line(1, "def set_id(self, value):")
-    file += write_line(2, "self._id = value")
-    //getters
-    file += write_line(1, "def get_source(self):")
-    file += write_line(2, "return self._source")
-    file += write_line(1, "def get_target(self):")
-    file += write_line(2, "return self._target")
-    file += write_line(1, "def get_datatype(self):")
-    file += write_line(2, "return self._datatype")
-    file += write_line(1, "def get_size(self):")
-    file += write_line(2, "return self._size")
-    file += write_line(1, "def get_id(self):")
-    file += write_line(2, "return self._id")
-    if (datatype.bitField) {
-        for (let index in datatype.bitField) {
-            file += write_line(1, `def get_${datatype.bitField[index]}(self):`)
+    if (msg.bitField) {
+        for (let index in msg.bitField) {
+            file += write_line(1, `def get_${msg.bitField[index]}(self):`)
             file += write_line(2, `return self._bit_field & (1 << ${index})`)
         }
     }
-    for (let field of datatype.fields) {
+    for (let field of msg.fields) {
         file += write_line(1, `def get_${field.name}(self):`)
         switch (field.type) {
             case "scaledFloat":
@@ -200,27 +160,29 @@ for(let key in schema.messages) {
                 file += write_line(2, `return self._${field.name}`)
         }
     }
+
     //get all data
     file += write_line(1, `def get_all_data(self):`)
     file += write_line(2, `data = []`)
-    if (datatype.bitField) {
-        for (let field of datatype.bitField) {
+    if (msg.bitField) {
+        for (let field of msg.bitField) {
             file += write_line(2, `data.append((fields.${field}, self.get_${field}()))`)
         }
     }
-    for (let field of datatype.fields) {
+    for (let field of msg.fields) {
         file += write_line(2, `data.append((fields.${field.name}, self.get_${field.name}()))`)
     }
     file += write_line(2, `return data`)
+
     //parse buf
     file += write_line(1, `def parse_buf(self, buf):`)
     file += write_line(2, `index = 0`)
-    if (datatype.bitField) {
-        let bitType = structType[datatype.bitFieldNativeType];
+    if (msg.bitField) {
+        let bitType = structType[msg.bitFieldNativeType];
         file += write_line(2, `self._bit_field = struct.unpack_from("<${bitType}", buf, index)[0]`)
-        file += write_line(2, `index += ${datatype.bitFieldSize}`)
+        file += write_line(2, `index += ${msg.bitFieldSize}`)
     }
-    for (let field of datatype.fields) {
+    for (let field of msg.fields) {
         let type = structType[field.nativeType]
         file += write_line(2, `self._${field.name} = struct.unpack_from("<${type}", buf, index)[0]`)
         file += write_line(2, `index += ${field.size}`)
@@ -232,11 +194,7 @@ file += write_line(0, "def id_to_receiver(id):")
 for(let key in schema.messages) {
     let message = schema.messages[key]
     file += write_line(1, `if id == ${message.id}:`)
-    file += write_line(2, `receiver = ${message.datatype}()`)
-    file += write_line(2, `receiver.set_id(${message.id})`)
-    file += write_line(2, `receiver.set_target(units.${message.target})`)
-    file += write_line(2, `receiver.set_source(units.${message.source})`)
-    file += write_line(2, `receiver.set_datatype(datatypes.${message.datatype})`)
+    file += write_line(2, `receiver = ${message.name}_from_${message.source}_to_${message.target}()`)
     file += write_line(2, `return receiver`)
 }
 

@@ -21,12 +21,12 @@ let fc = "flight_controller"
 let gs = "ground_station"
 let ec = "edda_controller"
 
-let gs_tc = "ground_station_tc"
-let gs_tm = "ground_station_tm"
-let fc_tc = "flight_controller_tc"
-let fc_can = "flight_controller_can"
-let ec_tc = "edda_controller_tc"
-let ec_can = "edda_controller_can"
+let gs_tc = "ground_station"
+let gs_tm = "ground_station"
+let fc_tc = "flight_controller"
+let fc_can = "flight_controller"
+let ec_tc = "engine_controller"
+let ec_can = "engine_controller"
 
 s.setIdType("uint8")
 s.setName("fc")
@@ -35,7 +35,7 @@ s.addMsg({
     id: 0xFF,
     source: "local",
     target: "local",
-    datatype: "local_timestamp",
+    name: "local_timestamp",
     fields: {
         timestamp: s.uint(4)
     }
@@ -45,7 +45,7 @@ s.addMsg({
     id: 64,
     source: "test",
     target: "test",
-    datatype: "ms_since_boot",
+    name: "ms_since_boot",
     fields: {
         ms_since_boot: s.uint(4)
     }
@@ -55,7 +55,7 @@ s.addMsg({
     id: test++,
     source: "test",
     target: "test",
-    datatype: "altitude",
+    name: "altitude",
     fields: {
         altitude: s.uint(2),
     }
@@ -65,7 +65,7 @@ s.addMsg({
     id: test++,
     source: "test",
     target: "test",
-    datatype: "acceleration",
+    name: "acceleration",
     fields: {
         altitude: s.uint(1),
     }
@@ -75,7 +75,7 @@ s.addMsg({
     id: test++,
     source: "test",
     target: "test",
-    datatype: "pressure",
+    name: "pressure",
     fields: {
         altitude: s.uint(2),
     }
@@ -85,7 +85,7 @@ s.addMsg({
     id: test++,
     source: "test",
     target: "test",
-    datatype: "catastrophe",
+    name: "catastrophe",
     bitField: [
         "catastrophe"
     ]
@@ -95,7 +95,7 @@ s.addMsg({
     id: test++,
     source: "test",
     target: "test",
-    datatype: "gyro",
+    name: "gyro",
     fields: {
         x: s.uint(1),
         y: s.uint(1),
@@ -111,7 +111,7 @@ s.addMsg({
     id: gs_to_fc++,
     source: gs,
     target: fc_tc,
-    datatype: "time_sync",
+    name: "time_sync",
     fields: {
         system_time: s.uint(4),
     }
@@ -121,14 +121,14 @@ s.addMsg({
     id: gs_to_fc++,
     source: gs,
     target: fc_tc,
-    datatype: "set_power_mode",
+    name: "set_power_mode",
 })
 
 s.addMsg({
     id: gs_to_fc++,
     source: gs,
     target: fc_tc,
-    datatype: "set_radio_equipment",
+    name: "set_radio_equipment",
     bitField: [
         "is_fpv_en",
         "is_tm_en",
@@ -139,7 +139,7 @@ s.addMsg({
     id: gs_to_fc++,
     source: gs,
     target: fc_tc,
-    datatype: "set_parachute_output",
+    name: "set_parachute_output",
     bitField: [
         "is_parachute_armed",
         "is_parachute1_en",
@@ -151,7 +151,7 @@ s.addMsg({
     id: gs_to_fc++,
     source: gs,
     target: fc_tc,
-    datatype: "set_data_logging",
+    name: "set_data_logging",
     bitField: [
         "is_logging_en",
     ]
@@ -162,7 +162,7 @@ s.addMsg({
     id: gs_to_fc++,
     source: gs,
     target: fc_tc,
-    datatype: "dump_flash",
+    name: "dump_flash",
     bitField: [
         "dump_sd",
         "dump_usb"
@@ -173,7 +173,7 @@ s.addMsg({
     id: gs_to_fc++,
     source: gs,
     target: fc_tc,
-    datatype: "handshake"
+    name: "handshake"
 })
 
 
@@ -183,21 +183,21 @@ s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "return_time_sync",
+    name: "return_time_sync",
 })
 
 s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "return_power_mode",
+    name: "return_power_mode",
 })
 
 s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "return_radio_equipment",
+    name: "return_radio_equipment",
     bitField: [
         'is_fpv_en',
         "is_tm_en"
@@ -208,7 +208,7 @@ s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "return_parachute_output",
+    name: "return_parachute_output",
     bitField: [
         "is_parachute_armed",
         "is_parachute1_en",
@@ -220,7 +220,7 @@ s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "onboard_battery_voltage",
+    name: "onboard_battery_voltage",
     fields: {
         battery_1: s.scaledFloat(2, 100, false),
         battery_2: s.scaledFloat(2, 100, false)
@@ -231,7 +231,7 @@ s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "gnss_data",
+    name: "gnss_data",
     fields: {
         gnss_time: s.uint(4),
         latitude: s.int(4),
@@ -245,7 +245,7 @@ s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "flight_controller_status",
+    name: "flight_controller_status",
     fields: {
         HW_state: s.uint(1),
         SW_state: s.uint(1),
@@ -257,7 +257,7 @@ s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "return_data_logging",
+    name: "return_data_logging",
     bitField: [
         "is_logging_en"
     ]
@@ -267,7 +267,7 @@ s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "return_dump_flash",
+    name: "return_dump_flash",
     bitField: [
         "dump_sd",
         "dump_usb"
@@ -278,7 +278,7 @@ s.addMsg({
     id: fc_to_gs++,
     source: fc,
     target: gs_tc,
-    datatype: "return_handshake",
+    name: "return_handshake",
 })
 
 ///////////////////////////////fc telemetry
@@ -286,24 +286,8 @@ s.addMsg({
     id: fc_to_gs_tm++,
     source: fc,
     target: gs_tm,
-    datatype: "ms_since_boot",
-})
-s.addMsg({
-    id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
-    datatype: "us_since_boot",
-    fields: {
-        us_since_boot: s.uint(4)
-    }
-})
-
-s.addMsg({
-    id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
-    datatype: "current_time",
-    fields: {
+    name: "ms_since_boot",
+    fields : {
         ms_since_boot: s.uint(4)
     }
 })
@@ -311,12 +295,109 @@ s.addMsg({
     id: fc_to_gs_tm++,
     source: fc,
     target: gs_tm,
-    datatype: "GNSS_data_1",
+    name: "us_since_boot",
+    fields: {
+        us_since_boot: s.uint(8)
+    }
+})
+
+s.addMsg({
+    id: fc_to_gs_tm++,
+    source: fc,
+    target: gs_tm,
+    name: "current_time",
+    fields: {
+        current_time: s.uint(4)
+    }
+})
+s.addMsg({
+    id: fc_to_gs_tm++,
+    source: fc,
+    target: gs_tm,
+    name: "GNSS_data_1",
     fields: {
         gnss_time: s.uint(4),
         latitude: s.int(4),
         longitude: s.int(4),
     }
 })
+s.addEnum("fix_status", [
+    "no_fix",
+    "fix_2D",
+    "fix_3D"
+])
+s.addMsg({
+    id: fc_to_gs_tm++,
+    source: fc,
+    target: gs_tm,
+    name: "GNSS_data_2",
+    fields: {
+        altitude: s.scaledFloat(4, 10, true),
+        heading: s.int(2),
+        horiz_speed: s.scaledFloat(2, 10, true),
+        fix_status: s.enumerator("fix_status"),
+        n_satellites: s.uint(1),
+        h_dop: s.scaledFloat(2, 10, false)
+    }
+})
+
+s.addMsg({
+    id: fc_to_gs_tm++,
+    source: fc,
+    target: gs_tm,
+    name: "inside_static_temperature",
+    fields: {
+        temperature_1: s.scaledFloat(4, 100, true),
+        temperature_2: s.scaledFloat(4, 100, true)
+    }
+})
+
+s.addMsg({
+    id: fc_to_gs_tm++,
+    source: fc,
+    target: gs_tm,
+    name: "inside_static_pressure",
+    fields: {
+        pressure_1: s.scaledFloat(4, 100, true),
+        pressure_2: s.scaledFloat(4, 100, true)
+    }
+})
+
+s.addMsg({
+    id: fc_to_gs_tm++,
+    source: fc,
+    target: gs_tm,
+    name: "IMU1",
+    fields: {
+        accel_x: s.uint(2),
+        accel_y: s.uint(2),
+        accel_z: s.uint(2),
+        gyro_x: s.uint(2),
+        gyro_y: s.uint(2),
+        gyro_z: s.uint(2),
+        magnet_x: s.uint(2),
+        magnet_y: s.uint(2),
+        magnet_z: s.uint(2),
+    }
+})
+
+s.addMsg({
+    id: fc_to_gs_tm++,
+    source: fc,
+    target: gs_tm,
+    name: "IMU2",
+    fields: {
+        accel_x: s.uint(2),
+        accel_y: s.uint(2),
+        accel_z: s.uint(2),
+        gyro_x: s.uint(2),
+        gyro_y: s.uint(2),
+        gyro_z: s.uint(2),
+        magnet_x: s.uint(2),
+        magnet_y: s.uint(2),
+        magnet_z: s.uint(2),
+    }
+})
+
 
 s.createJson(output);

@@ -288,7 +288,7 @@ s.addMsg({
     target: gs_tm,
     name: "ms_since_boot",
     fields : {
-        ms_since_boot: s.uint(4)
+        ms_since_boot: s.uint(2)
     }
 })
 s.addMsg({
@@ -297,7 +297,7 @@ s.addMsg({
     target: gs_tm,
     name: "us_since_boot",
     fields: {
-        us_since_boot: s.uint(8)
+        us_since_boot: s.uint(4)
     }
 })
 

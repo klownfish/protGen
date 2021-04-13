@@ -28,6 +28,7 @@ h_file +=
 #include <math.h>\n\n`
 
 h_file += `namespace  ${schema.config.name}{`
+cpp_file += `namespace  ${schema.config.name}{`
 
 //generate enums
 for (let key in schema.enums) {
@@ -198,24 +199,33 @@ for (let key in schema.messages) {
     h_file += "};\n\n\n"
 }
 
-//generate parse macro
-h_file +=
-`#define ${schema.config.name.toUpperCase()}_PARSE_MESSAGE(id, buf) \\
-switch(id) { \\\n `
+//generate receiving functions
 for (let key in schema.messages) {
     let msg = schema.messages[key]
-    h_file += `    case ${msg.id}: {\\\n` +
-    `        ${schema.config.name}::${msg.name}_from_${msg.source}_to_${msg.target} __message;\\\n` +
-    `        __message.parse_buf(buf);\\\n` +
-    `        ${schema.config.name}_rx(__message);\\\n` +
-    `        break;}\\\n`
+    cpp_file += `__attribute__((weak))\n`
+    h_file += `void rx(${msg.name}_from_${msg.source}_to_${msg.target} msg);\n`
+    cpp_file += `void rx(${msg.name}_from_${msg.source}_to_${msg.target} msg){}\n`
 }
-h_file += "}\n\n"
 
+//generate parse function
+h_file += `void parse_message(${schema.config.idNativeType}_t id, uint8_t* buf);`
+cpp_file +=
+`void parse_message(${schema.config.idNativeType}_t id, uint8_t* buf) {
+    switch(id) { \n`
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    cpp_file += `    case ${msg.id}: {\n` +
+    `        ${msg.name}_from_${msg.source}_to_${msg.target} __message;\n` +
+    `        __message.parse_buf(buf);\n` +
+    `        rx(__message);\n` +
+    `        break;}\n`
+}
+cpp_file += "}\n"
+cpp_file += "}\n\n"
 //generate is_valid_id function
 h_file += `bool is_valid_id(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`bool ${schema.config.name}::is_valid_id(${schema.config.idNativeType}_t id){
+`bool is_valid_id(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
@@ -230,7 +240,7 @@ cpp_file += "}\n}\n\n"
 //generate length function
 h_file += `uint8_t id_to_len(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`uint8_t ${schema.config.name}::id_to_len(${schema.config.idNativeType}_t id){
+`uint8_t id_to_len(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
@@ -244,12 +254,12 @@ cpp_file += "}\n}\n\n"
 //generate source funtion
 h_file += `enum units id_to_source(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`enum ${schema.config.name}::units ${schema.config.name}::id_to_source(${schema.config.idNativeType}_t id){
+`enum units id_to_source(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
     cpp_file += `    case ${msg.id}:\n` +
-    `        return ${schema.config.name}::units::${msg.source};\n` +
+    `        return units::${msg.source};\n` +
     `        break;\n`
 }
 cpp_file += "}\n}\n\n"
@@ -258,18 +268,19 @@ cpp_file += "}\n}\n\n"
 //generate target funtion
 h_file += `enum units id_to_target(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`enum ${schema.config.name}::units ${schema.config.name}::id_to_target(${schema.config.idNativeType}_t id){
+`enum units id_to_target(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
     cpp_file += `    case ${msg.id}:\n` +
-    `        return ${schema.config.name}::units::${msg.target};\n` +
+    `        return units::${msg.target};\n` +
     `        break;\n`
 }
 cpp_file += "}\n}\n\n"
 
 
 h_file += `}` // close namespace
+cpp_file += `}` // close namespace
 
 fs.writeFileSync(`${baseName}.h`, h_file)
 fs.writeFileSync(`${baseName}.cpp`, cpp_file)

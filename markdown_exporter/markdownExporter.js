@@ -104,6 +104,9 @@ function build_message_table(msg) {
                 case "enum":
                     output += `<td>enum=${field.enumName}</td>\n`
                     break;
+                case "fixedString":
+                    output += `<td>size=${field.size}</td>`
+                    break;
                 default:
                     output += "<td>N/A</td>\n"
             }

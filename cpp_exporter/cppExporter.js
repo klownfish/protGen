@@ -80,6 +80,11 @@ for (let key in schema.messages) {
             h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
             continue
         }
+        if (field.type == "fixedString") {
+            h_file += `char ${field.name}[${field.size}];\n`
+            h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
+            continue
+        }
         h_file += `${field.nativeType}_t ${field.name};\n`
         h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
     }
@@ -130,6 +135,12 @@ for (let key in schema.messages) {
                 `${field.name} = value;\n`+
                 `}\n`
                 break;
+            case "fixedString":
+                h_file += 
+                `void set_${field.name}(char* value) {\n` +
+                `memcpy(${field.name}, value, sizeof(*${field.name}));\n`+
+                `}\n`
+                break;
             default:
                 h_file += 
                 `void set_${field.name}(${field.nativeType}_t value) {\n` +
@@ -160,6 +171,13 @@ for (let key in schema.messages) {
             case "enum":
                 h_file += 
                 `enum ${field.enumName} get_${field.name}() {\n` +
+                `return ${field.name};\n`+
+                `}\n`
+                break;
+            
+            case "fixedString":
+                h_file += 
+                `char* get_${field.name}() {\n` +
                 `return ${field.name};\n`+
                 `}\n`
                 break;
@@ -284,7 +302,7 @@ cpp_file += `}` // close namespace
 
 fs.writeFileSync(`${baseName}.h`, h_file)
 fs.writeFileSync(`${baseName}.cpp`, cpp_file)
-exec(`clang-format --style="LLVM" -i ${baseName}*`, ((error) => {
+exec(`clang-format --style="LLVM" -i ${baseName}.cpp ${baseName}.h `, ((error) => {
     if (error)
-        console.log("install clang-format in PATH to format the output")
+        console.log("install clang-format in PATH to format the output", error)
 }))

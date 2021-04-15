@@ -24,6 +24,16 @@ let structType = {
     "double": "d"
 }
 
+function field_to_struct(field) {
+    let type
+    if (field.nativeType == "fixedString") {
+        type = field.size + "s"  
+    } else {
+        type = structType[field.nativeType]
+    }
+    return type
+}
+
 if (process.argv.length < 4) {
     console.log(`usage: node INPUT_FILE OUTPUT_DIR`)
     return;
@@ -133,7 +143,7 @@ for(let key in schema.messages) {
         file += write_line(2, `buf += struct.pack("<${bitType}", self._bit_field)`)
     }
     for (let field of msg.fields) {
-        let type = structType[field.nativeType]
+        let type = field_to_struct(field)
         file += write_line(2, `buf += struct.pack("<${type}", self._${field.name})`)
     }
     file += write_line(2, `return buf`)
@@ -183,7 +193,7 @@ for(let key in schema.messages) {
         file += write_line(2, `index += ${msg.bitFieldSize}`)
     }
     for (let field of msg.fields) {
-        let type = structType[field.nativeType]
+        let type = field_to_struct(field)
         file += write_line(2, `self._${field.name} = struct.unpack_from("<${type}", buf, index)[0]`)
         file += write_line(2, `index += ${field.size}`)
     }

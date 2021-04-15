@@ -4,11 +4,13 @@ class Schema {
     constructor() {
         this.config = {
             name: "protGen",
-            idNativeType: "uint8_t",
+            idNativeType: "uint8",
         };
         this.enums = {};
         this.messages = {};
 
+        this.currentId = 0;
+        this.usedIds = []
         this.unitsEnum = []
         this.messageNamesEnum = []
         this.fieldsEnum = []
@@ -32,10 +34,10 @@ class Schema {
             throw `Message has no name: id ${msg.id}`
         }
         if (!msg.source) {
-            throw `Message has no source: id ${msg.name}`
+            throw `Message has no source: name ${msg.name}`
         }
         if (!msg.target) {
-            throw `Message has no target: id ${msg.name}`
+            throw `Message has no target: name ${msg.name}`
         }
         if (this.unitsEnum.indexOf(msg.source) == -1) {
             this.unitsEnum.push(msg.source);
@@ -48,9 +50,14 @@ class Schema {
         }
         let outMsg = {}
 
+        if (msg.id) {
+            outMsg.id = msg.id
+        } else {
+            while (this.usedIds.indexOf(++this.currentId) != -1) {}
+            outMsg.id = this.currentId
+        }
         //copy misc
         outMsg.name = msg.name
-        outMsg.id = msg.id
         outMsg.target = msg.target
         outMsg.source = msg.source
 
@@ -128,7 +135,7 @@ class Schema {
         let enumSize = Object.entries(enumerator).length
         obj.name = name
         obj.entries = enumerator
-        obj.size = Math.ceil(Math.log2(enumSize) / 8)
+        obj.size = Math.ceil(Math.log2(enumSize + 1) / 8)
         obj.nativeType = this.sizeToUint(obj.size)
         this.enums[name] = obj;
     }
@@ -188,6 +195,15 @@ class Schema {
             return "uint128";
     }
     
+    fixedString(max_len) {
+        let obj = {
+            type: "fixedString",
+            size: max_len, //account for null terminator
+            nativeType: "fixedString"
+        }
+        return obj;
+    }
+
     double() {
         let obj = {
             type: "double",

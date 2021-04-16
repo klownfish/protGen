@@ -25,6 +25,17 @@ s.addMsg({
 })
 
 s.addMsg({
+    name: "configure_plant",
+    source: "web",
+    target: "plant",
+    fields: {
+        plant_id: s.uint(1),
+        lower_limit: s.double(),
+        upper_limit: s.double()
+    }
+})
+
+s.addMsg({
     name: "get_active_plants",
     source: "web",
     target: "plant",
@@ -32,6 +43,15 @@ s.addMsg({
 
 s.addMsg({
     name: "get_humidity_measurement",
+    source: "web",
+    target: "plant",
+    field: {
+        plant_id: s.uint(1),
+    }
+})
+
+s.addMsg({
+    name: "get_configuration",
     source: "web",
     target: "plant",
     field: {
@@ -61,18 +81,16 @@ s.addMsg({
     target: "web",
     fields: {
         plant_id: s.uint(1),
-        humidity: s.double(1),
+        humidity: s.double(),
     }
 })
 
 s.addMsg({
-    name: "configure_plant",
-    source: "web",
-    target: "plant",
+    name: "configuration",
+    source: "plant",
+    target: "web",
     fields: {
-        plant_id: s.uint(1),
-        lower_limit: s.double(),
-        upper_limit: s.double()
+
     }
 })
 

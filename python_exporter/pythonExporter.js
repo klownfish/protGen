@@ -63,15 +63,25 @@ file +=
 def uint_to_scaledFloat(value, scale):
     return value / scale
 
-def packedFloat_to_uint(value, min, max, size):
-    max_value = (1 << size * 8) - 1
-    difference = max - min
-    return (value - min) / difference * max_value
+def packedFloat_to_uint(value, minValue, maxValue, size):
+    intMax = (1 << size * 8) - 1
+    if(value < minValue):
+      return 0
+    if(value > maxValue):
+      return intMax
+    ratio = (value - minValue) / (maxValue - minValue)
+    return 1 + ((intMax - 2)) * ratio
+  
+def uint_to_packedFloat(value, minValue, maxValue, size):
+    intMax = (1 << size * 8) - 1
+    if(value <= 0):
+      return minValue - 1.0
+    if(value >= intMax):
+      return maxValue + 1.0
+    ratio = (value - 1) / (intMax - 2)
+    return ratio * (maxValue - minValue) + minValue
 
-def uint_to_packedFloat(value, min, max, size):
-    max_value = (1 << size * 8) - 1
-    difference = max - min
-    return difference * value / max_value\n\n`
+`
 
 //generate enums
 for (let key in schema.enums) {

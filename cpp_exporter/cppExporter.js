@@ -16,8 +16,12 @@ let warning =
 `/*****************************
 GENERATED FILE DO NOT EDIT
 ******************************/\n\n`
+
 let h_file = warning 
 let cpp_file = warning
+h_file += `//pick if you want to use floats or doubles\n`
+h_file += `#define ${schema.config.name}_FLOAT_DEF float\n\n`
+let float =`${schema.config.name}_FLOAT_DEF`
 cpp_file +=
 `#include <stdint.h>
 #include "${schema.config.name}.h"\n\n`
@@ -26,6 +30,7 @@ h_file +=
 `#include <stdint.h>
 #include <string.h>
 #include <math.h>\n\n`
+
 
 h_file += `namespace  ${schema.config.name}{`
 cpp_file += `namespace  ${schema.config.name}{`
@@ -43,28 +48,46 @@ for (let key in schema.enums) {
 //hand written functions to encode / decode
 h_file +=
 `template <typename T>
-void scaledFloat_to_uint(double value, double scale, T* out) {
+void scaledFloat_to_uint(${float} value, ${float} scale, T* out) {
     *out = value * scale;
 }
 
 template <typename T>
-void uint_to_scaledFloat(T value, double scale, double* out ) {
+void uint_to_scaledFloat(T value, ${float} scale, ${float}* out ) {
     *out = value / scale;
 }
 
 template <typename T>
-void packedFloat_to_uint(double value, double min, double max, T* out) {
-    T max_value = ~0;
-    double difference = max - min;
-    *out = (value - min) / difference * max_value;
+void packedFloat_to_uint(${float}* value, ${float} minValue, ${float} maxValue, T* out){
+    T intMax = ~0;
+    if(value < minValue) {
+      *out = 0;
+      return;
+    }
+    if(value > maxValue) {
+      *out = intMax;
+      return;
+    }
+    ${float} ratio = (value - minValue) / (maxValue - minValue)
+    return 1 + ((intMax - 2)) * ratio
+}
+  
+template <typename T>
+void uint_to_packedFloat(T value, ${float} minValue, ${float} maxValue, ${float}* out){
+    T intMax = ~0;
+    if(value <= 0) {
+      *out = minValue - 1.0;
+      return;
+    }
+    if(value >= intMax) {
+      *out = maxValue + 1.0;
+      return;
+    }
+    ${float} ratio = (value - 1) / (intMax - 2);
+    *out = ratio * (maxValue - minValue) + minValue;
 }
 
-template <typename T>
-void uint_to_packedFloat(T value, double min, double max, double* out) {
-    T max_value = ~0;
-    double difference = max - min;
-    *out = difference * value / max_value;
-}\n\n`
+`
 
 //generate senders
 for (let key in schema.messages) {
@@ -119,13 +142,13 @@ for (let key in schema.messages) {
         switch(field.type) {
             case "packedFloat":
                 h_file += 
-                `void set_${field.name}(double value) {\n` +
+                `void set_${field.name}(${schema.config.name}_FLOAT_DEF value) {\n` +
                 `packedFloat_to_uint(value, ${field.min}, ${field.max}, &${field.name});\n` +
                 `}\n`
                 break;
             case "scaledFloat":
                 h_file += 
-                `void set_${field.name}(double value) {\n` +
+                `void set_${field.name}(${schema.config.name}_FLOAT_DEF value) {\n` +
                 `scaledFloat_to_uint(value, ${field.scale}, &${field.name});\n` +
                 `}\n`
                 break;
@@ -154,16 +177,16 @@ for (let key in schema.messages) {
         switch(field.type) {
             case "packedFloat":
                 h_file += 
-                `double get_${field.name}() {\n` +
-                `double out;\n` +
+                `${schema.config.name}_FLOAT_DEF get_${field.name}() {\n` +
+                `${schema.config.name}_FLOAT_DEF out;\n` +
                 `uint_to_packedFloat(${field.name}, ${field.min}, ${field.max}, &out);\n` +
                 `return out\n;`
                 `}\n`
                 break;
             case "scaledFloat":
                 h_file += 
-                `double get_${field.name}() {\n` +
-                `double out;\n` +
+                `${schema.config.name}_FLOAT_DEF get_${field.name}() {\n` +
+                `${schema.config.name}_FLOAT_DEF out;\n` +
                 `uint_to_scaledFloat(${field.name}, ${field.scale}, &out);\n` +
                 `return out;\n` +
                 `}\n`

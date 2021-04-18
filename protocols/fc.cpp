@@ -6,6 +6,8 @@ GENERATED FILE DO NOT EDIT
 #include <stdint.h>
 
 namespace fc {
+__attribute__((weak)) void rx(local_timestamp_from_local_to_local msg) {}
+__attribute__((weak)) void rx(ms_since_boot_from_test_to_test msg) {}
 __attribute__((weak)) void rx(altitude_from_test_to_test msg) {}
 __attribute__((weak)) void rx(acceleration_from_test_to_test msg) {}
 __attribute__((weak)) void rx(pressure_from_test_to_test msg) {}
@@ -45,7 +47,6 @@ __attribute__((weak)) void
 rx(return_dump_flash_from_flight_controller_to_ground_station msg) {}
 __attribute__((weak)) void
 rx(return_handshake_from_flight_controller_to_ground_station msg) {}
-__attribute__((weak)) void rx(ms_since_boot_from_test_to_test msg) {}
 __attribute__((weak)) void
 rx(ms_since_boot_from_flight_controller_to_ground_station msg) {}
 __attribute__((weak)) void
@@ -64,9 +65,20 @@ __attribute__((weak)) void
 rx(IMU1_from_flight_controller_to_ground_station msg) {}
 __attribute__((weak)) void
 rx(IMU2_from_flight_controller_to_ground_station msg) {}
-__attribute__((weak)) void rx(local_timestamp_from_local_to_local msg) {}
 void parse_message(uint8_t id, uint8_t *buf) {
   switch (id) {
+  case 255: {
+    local_timestamp_from_local_to_local __message;
+    __message.parse_buf(buf);
+    rx(__message);
+    break;
+  }
+  case 64: {
+    ms_since_boot_from_test_to_test __message;
+    __message.parse_buf(buf);
+    rx(__message);
+    break;
+  }
   case 0: {
     altitude_from_test_to_test __message;
     __message.parse_buf(buf);
@@ -199,12 +211,6 @@ void parse_message(uint8_t id, uint8_t *buf) {
     rx(__message);
     break;
   }
-  case 64: {
-    ms_since_boot_from_test_to_test __message;
-    __message.parse_buf(buf);
-    rx(__message);
-    break;
-  }
   case 80: {
     ms_since_boot_from_flight_controller_to_ground_station __message;
     __message.parse_buf(buf);
@@ -260,17 +266,17 @@ void parse_message(uint8_t id, uint8_t *buf) {
     rx(__message);
     break;
   }
-  case 255: {
-    local_timestamp_from_local_to_local __message;
-    __message.parse_buf(buf);
-    rx(__message);
-    break;
-  }
   }
 }
 
 bool is_valid_id(uint8_t id) {
   switch (id) {
+  case 255:
+    return true;
+    break;
+  case 64:
+    return true;
+    break;
   case 0:
     return true;
     break;
@@ -337,9 +343,6 @@ bool is_valid_id(uint8_t id) {
   case 41:
     return true;
     break;
-  case 64:
-    return true;
-    break;
   case 80:
     return true;
     break;
@@ -367,9 +370,6 @@ bool is_valid_id(uint8_t id) {
   case 88:
     return true;
     break;
-  case 255:
-    return true;
-    break;
   default:
     return false;
   }
@@ -377,6 +377,12 @@ bool is_valid_id(uint8_t id) {
 
 uint8_t id_to_len(uint8_t id) {
   switch (id) {
+  case 255:
+    return 4;
+    break;
+  case 64:
+    return 4;
+    break;
   case 0:
     return 2;
     break;
@@ -443,14 +449,11 @@ uint8_t id_to_len(uint8_t id) {
   case 41:
     return 0;
     break;
-  case 64:
-    return 4;
-    break;
   case 80:
-    return 4;
+    return 2;
     break;
   case 81:
-    return 8;
+    return 4;
     break;
   case 82:
     return 4;
@@ -472,219 +475,320 @@ uint8_t id_to_len(uint8_t id) {
     break;
   case 88:
     return 18;
-    break;
-  case 255:
-    return 4;
     break;
   default:
     return 0;
   }
 }
 
-enum units id_to_source(uint8_t id) {
+enum nodes id_to_sender(uint8_t id) {
   switch (id) {
-  case 0:
-    return units::test;
-    break;
-  case 1:
-    return units::test;
-    break;
-  case 2:
-    return units::test;
-    break;
-  case 3:
-    return units::test;
-    break;
-  case 4:
-    return units::test;
-    break;
-  case 16:
-    return units::ground_station;
-    break;
-  case 17:
-    return units::ground_station;
-    break;
-  case 18:
-    return units::ground_station;
-    break;
-  case 19:
-    return units::ground_station;
-    break;
-  case 20:
-    return units::ground_station;
-    break;
-  case 21:
-    return units::ground_station;
-    break;
-  case 22:
-    return units::ground_station;
-    break;
-  case 32:
-    return units::flight_controller;
-    break;
-  case 33:
-    return units::flight_controller;
-    break;
-  case 34:
-    return units::flight_controller;
-    break;
-  case 35:
-    return units::flight_controller;
-    break;
-  case 36:
-    return units::flight_controller;
-    break;
-  case 37:
-    return units::flight_controller;
-    break;
-  case 38:
-    return units::flight_controller;
-    break;
-  case 39:
-    return units::flight_controller;
-    break;
-  case 40:
-    return units::flight_controller;
-    break;
-  case 41:
-    return units::flight_controller;
+  case 255:
+    return nodes::local;
     break;
   case 64:
-    return units::test;
+    return nodes::test;
+    break;
+  case 0:
+    return nodes::test;
+    break;
+  case 1:
+    return nodes::test;
+    break;
+  case 2:
+    return nodes::test;
+    break;
+  case 3:
+    return nodes::test;
+    break;
+  case 4:
+    return nodes::test;
+    break;
+  case 16:
+    return nodes::ground_station;
+    break;
+  case 17:
+    return nodes::ground_station;
+    break;
+  case 18:
+    return nodes::ground_station;
+    break;
+  case 19:
+    return nodes::ground_station;
+    break;
+  case 20:
+    return nodes::ground_station;
+    break;
+  case 21:
+    return nodes::ground_station;
+    break;
+  case 22:
+    return nodes::ground_station;
+    break;
+  case 32:
+    return nodes::flight_controller;
+    break;
+  case 33:
+    return nodes::flight_controller;
+    break;
+  case 34:
+    return nodes::flight_controller;
+    break;
+  case 35:
+    return nodes::flight_controller;
+    break;
+  case 36:
+    return nodes::flight_controller;
+    break;
+  case 37:
+    return nodes::flight_controller;
+    break;
+  case 38:
+    return nodes::flight_controller;
+    break;
+  case 39:
+    return nodes::flight_controller;
+    break;
+  case 40:
+    return nodes::flight_controller;
+    break;
+  case 41:
+    return nodes::flight_controller;
     break;
   case 80:
-    return units::flight_controller;
+    return nodes::flight_controller;
     break;
   case 81:
-    return units::flight_controller;
+    return nodes::flight_controller;
     break;
   case 82:
-    return units::flight_controller;
+    return nodes::flight_controller;
     break;
   case 83:
-    return units::flight_controller;
+    return nodes::flight_controller;
     break;
   case 84:
-    return units::flight_controller;
+    return nodes::flight_controller;
     break;
   case 85:
-    return units::flight_controller;
+    return nodes::flight_controller;
     break;
   case 86:
-    return units::flight_controller;
+    return nodes::flight_controller;
     break;
   case 87:
-    return units::flight_controller;
+    return nodes::flight_controller;
     break;
   case 88:
-    return units::flight_controller;
-    break;
-  case 255:
-    return units::local;
+    return nodes::flight_controller;
     break;
   }
 }
 
-enum units id_to_target(uint8_t id) {
+enum nodes id_to_receiver(uint8_t id) {
   switch (id) {
-  case 0:
-    return units::test;
-    break;
-  case 1:
-    return units::test;
-    break;
-  case 2:
-    return units::test;
-    break;
-  case 3:
-    return units::test;
-    break;
-  case 4:
-    return units::test;
-    break;
-  case 16:
-    return units::flight_controller;
-    break;
-  case 17:
-    return units::flight_controller;
-    break;
-  case 18:
-    return units::flight_controller;
-    break;
-  case 19:
-    return units::flight_controller;
-    break;
-  case 20:
-    return units::flight_controller;
-    break;
-  case 21:
-    return units::flight_controller;
-    break;
-  case 22:
-    return units::flight_controller;
-    break;
-  case 32:
-    return units::ground_station;
-    break;
-  case 33:
-    return units::ground_station;
-    break;
-  case 34:
-    return units::ground_station;
-    break;
-  case 35:
-    return units::ground_station;
-    break;
-  case 36:
-    return units::ground_station;
-    break;
-  case 37:
-    return units::ground_station;
-    break;
-  case 38:
-    return units::ground_station;
-    break;
-  case 39:
-    return units::ground_station;
-    break;
-  case 40:
-    return units::ground_station;
-    break;
-  case 41:
-    return units::ground_station;
+  case 255:
+    return nodes::local;
     break;
   case 64:
-    return units::test;
+    return nodes::test;
+    break;
+  case 0:
+    return nodes::test;
+    break;
+  case 1:
+    return nodes::test;
+    break;
+  case 2:
+    return nodes::test;
+    break;
+  case 3:
+    return nodes::test;
+    break;
+  case 4:
+    return nodes::test;
+    break;
+  case 16:
+    return nodes::flight_controller;
+    break;
+  case 17:
+    return nodes::flight_controller;
+    break;
+  case 18:
+    return nodes::flight_controller;
+    break;
+  case 19:
+    return nodes::flight_controller;
+    break;
+  case 20:
+    return nodes::flight_controller;
+    break;
+  case 21:
+    return nodes::flight_controller;
+    break;
+  case 22:
+    return nodes::flight_controller;
+    break;
+  case 32:
+    return nodes::ground_station;
+    break;
+  case 33:
+    return nodes::ground_station;
+    break;
+  case 34:
+    return nodes::ground_station;
+    break;
+  case 35:
+    return nodes::ground_station;
+    break;
+  case 36:
+    return nodes::ground_station;
+    break;
+  case 37:
+    return nodes::ground_station;
+    break;
+  case 38:
+    return nodes::ground_station;
+    break;
+  case 39:
+    return nodes::ground_station;
+    break;
+  case 40:
+    return nodes::ground_station;
+    break;
+  case 41:
+    return nodes::ground_station;
     break;
   case 80:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
   case 81:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
   case 82:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
   case 83:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
   case 84:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
   case 85:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
   case 86:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
   case 87:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
   case 88:
-    return units::ground_station;
+    return nodes::ground_station;
     break;
+  }
+}
+
+enum categories id_to_category(uint8_t id) {
+  switch (id) {
   case 255:
-    return units::local;
+    return categories::none;
+    break;
+  case 64:
+    return categories::none;
+    break;
+  case 0:
+    return categories::none;
+    break;
+  case 1:
+    return categories::none;
+    break;
+  case 2:
+    return categories::none;
+    break;
+  case 3:
+    return categories::none;
+    break;
+  case 4:
+    return categories::none;
+    break;
+  case 16:
+    return categories::none;
+    break;
+  case 17:
+    return categories::none;
+    break;
+  case 18:
+    return categories::none;
+    break;
+  case 19:
+    return categories::none;
+    break;
+  case 20:
+    return categories::none;
+    break;
+  case 21:
+    return categories::none;
+    break;
+  case 22:
+    return categories::none;
+    break;
+  case 32:
+    return categories::none;
+    break;
+  case 33:
+    return categories::none;
+    break;
+  case 34:
+    return categories::none;
+    break;
+  case 35:
+    return categories::none;
+    break;
+  case 36:
+    return categories::none;
+    break;
+  case 37:
+    return categories::none;
+    break;
+  case 38:
+    return categories::none;
+    break;
+  case 39:
+    return categories::none;
+    break;
+  case 40:
+    return categories::none;
+    break;
+  case 41:
+    return categories::none;
+    break;
+  case 80:
+    return categories::none;
+    break;
+  case 81:
+    return categories::none;
+    break;
+  case 82:
+    return categories::none;
+    break;
+  case 83:
+    return categories::none;
+    break;
+  case 84:
+    return categories::none;
+    break;
+  case 85:
+    return categories::none;
+    break;
+  case 86:
+    return categories::none;
+    break;
+  case 87:
+    return categories::none;
+    break;
+  case 88:
+    return categories::none;
     break;
   }
 }

@@ -4,16 +4,18 @@ class Schema {
     constructor() {
         this.config = {
             name: "protGen",
-            idNativeType: "uint8",
+            idNativeType: "uint32",
         };
         this.enums = {};
-        this.messages = {};
+        this.messages = [];
 
         this.currentId = 0;
         this.usedIds = []
-        this.unitsEnum = []
+
+        this.nodesEnum = []
         this.messageNamesEnum = []
         this.fieldsEnum = []
+        this.categoriesEnum = []
     }
 
     setIdType(type) {
@@ -33,33 +35,56 @@ class Schema {
         if (!msg.name) {
             throw `Message has no name: id ${msg.id}`
         }
-        if (!msg.source) {
-            throw `Message has no source: name ${msg.name}`
+        if (!msg.sender) {
+            throw `Message has no sender: name ${msg.name}`
         }
-        if (!msg.target) {
-            throw `Message has no target: name ${msg.name}`
+        if (!msg.receiver) {
+            throw `Message has no receiver: name ${msg.name}`
         }
-        if (this.unitsEnum.indexOf(msg.source) == -1) {
-            this.unitsEnum.push(msg.source);
+        if (msg.field) {
+            console.log("did you mean fields?")
         }
-        if (this.unitsEnum.indexOf(msg.target) == -1) {
-            this.unitsEnum.push(msg.target);
+        if (msg.bitFields) {
+            console.log("did you mean bitField?")
+        }
+        if (!msg.category) {
+            msg.category = "none"
+        }
+        if (this.nodesEnum.indexOf(msg.sender) == -1) {
+            this.nodesEnum.push(msg.sender);
+        }
+        if (this.nodesEnum.indexOf(msg.receiver) == -1) {
+            this.nodesEnum.push(msg.receiver);
         }
         if (this.messageNamesEnum.indexOf(msg.name) == -1) {
             this.messageNamesEnum.push(msg.name);
         }
-        let outMsg = {}
+        if (this.categoriesEnum.indexOf(msg.category) == -1) {
+            this.categoriesEnum.push(msg.category);
+        }
 
-        if (msg.id) {
+        let outMsg = {}
+        if (msg.category) {
+            outMsg.category = msg.category
+        }
+        if (msg.description) {
+            outMsg.description = msg.description
+        }
+        if (msg.id != null) {
             outMsg.id = msg.id
+            if (this.usedIds.indexOf(outMsg.id) != -1) {
+                console.log(`Duplicate ID: this is either and error or you know what you are doing: ID ${outMsg.id}`)
+                outMsg.duplicate = true
+            }
         } else {
             while (this.usedIds.indexOf(++this.currentId) != -1) {}
             outMsg.id = this.currentId
         }
+        this.usedIds.push(outMsg.id);
         //copy misc
         outMsg.name = msg.name
-        outMsg.target = msg.target
-        outMsg.source = msg.source
+        outMsg.receiver = msg.receiver
+        outMsg.sender = msg.sender
 
         //copy datatype
         outMsg["name"] = msg.name;
@@ -110,18 +135,18 @@ class Schema {
 
     addMsg(msg) {
         msg = this.decodeMsg(msg)
-        this.messages[msg.id] = msg;
+        this.messages.push(msg);
     }
 
     addEnum(name, enumerator, overwrite_error = false) {
         if (this.enums[name]) {
             throw `Duplicate enum name: ${name}`
         }
-        if (name == "units" && !overwrite_error) {
-            throw "reserved enum name: units"
+        if (name == "nodes" && !overwrite_error) {
+            throw "reserved enum name: nodes"
         }
-        if (name == "datatypes" && !overwrite_error) {
-            throw "reserved enum name: datatypes"
+        if (name == "messages" && !overwrite_error) {
+            throw "reserved enum name: messages"
         }
 
         let reversed = {};
@@ -141,14 +166,18 @@ class Schema {
     }
 
     getObject() {
-        this.addEnum("units", this.unitsEnum, true);
+        let realEnums = []
+        for (let v in this.enums) {
+            realEnums.push(this.enums[v])
+        }
+        this.addEnum("nodes", this.nodesEnum, true);
         this.addEnum("fields", this.fieldsEnum, true);
         this.addEnum("messages", this.messageNamesEnum, true);
+        this.addEnum("categories", this.categoriesEnum, true);
 
         let obj = {
             config: this.config,
-            enums: this.enums,
-            datatypes: this.datatypes,
+            enums: realEnums,
             messages: this.messages,
         };
         return obj;

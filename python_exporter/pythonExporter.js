@@ -95,11 +95,13 @@ for (let key in schema.enums) {
 //generate senders
 for(let key in schema.messages) {
     let msg = schema.messages[key]
-    file += write_line(0, `class ${msg.name}_from_${msg.source}_to_${msg.target}:`)
+    file += write_line(0, `class ${msg.name}_from_${msg.sender}_to_${msg.receiver}:`)
     file += write_line(1, `def __init__(self):`)
-    file += write_line(2, `self._source = units.${msg.source}`)
-    file += write_line(2, `self._target = units.${msg.target}`)
+    file += write_line(2, `self._sender = nodes.${msg.sender}`)
+    file += write_line(2, `self._receiver = nodes.${msg.receiver}`)
     file += write_line(2, `self._message = messages.${msg.name}`)
+    file += write_line(2, `self._category = categories.${msg.category}`)
+    
     file += write_line(2, `self._id = ${msg.id}`)
     file += write_line(2, `self._size = ${msg.totalSize}`)
     //create fields
@@ -110,16 +112,18 @@ for(let key in schema.messages) {
         file += write_line(2, `self._${field.name} = 0`)
     }
     //create known getters
-    file += write_line(1, "def get_source(self):")
-    file += write_line(2, "return self._source")
-    file += write_line(1, "def get_target(self):")
-    file += write_line(2, "return self._target")
+    file += write_line(1, "def get_sender(self):")
+    file += write_line(2, "return self._sender")
+    file += write_line(1, "def get_receiver(self):")
+    file += write_line(2, "return self._receiver")
     file += write_line(1, "def get_message(self):")
     file += write_line(2, "return self._message")
     file += write_line(1, "def get_id(self):")
     file += write_line(2, "return self._id")
     file += write_line(1, "def get_size(self):")
     file += write_line(2, "return self._size")
+    file += write_line(1, "def get_category(self):")
+    file += write_line(2, "return self._category")
 
     //create setters for bits
     if (msg.bitField) {
@@ -214,7 +218,7 @@ file += write_line(0, "def id_to_receiver(id):")
 for(let key in schema.messages) {
     let message = schema.messages[key]
     file += write_line(1, `if id == ${message.id}:`)
-    file += write_line(2, `receiver = ${message.name}_from_${message.source}_to_${message.target}()`)
+    file += write_line(2, `receiver = ${message.name}_from_${message.sender}_to_${message.receiver}()`)
     file += write_line(2, `return receiver`)
 }
 

@@ -33,8 +33,8 @@ s.setName("fc")
 
 s.addMsg({
     id: 0xFF,
-    source: "local",
-    target: "local",
+    sender: "local",
+    receiver: "local",
     name: "local_timestamp",
     fields: {
         timestamp: s.uint(4)
@@ -43,8 +43,8 @@ s.addMsg({
 //############# REMOVE THESE
 s.addMsg({
     id: 64,
-    source: "test",
-    target: "test",
+    sender: "test",
+    receiver: "test",
     name: "ms_since_boot",
     fields: {
         ms_since_boot: s.uint(4)
@@ -53,8 +53,8 @@ s.addMsg({
 
 s.addMsg({
     id: test++,
-    source: "test",
-    target: "test",
+    sender: "test",
+    receiver: "test",
     name: "altitude",
     fields: {
         altitude: s.uint(2),
@@ -63,8 +63,8 @@ s.addMsg({
 
 s.addMsg({
     id: test++,
-    source: "test",
-    target: "test",
+    sender: "test",
+    receiver: "test",
     name: "acceleration",
     fields: {
         altitude: s.uint(1),
@@ -73,8 +73,8 @@ s.addMsg({
 
 s.addMsg({
     id: test++,
-    source: "test",
-    target: "test",
+    sender: "test",
+    receiver: "test",
     name: "pressure",
     fields: {
         altitude: s.uint(2),
@@ -83,8 +83,8 @@ s.addMsg({
 
 s.addMsg({
     id: test++,
-    source: "test",
-    target: "test",
+    sender: "test",
+    receiver: "test",
     name: "catastrophe",
     bitField: [
         "catastrophe"
@@ -93,8 +93,8 @@ s.addMsg({
 
 s.addMsg({
     id: test++,
-    source: "test",
-    target: "test",
+    sender: "test",
+    receiver: "test",
     name: "gyro",
     fields: {
         x: s.uint(1),
@@ -109,8 +109,8 @@ s.addMsg({
 
 s.addMsg({
     id: gs_to_fc++,
-    source: gs,
-    target: fc_tc,
+    sender: gs,
+    receiver: fc_tc,
     name: "time_sync",
     fields: {
         system_time: s.uint(4),
@@ -119,15 +119,15 @@ s.addMsg({
 
 s.addMsg({
     id: gs_to_fc++,
-    source: gs,
-    target: fc_tc,
+    sender: gs,
+    receiver: fc_tc,
     name: "set_power_mode",
 })
 
 s.addMsg({
     id: gs_to_fc++,
-    source: gs,
-    target: fc_tc,
+    sender: gs,
+    receiver: fc_tc,
     name: "set_radio_equipment",
     bitField: [
         "is_fpv_en",
@@ -137,8 +137,8 @@ s.addMsg({
 
 s.addMsg({
     id: gs_to_fc++,
-    source: gs,
-    target: fc_tc,
+    sender: gs,
+    receiver: fc_tc,
     name: "set_parachute_output",
     bitField: [
         "is_parachute_armed",
@@ -149,8 +149,8 @@ s.addMsg({
 
 s.addMsg({
     id: gs_to_fc++,
-    source: gs,
-    target: fc_tc,
+    sender: gs,
+    receiver: fc_tc,
     name: "set_data_logging",
     bitField: [
         "is_logging_en",
@@ -160,8 +160,8 @@ s.addMsg({
 
 s.addMsg({
     id: gs_to_fc++,
-    source: gs,
-    target: fc_tc,
+    sender: gs,
+    receiver: fc_tc,
     name: "dump_flash",
     bitField: [
         "dump_sd",
@@ -171,8 +171,8 @@ s.addMsg({
 
 s.addMsg({
     id: gs_to_fc++,
-    source: gs,
-    target: fc_tc,
+    sender: gs,
+    receiver: fc_tc,
     name: "handshake"
 })
 
@@ -181,22 +181,22 @@ s.addMsg({
 ////////////////////responses
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "return_time_sync",
 })
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "return_power_mode",
 })
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "return_radio_equipment",
     bitField: [
         'is_fpv_en',
@@ -206,8 +206,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "return_parachute_output",
     bitField: [
         "is_parachute_armed",
@@ -218,8 +218,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "onboard_battery_voltage",
     fields: {
         battery_1: s.scaledFloat(2, 100, false),
@@ -229,8 +229,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "gnss_data",
     fields: {
         gnss_time: s.uint(4),
@@ -243,8 +243,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "flight_controller_status",
     fields: {
         HW_state: s.uint(1),
@@ -255,8 +255,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "return_data_logging",
     bitField: [
         "is_logging_en"
@@ -265,8 +265,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "return_dump_flash",
     bitField: [
         "dump_sd",
@@ -276,16 +276,16 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs++,
-    source: fc,
-    target: gs_tc,
+    sender: fc,
+    receiver: gs_tc,
     name: "return_handshake",
 })
 
 ///////////////////////////////fc telemetry
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "ms_since_boot",
     fields : {
         ms_since_boot: s.uint(2)
@@ -293,8 +293,8 @@ s.addMsg({
 })
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "us_since_boot",
     fields: {
         us_since_boot: s.uint(4)
@@ -303,8 +303,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "current_time",
     fields: {
         current_time: s.uint(4)
@@ -312,8 +312,8 @@ s.addMsg({
 })
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "GNSS_data_1",
     fields: {
         gnss_time: s.uint(4),
@@ -328,8 +328,8 @@ s.addEnum("fix_status", [
 ])
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "GNSS_data_2",
     fields: {
         altitude: s.scaledFloat(4, 10, true),
@@ -343,8 +343,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "inside_static_temperature",
     fields: {
         temperature_1: s.scaledFloat(4, 100, true),
@@ -354,8 +354,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "inside_static_pressure",
     fields: {
         pressure_1: s.scaledFloat(4, 100, true),
@@ -365,8 +365,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "IMU1",
     fields: {
         accel_x: s.uint(2),
@@ -383,8 +383,8 @@ s.addMsg({
 
 s.addMsg({
     id: fc_to_gs_tm++,
-    source: fc,
-    target: gs_tm,
+    sender: fc,
+    receiver: gs_tm,
     name: "IMU2",
     fields: {
         accel_x: s.uint(2),

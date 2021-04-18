@@ -94,7 +94,7 @@ for (let key in schema.messages) {
     let msg = schema.messages[key]
     //class definition
     h_file +=
-    `class ${msg.name}_from_${msg.source}_to_${msg.target} {\n` +
+    `class ${msg.name}_from_${msg.sender}_to_${msg.receiver} {\n` +
     `public:\n`
     //create fields
     for (let field of msg.fields) {
@@ -130,11 +130,11 @@ for (let key in schema.messages) {
     h_file +=
     `uint8_t size = ${msg.totalSize};\n` +
     `enum messages message = messages::${msg.name};\n` +
-    `enum units source = units::${msg.source};\n` +
-    `enum units target = units::${msg.target};\n` +
+    `enum nodes sender = nodes::${msg.sender};\n` +
+    `enum nodes receiver = nodes::${msg.receiver};\n` +
     `uint8_t get_size() {return size;}\n` +
-    `enum units get_source() {return source;}\n` +
-    `enum units get_target() {return target;}\n` +
+    `enum nodes get_sender() {return sender;}\n` +
+    `enum nodes get_receiver() {return receiver;}\n` +
     `${schema.config.idNativeType}_t id = ${msg.id};\n` +
     `${schema.config.idNativeType}_t get_id() {return id;}\n`
     for (let field of msg.fields) {
@@ -244,8 +244,8 @@ for (let key in schema.messages) {
 for (let key in schema.messages) {
     let msg = schema.messages[key]
     cpp_file += `__attribute__((weak))\n`
-    h_file += `void rx(${msg.name}_from_${msg.source}_to_${msg.target} msg);\n`
-    cpp_file += `void rx(${msg.name}_from_${msg.source}_to_${msg.target} msg){}\n`
+    h_file += `void rx(${msg.name}_from_${msg.sender}_to_${msg.receiver} msg);\n`
+    cpp_file += `void rx(${msg.name}_from_${msg.sender}_to_${msg.receiver} msg){}\n`
 }
 
 //generate parse function
@@ -256,7 +256,7 @@ cpp_file +=
 for (let key in schema.messages) {
     let msg = schema.messages[key]
     cpp_file += `    case ${msg.id}: {\n` +
-    `        ${msg.name}_from_${msg.source}_to_${msg.target} __message;\n` +
+    `        ${msg.name}_from_${msg.sender}_to_${msg.receiver} __message;\n` +
     `        __message.parse_buf(buf);\n` +
     `        rx(__message);\n` +
     `        break;}\n`
@@ -292,33 +292,45 @@ for (let key in schema.messages) {
 cpp_file += "default: return 0;"
 cpp_file += "}\n}\n\n"
 
-//generate source funtion
-h_file += `enum units id_to_source(${schema.config.idNativeType}_t id);`
+//generate sender funtion
+h_file += `enum nodes id_to_sender(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`enum units id_to_source(${schema.config.idNativeType}_t id){
+`enum nodes id_to_sender(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
     cpp_file += `    case ${msg.id}:\n` +
-    `        return units::${msg.source};\n` +
+    `        return nodes::${msg.sender};\n` +
     `        break;\n`
 }
 cpp_file += "}\n}\n\n"
 
 
-//generate target funtion
-h_file += `enum units id_to_target(${schema.config.idNativeType}_t id);`
+//generate receiver funtion
+h_file += `enum nodes id_to_receiver(${schema.config.idNativeType}_t id);`
 cpp_file += 
-`enum units id_to_target(${schema.config.idNativeType}_t id){
+`enum nodes id_to_receiver(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
     cpp_file += `    case ${msg.id}:\n` +
-    `        return units::${msg.target};\n` +
+    `        return nodes::${msg.receiver};\n` +
     `        break;\n`
 }
 cpp_file += "}\n}\n\n"
 
+//generate category funtion
+h_file += `enum categories id_to_category(${schema.config.idNativeType}_t id);`
+cpp_file += 
+`enum categories id_to_category(${schema.config.idNativeType}_t id){
+switch(id) {\n`
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    cpp_file += `    case ${msg.id}:\n` +
+    `        return categories::${msg.category};\n` +
+    `        break;\n`
+}
+cpp_file += "}\n}\n\n"
 
 h_file += `}` // close namespace
 cpp_file += `}` // close namespace

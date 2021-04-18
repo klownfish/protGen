@@ -3,8 +3,8 @@
         "name": "fc",
         "idNativeType": "uint8"
     },
-    "enums": {
-        "fix_status": {
+    "enums": [
+        {
             "name": "fix_status",
             "entries": {
                 "no_fix": 0,
@@ -13,115 +13,47 @@
             },
             "size": 1,
             "nativeType": "uint8"
-        },
-        "units": {
-            "name": "units",
-            "entries": {
-                "local": 0,
-                "test": 1,
-                "ground_station": 2,
-                "flight_controller": 3
-            },
-            "size": 1,
-            "nativeType": "uint8"
-        },
-        "fields": {
-            "name": "fields",
-            "entries": {
-                "timestamp": 0,
-                "ms_since_boot": 1,
-                "altitude": 2,
-                "catastrophe": 3,
-                "x": 4,
-                "y": 5,
-                "z": 6,
-                "system_time": 7,
-                "is_fpv_en": 8,
-                "is_tm_en": 9,
-                "is_parachute_armed": 10,
-                "is_parachute1_en": 11,
-                "is_parachute2_en": 12,
-                "is_logging_en": 13,
-                "dump_sd": 14,
-                "dump_usb": 15,
-                "battery_1": 16,
-                "battery_2": 17,
-                "gnss_time": 18,
-                "latitude": 19,
-                "longitude": 20,
-                "h_dop": 21,
-                "n_satellites": 22,
-                "HW_state": 23,
-                "SW_state": 24,
-                "mission_state": 25,
-                "us_since_boot": 26,
-                "current_time": 27,
-                "heading": 28,
-                "horiz_speed": 29,
-                "fix_status": 30,
-                "temperature_1": 31,
-                "temperature_2": 32,
-                "pressure_1": 33,
-                "pressure_2": 34,
-                "accel_x": 35,
-                "accel_y": 36,
-                "accel_z": 37,
-                "gyro_x": 38,
-                "gyro_y": 39,
-                "gyro_z": 40,
-                "magnet_x": 41,
-                "magnet_y": 42,
-                "magnet_z": 43
-            },
-            "size": 1,
-            "nativeType": "uint8"
-        },
-        "messages": {
-            "name": "messages",
-            "entries": {
-                "local_timestamp": 0,
-                "ms_since_boot": 1,
-                "altitude": 2,
-                "acceleration": 3,
-                "pressure": 4,
-                "catastrophe": 5,
-                "gyro": 6,
-                "time_sync": 7,
-                "set_power_mode": 8,
-                "set_radio_equipment": 9,
-                "set_parachute_output": 10,
-                "set_data_logging": 11,
-                "dump_flash": 12,
-                "handshake": 13,
-                "return_time_sync": 14,
-                "return_power_mode": 15,
-                "return_radio_equipment": 16,
-                "return_parachute_output": 17,
-                "onboard_battery_voltage": 18,
-                "gnss_data": 19,
-                "flight_controller_status": 20,
-                "return_data_logging": 21,
-                "return_dump_flash": 22,
-                "return_handshake": 23,
-                "us_since_boot": 24,
-                "current_time": 25,
-                "GNSS_data_1": 26,
-                "GNSS_data_2": 27,
-                "inside_static_temperature": 28,
-                "inside_static_pressure": 29,
-                "IMU1": 30,
-                "IMU2": 31
-            },
-            "size": 1,
-            "nativeType": "uint8"
         }
-    },
-    "messages": {
-        "0": {
-            "name": "altitude",
+    ],
+    "messages": [
+        {
+            "category": "none",
+            "id": 255,
+            "name": "local_timestamp",
+            "receiver": "local",
+            "sender": "local",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 4,
+                    "nativeType": "uint32",
+                    "name": "timestamp"
+                }
+            ],
+            "totalSize": 4
+        },
+        {
+            "category": "none",
+            "id": 64,
+            "name": "ms_since_boot",
+            "receiver": "test",
+            "sender": "test",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 4,
+                    "nativeType": "uint32",
+                    "name": "ms_since_boot"
+                }
+            ],
+            "totalSize": 4
+        },
+        {
+            "category": "none",
             "id": 0,
-            "target": "test",
-            "source": "test",
+            "name": "altitude",
+            "receiver": "test",
+            "sender": "test",
             "fields": [
                 {
                     "type": "uint",
@@ -132,11 +64,12 @@
             ],
             "totalSize": 2
         },
-        "1": {
-            "name": "acceleration",
+        {
+            "category": "none",
             "id": 1,
-            "target": "test",
-            "source": "test",
+            "name": "acceleration",
+            "receiver": "test",
+            "sender": "test",
             "fields": [
                 {
                     "type": "uint",
@@ -147,11 +80,12 @@
             ],
             "totalSize": 1
         },
-        "2": {
-            "name": "pressure",
+        {
+            "category": "none",
             "id": 2,
-            "target": "test",
-            "source": "test",
+            "name": "pressure",
+            "receiver": "test",
+            "sender": "test",
             "fields": [
                 {
                     "type": "uint",
@@ -162,11 +96,12 @@
             ],
             "totalSize": 2
         },
-        "3": {
-            "name": "catastrophe",
+        {
+            "category": "none",
             "id": 3,
-            "target": "test",
-            "source": "test",
+            "name": "catastrophe",
+            "receiver": "test",
+            "sender": "test",
             "fields": [],
             "bitField": [
                 "catastrophe"
@@ -175,11 +110,12 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "4": {
-            "name": "gyro",
+        {
+            "category": "none",
             "id": 4,
-            "target": "test",
-            "source": "test",
+            "name": "gyro",
+            "receiver": "test",
+            "sender": "test",
             "fields": [
                 {
                     "type": "uint",
@@ -202,11 +138,12 @@
             ],
             "totalSize": 3
         },
-        "16": {
-            "name": "time_sync",
+        {
+            "category": "none",
             "id": 16,
-            "target": "flight_controller",
-            "source": "ground_station",
+            "name": "time_sync",
+            "receiver": "flight_controller",
+            "sender": "ground_station",
             "fields": [
                 {
                     "type": "uint",
@@ -217,19 +154,21 @@
             ],
             "totalSize": 4
         },
-        "17": {
-            "name": "set_power_mode",
+        {
+            "category": "none",
             "id": 17,
-            "target": "flight_controller",
-            "source": "ground_station",
+            "name": "set_power_mode",
+            "receiver": "flight_controller",
+            "sender": "ground_station",
             "fields": [],
             "totalSize": 0
         },
-        "18": {
-            "name": "set_radio_equipment",
+        {
+            "category": "none",
             "id": 18,
-            "target": "flight_controller",
-            "source": "ground_station",
+            "name": "set_radio_equipment",
+            "receiver": "flight_controller",
+            "sender": "ground_station",
             "fields": [],
             "bitField": [
                 "is_fpv_en",
@@ -239,11 +178,12 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "19": {
-            "name": "set_parachute_output",
+        {
+            "category": "none",
             "id": 19,
-            "target": "flight_controller",
-            "source": "ground_station",
+            "name": "set_parachute_output",
+            "receiver": "flight_controller",
+            "sender": "ground_station",
             "fields": [],
             "bitField": [
                 "is_parachute_armed",
@@ -254,11 +194,12 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "20": {
-            "name": "set_data_logging",
+        {
+            "category": "none",
             "id": 20,
-            "target": "flight_controller",
-            "source": "ground_station",
+            "name": "set_data_logging",
+            "receiver": "flight_controller",
+            "sender": "ground_station",
             "fields": [],
             "bitField": [
                 "is_logging_en"
@@ -267,11 +208,12 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "21": {
-            "name": "dump_flash",
+        {
+            "category": "none",
             "id": 21,
-            "target": "flight_controller",
-            "source": "ground_station",
+            "name": "dump_flash",
+            "receiver": "flight_controller",
+            "sender": "ground_station",
             "fields": [],
             "bitField": [
                 "dump_sd",
@@ -281,35 +223,39 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "22": {
-            "name": "handshake",
+        {
+            "category": "none",
             "id": 22,
-            "target": "flight_controller",
-            "source": "ground_station",
+            "name": "handshake",
+            "receiver": "flight_controller",
+            "sender": "ground_station",
             "fields": [],
             "totalSize": 0
         },
-        "32": {
-            "name": "return_time_sync",
+        {
+            "category": "none",
             "id": 32,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "return_time_sync",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [],
             "totalSize": 0
         },
-        "33": {
-            "name": "return_power_mode",
+        {
+            "category": "none",
             "id": 33,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "return_power_mode",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [],
             "totalSize": 0
         },
-        "34": {
-            "name": "return_radio_equipment",
+        {
+            "category": "none",
             "id": 34,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "return_radio_equipment",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [],
             "bitField": [
                 "is_fpv_en",
@@ -319,11 +265,12 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "35": {
-            "name": "return_parachute_output",
+        {
+            "category": "none",
             "id": 35,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "return_parachute_output",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [],
             "bitField": [
                 "is_parachute_armed",
@@ -334,11 +281,12 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "36": {
-            "name": "onboard_battery_voltage",
+        {
+            "category": "none",
             "id": 36,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "onboard_battery_voltage",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "scaledFloat",
@@ -357,11 +305,12 @@
             ],
             "totalSize": 4
         },
-        "37": {
-            "name": "gnss_data",
+        {
+            "category": "none",
             "id": 37,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "gnss_data",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "uint",
@@ -397,11 +346,12 @@
             ],
             "totalSize": 15
         },
-        "38": {
-            "name": "flight_controller_status",
+        {
+            "category": "none",
             "id": 38,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "flight_controller_status",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "uint",
@@ -424,11 +374,12 @@
             ],
             "totalSize": 3
         },
-        "39": {
-            "name": "return_data_logging",
+        {
+            "category": "none",
             "id": 39,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "return_data_logging",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [],
             "bitField": [
                 "is_logging_en"
@@ -437,11 +388,12 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "40": {
-            "name": "return_dump_flash",
+        {
+            "category": "none",
             "id": 40,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "return_dump_flash",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [],
             "bitField": [
                 "dump_sd",
@@ -451,64 +403,53 @@
             "bitFieldNativeType": "uint8",
             "totalSize": 1
         },
-        "41": {
-            "name": "return_handshake",
+        {
+            "category": "none",
             "id": 41,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "return_handshake",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [],
             "totalSize": 0
         },
-        "64": {
-            "name": "ms_since_boot",
-            "id": 64,
-            "target": "test",
-            "source": "test",
-            "fields": [
-                {
-                    "type": "uint",
-                    "size": 4,
-                    "nativeType": "uint32",
-                    "name": "ms_since_boot"
-                }
-            ],
-            "totalSize": 4
-        },
-        "80": {
-            "name": "ms_since_boot",
+        {
+            "category": "none",
             "id": 80,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "ms_since_boot",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 2,
+                    "nativeType": "uint16",
+                    "name": "ms_since_boot"
+                }
+            ],
+            "totalSize": 2
+        },
+        {
+            "category": "none",
+            "id": 81,
+            "name": "us_since_boot",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "uint",
                     "size": 4,
                     "nativeType": "uint32",
-                    "name": "ms_since_boot"
-                }
-            ],
-            "totalSize": 4
-        },
-        "81": {
-            "name": "us_since_boot",
-            "id": 81,
-            "target": "ground_station",
-            "source": "flight_controller",
-            "fields": [
-                {
-                    "type": "uint",
-                    "size": 8,
-                    "nativeType": "uint64",
                     "name": "us_since_boot"
                 }
             ],
-            "totalSize": 8
+            "totalSize": 4
         },
-        "82": {
-            "name": "current_time",
+        {
+            "category": "none",
             "id": 82,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "current_time",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "uint",
@@ -519,11 +460,12 @@
             ],
             "totalSize": 4
         },
-        "83": {
-            "name": "GNSS_data_1",
+        {
+            "category": "none",
             "id": 83,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "GNSS_data_1",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "uint",
@@ -546,11 +488,12 @@
             ],
             "totalSize": 12
         },
-        "84": {
-            "name": "GNSS_data_2",
+        {
+            "category": "none",
             "id": 84,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "GNSS_data_2",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "scaledFloat",
@@ -595,11 +538,12 @@
             ],
             "totalSize": 12
         },
-        "85": {
-            "name": "inside_static_temperature",
+        {
+            "category": "none",
             "id": 85,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "inside_static_temperature",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "scaledFloat",
@@ -618,11 +562,12 @@
             ],
             "totalSize": 8
         },
-        "86": {
-            "name": "inside_static_pressure",
+        {
+            "category": "none",
             "id": 86,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "inside_static_pressure",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "scaledFloat",
@@ -641,11 +586,12 @@
             ],
             "totalSize": 8
         },
-        "87": {
-            "name": "IMU1",
+        {
+            "category": "none",
             "id": 87,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "IMU1",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "uint",
@@ -704,11 +650,12 @@
             ],
             "totalSize": 18
         },
-        "88": {
-            "name": "IMU2",
+        {
+            "category": "none",
             "id": 88,
-            "target": "ground_station",
-            "source": "flight_controller",
+            "name": "IMU2",
+            "receiver": "ground_station",
+            "sender": "flight_controller",
             "fields": [
                 {
                     "type": "uint",
@@ -766,21 +713,6 @@
                 }
             ],
             "totalSize": 18
-        },
-        "255": {
-            "name": "local_timestamp",
-            "id": 255,
-            "target": "local",
-            "source": "local",
-            "fields": [
-                {
-                    "type": "uint",
-                    "size": 4,
-                    "nativeType": "uint32",
-                    "name": "timestamp"
-                }
-            ],
-            "totalSize": 4
         }
-    }
+    ]
 }

@@ -15,7 +15,7 @@ enum struct fix_status : uint8_t {
   fix_2D = 1,
   fix_3D = 2,
 };
-enum struct units : uint8_t {
+enum struct nodes : uint8_t {
   local = 0,
   test = 1,
   ground_station = 2,
@@ -101,6 +101,9 @@ enum struct messages : uint8_t {
   IMU1 = 30,
   IMU2 = 31,
 };
+enum struct categories : uint8_t {
+  none = 0,
+};
 template <typename T>
 void scaledFloat_to_uint(fc_FLOAT_DEF value, fc_FLOAT_DEF scale, T *out) {
   *out = value * scale;
@@ -143,17 +146,69 @@ void uint_to_packedFloat(T value, fc_FLOAT_DEF minValue, fc_FLOAT_DEF maxValue,
   *out = ratio * (maxValue - minValue) + minValue;
 }
 
+class local_timestamp_from_local_to_local {
+public:
+  uint32_t timestamp;
+  static_assert((sizeof(timestamp) == 4), "invalid size");
+  uint8_t size = 4;
+  enum messages message = messages::local_timestamp;
+  enum nodes sender = nodes::local;
+  enum nodes receiver = nodes::local;
+  uint8_t get_size() { return size; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
+  uint8_t id = 255;
+  uint8_t get_id() { return id; }
+  void set_timestamp(uint32_t value) { timestamp = value; }
+  uint32_t get_timestamp() { return timestamp; }
+  void build_buf(uint8_t *buf, uint8_t *index) {
+    memcpy(buf + *index, &timestamp, sizeof(timestamp));
+    *index += sizeof(timestamp);
+  }
+  void parse_buf(uint8_t *buf) {
+    uint8_t index = 0;
+    memcpy(&timestamp, buf + index, sizeof(timestamp));
+    index += sizeof(timestamp);
+  }
+};
+
+class ms_since_boot_from_test_to_test {
+public:
+  uint32_t ms_since_boot;
+  static_assert((sizeof(ms_since_boot) == 4), "invalid size");
+  uint8_t size = 4;
+  enum messages message = messages::ms_since_boot;
+  enum nodes sender = nodes::test;
+  enum nodes receiver = nodes::test;
+  uint8_t get_size() { return size; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
+  uint8_t id = 64;
+  uint8_t get_id() { return id; }
+  void set_ms_since_boot(uint32_t value) { ms_since_boot = value; }
+  uint32_t get_ms_since_boot() { return ms_since_boot; }
+  void build_buf(uint8_t *buf, uint8_t *index) {
+    memcpy(buf + *index, &ms_since_boot, sizeof(ms_since_boot));
+    *index += sizeof(ms_since_boot);
+  }
+  void parse_buf(uint8_t *buf) {
+    uint8_t index = 0;
+    memcpy(&ms_since_boot, buf + index, sizeof(ms_since_boot));
+    index += sizeof(ms_since_boot);
+  }
+};
+
 class altitude_from_test_to_test {
 public:
   uint16_t altitude;
   static_assert((sizeof(altitude) == 2), "invalid size");
   uint8_t size = 2;
   enum messages message = messages::altitude;
-  enum units source = units::test;
-  enum units target = units::test;
+  enum nodes sender = nodes::test;
+  enum nodes receiver = nodes::test;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 0;
   uint8_t get_id() { return id; }
   void set_altitude(uint16_t value) { altitude = value; }
@@ -175,11 +230,11 @@ public:
   static_assert((sizeof(altitude) == 1), "invalid size");
   uint8_t size = 1;
   enum messages message = messages::acceleration;
-  enum units source = units::test;
-  enum units target = units::test;
+  enum nodes sender = nodes::test;
+  enum nodes receiver = nodes::test;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 1;
   uint8_t get_id() { return id; }
   void set_altitude(uint8_t value) { altitude = value; }
@@ -201,11 +256,11 @@ public:
   static_assert((sizeof(altitude) == 2), "invalid size");
   uint8_t size = 2;
   enum messages message = messages::pressure;
-  enum units source = units::test;
-  enum units target = units::test;
+  enum nodes sender = nodes::test;
+  enum nodes receiver = nodes::test;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 2;
   uint8_t get_id() { return id; }
   void set_altitude(uint16_t value) { altitude = value; }
@@ -232,11 +287,11 @@ public:
   bool get_catastrophe() { return bit_field & (1 << 0); }
   uint8_t size = 1;
   enum messages message = messages::catastrophe;
-  enum units source = units::test;
-  enum units target = units::test;
+  enum nodes sender = nodes::test;
+  enum nodes receiver = nodes::test;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 3;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -260,11 +315,11 @@ public:
   static_assert((sizeof(z) == 1), "invalid size");
   uint8_t size = 3;
   enum messages message = messages::gyro;
-  enum units source = units::test;
-  enum units target = units::test;
+  enum nodes sender = nodes::test;
+  enum nodes receiver = nodes::test;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 4;
   uint8_t get_id() { return id; }
   void set_x(uint8_t value) { x = value; }
@@ -298,11 +353,11 @@ public:
   static_assert((sizeof(system_time) == 4), "invalid size");
   uint8_t size = 4;
   enum messages message = messages::time_sync;
-  enum units source = units::ground_station;
-  enum units target = units::flight_controller;
+  enum nodes sender = nodes::ground_station;
+  enum nodes receiver = nodes::flight_controller;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 16;
   uint8_t get_id() { return id; }
   void set_system_time(uint32_t value) { system_time = value; }
@@ -322,11 +377,11 @@ class set_power_mode_from_ground_station_to_flight_controller {
 public:
   uint8_t size = 0;
   enum messages message = messages::set_power_mode;
-  enum units source = units::ground_station;
-  enum units target = units::flight_controller;
+  enum nodes sender = nodes::ground_station;
+  enum nodes receiver = nodes::flight_controller;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 17;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {}
@@ -349,11 +404,11 @@ public:
   bool get_is_tm_en() { return bit_field & (1 << 1); }
   uint8_t size = 1;
   enum messages message = messages::set_radio_equipment;
-  enum units source = units::ground_station;
-  enum units target = units::flight_controller;
+  enum nodes sender = nodes::ground_station;
+  enum nodes receiver = nodes::flight_controller;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 18;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -388,11 +443,11 @@ public:
   bool get_is_parachute2_en() { return bit_field & (1 << 2); }
   uint8_t size = 1;
   enum messages message = messages::set_parachute_output;
-  enum units source = units::ground_station;
-  enum units target = units::flight_controller;
+  enum nodes sender = nodes::ground_station;
+  enum nodes receiver = nodes::flight_controller;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 19;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -417,11 +472,11 @@ public:
   bool get_is_logging_en() { return bit_field & (1 << 0); }
   uint8_t size = 1;
   enum messages message = messages::set_data_logging;
-  enum units source = units::ground_station;
-  enum units target = units::flight_controller;
+  enum nodes sender = nodes::ground_station;
+  enum nodes receiver = nodes::flight_controller;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 20;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -451,11 +506,11 @@ public:
   bool get_dump_usb() { return bit_field & (1 << 1); }
   uint8_t size = 1;
   enum messages message = messages::dump_flash;
-  enum units source = units::ground_station;
-  enum units target = units::flight_controller;
+  enum nodes sender = nodes::ground_station;
+  enum nodes receiver = nodes::flight_controller;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 21;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -473,11 +528,11 @@ class handshake_from_ground_station_to_flight_controller {
 public:
   uint8_t size = 0;
   enum messages message = messages::handshake;
-  enum units source = units::ground_station;
-  enum units target = units::flight_controller;
+  enum nodes sender = nodes::ground_station;
+  enum nodes receiver = nodes::flight_controller;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 22;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {}
@@ -488,11 +543,11 @@ class return_time_sync_from_flight_controller_to_ground_station {
 public:
   uint8_t size = 0;
   enum messages message = messages::return_time_sync;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 32;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {}
@@ -503,11 +558,11 @@ class return_power_mode_from_flight_controller_to_ground_station {
 public:
   uint8_t size = 0;
   enum messages message = messages::return_power_mode;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 33;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {}
@@ -530,11 +585,11 @@ public:
   bool get_is_tm_en() { return bit_field & (1 << 1); }
   uint8_t size = 1;
   enum messages message = messages::return_radio_equipment;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 34;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -569,11 +624,11 @@ public:
   bool get_is_parachute2_en() { return bit_field & (1 << 2); }
   uint8_t size = 1;
   enum messages message = messages::return_parachute_output;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 35;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -595,11 +650,11 @@ public:
   static_assert((sizeof(battery_2) == 2), "invalid size");
   uint8_t size = 4;
   enum messages message = messages::onboard_battery_voltage;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 36;
   uint8_t get_id() { return id; }
   void set_battery_1(fc_FLOAT_DEF value) {
@@ -647,11 +702,11 @@ public:
   static_assert((sizeof(n_satellites) == 1), "invalid size");
   uint8_t size = 15;
   enum messages message = messages::gnss_data;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 37;
   uint8_t get_id() { return id; }
   void set_gnss_time(uint32_t value) { gnss_time = value; }
@@ -707,11 +762,11 @@ public:
   static_assert((sizeof(mission_state) == 1), "invalid size");
   uint8_t size = 3;
   enum messages message = messages::flight_controller_status;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 38;
   uint8_t get_id() { return id; }
   void set_HW_state(uint8_t value) { HW_state = value; }
@@ -750,11 +805,11 @@ public:
   bool get_is_logging_en() { return bit_field & (1 << 0); }
   uint8_t size = 1;
   enum messages message = messages::return_data_logging;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 39;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -784,11 +839,11 @@ public:
   bool get_dump_usb() { return bit_field & (1 << 1); }
   uint8_t size = 1;
   enum messages message = messages::return_dump_flash;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 40;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {
@@ -806,58 +861,32 @@ class return_handshake_from_flight_controller_to_ground_station {
 public:
   uint8_t size = 0;
   enum messages message = messages::return_handshake;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 41;
   uint8_t get_id() { return id; }
   void build_buf(uint8_t *buf, uint8_t *index) {}
   void parse_buf(uint8_t *buf) {}
 };
 
-class ms_since_boot_from_test_to_test {
-public:
-  uint32_t ms_since_boot;
-  static_assert((sizeof(ms_since_boot) == 4), "invalid size");
-  uint8_t size = 4;
-  enum messages message = messages::ms_since_boot;
-  enum units source = units::test;
-  enum units target = units::test;
-  uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
-  uint8_t id = 64;
-  uint8_t get_id() { return id; }
-  void set_ms_since_boot(uint32_t value) { ms_since_boot = value; }
-  uint32_t get_ms_since_boot() { return ms_since_boot; }
-  void build_buf(uint8_t *buf, uint8_t *index) {
-    memcpy(buf + *index, &ms_since_boot, sizeof(ms_since_boot));
-    *index += sizeof(ms_since_boot);
-  }
-  void parse_buf(uint8_t *buf) {
-    uint8_t index = 0;
-    memcpy(&ms_since_boot, buf + index, sizeof(ms_since_boot));
-    index += sizeof(ms_since_boot);
-  }
-};
-
 class ms_since_boot_from_flight_controller_to_ground_station {
 public:
-  uint32_t ms_since_boot;
-  static_assert((sizeof(ms_since_boot) == 4), "invalid size");
-  uint8_t size = 4;
+  uint16_t ms_since_boot;
+  static_assert((sizeof(ms_since_boot) == 2), "invalid size");
+  uint8_t size = 2;
   enum messages message = messages::ms_since_boot;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 80;
   uint8_t get_id() { return id; }
-  void set_ms_since_boot(uint32_t value) { ms_since_boot = value; }
-  uint32_t get_ms_since_boot() { return ms_since_boot; }
+  void set_ms_since_boot(uint16_t value) { ms_since_boot = value; }
+  uint16_t get_ms_since_boot() { return ms_since_boot; }
   void build_buf(uint8_t *buf, uint8_t *index) {
     memcpy(buf + *index, &ms_since_boot, sizeof(ms_since_boot));
     *index += sizeof(ms_since_boot);
@@ -871,19 +900,19 @@ public:
 
 class us_since_boot_from_flight_controller_to_ground_station {
 public:
-  uint64_t us_since_boot;
-  static_assert((sizeof(us_since_boot) == 8), "invalid size");
-  uint8_t size = 8;
+  uint32_t us_since_boot;
+  static_assert((sizeof(us_since_boot) == 4), "invalid size");
+  uint8_t size = 4;
   enum messages message = messages::us_since_boot;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 81;
   uint8_t get_id() { return id; }
-  void set_us_since_boot(uint64_t value) { us_since_boot = value; }
-  uint64_t get_us_since_boot() { return us_since_boot; }
+  void set_us_since_boot(uint32_t value) { us_since_boot = value; }
+  uint32_t get_us_since_boot() { return us_since_boot; }
   void build_buf(uint8_t *buf, uint8_t *index) {
     memcpy(buf + *index, &us_since_boot, sizeof(us_since_boot));
     *index += sizeof(us_since_boot);
@@ -901,11 +930,11 @@ public:
   static_assert((sizeof(current_time) == 4), "invalid size");
   uint8_t size = 4;
   enum messages message = messages::current_time;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 82;
   uint8_t get_id() { return id; }
   void set_current_time(uint32_t value) { current_time = value; }
@@ -931,11 +960,11 @@ public:
   static_assert((sizeof(longitude) == 4), "invalid size");
   uint8_t size = 12;
   enum messages message = messages::GNSS_data_1;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 83;
   uint8_t get_id() { return id; }
   void set_gnss_time(uint32_t value) { gnss_time = value; }
@@ -979,11 +1008,11 @@ public:
   static_assert((sizeof(h_dop) == 2), "invalid size");
   uint8_t size = 12;
   enum messages message = messages::GNSS_data_2;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 84;
   uint8_t get_id() { return id; }
   void set_altitude(fc_FLOAT_DEF value) {
@@ -1053,11 +1082,11 @@ public:
   static_assert((sizeof(temperature_2) == 4), "invalid size");
   uint8_t size = 8;
   enum messages message = messages::inside_static_temperature;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 85;
   uint8_t get_id() { return id; }
   void set_temperature_1(fc_FLOAT_DEF value) {
@@ -1099,11 +1128,11 @@ public:
   static_assert((sizeof(pressure_2) == 4), "invalid size");
   uint8_t size = 8;
   enum messages message = messages::inside_static_pressure;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 86;
   uint8_t get_id() { return id; }
   void set_pressure_1(fc_FLOAT_DEF value) {
@@ -1159,11 +1188,11 @@ public:
   static_assert((sizeof(magnet_z) == 2), "invalid size");
   uint8_t size = 18;
   enum messages message = messages::IMU1;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 87;
   uint8_t get_id() { return id; }
   void set_accel_x(uint16_t value) { accel_x = value; }
@@ -1249,11 +1278,11 @@ public:
   static_assert((sizeof(magnet_z) == 2), "invalid size");
   uint8_t size = 18;
   enum messages message = messages::IMU2;
-  enum units source = units::flight_controller;
-  enum units target = units::ground_station;
+  enum nodes sender = nodes::flight_controller;
+  enum nodes receiver = nodes::ground_station;
   uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
+  enum nodes get_sender() { return sender; }
+  enum nodes get_receiver() { return receiver; }
   uint8_t id = 88;
   uint8_t get_id() { return id; }
   void set_accel_x(uint16_t value) { accel_x = value; }
@@ -1317,32 +1346,8 @@ public:
   }
 };
 
-class local_timestamp_from_local_to_local {
-public:
-  uint32_t timestamp;
-  static_assert((sizeof(timestamp) == 4), "invalid size");
-  uint8_t size = 4;
-  enum messages message = messages::local_timestamp;
-  enum units source = units::local;
-  enum units target = units::local;
-  uint8_t get_size() { return size; }
-  enum units get_source() { return source; }
-  enum units get_target() { return target; }
-  uint8_t id = 255;
-  uint8_t get_id() { return id; }
-  void set_timestamp(uint32_t value) { timestamp = value; }
-  uint32_t get_timestamp() { return timestamp; }
-  void build_buf(uint8_t *buf, uint8_t *index) {
-    memcpy(buf + *index, &timestamp, sizeof(timestamp));
-    *index += sizeof(timestamp);
-  }
-  void parse_buf(uint8_t *buf) {
-    uint8_t index = 0;
-    memcpy(&timestamp, buf + index, sizeof(timestamp));
-    index += sizeof(timestamp);
-  }
-};
-
+void rx(local_timestamp_from_local_to_local msg);
+void rx(ms_since_boot_from_test_to_test msg);
 void rx(altitude_from_test_to_test msg);
 void rx(acceleration_from_test_to_test msg);
 void rx(pressure_from_test_to_test msg);
@@ -1365,7 +1370,6 @@ void rx(flight_controller_status_from_flight_controller_to_ground_station msg);
 void rx(return_data_logging_from_flight_controller_to_ground_station msg);
 void rx(return_dump_flash_from_flight_controller_to_ground_station msg);
 void rx(return_handshake_from_flight_controller_to_ground_station msg);
-void rx(ms_since_boot_from_test_to_test msg);
 void rx(ms_since_boot_from_flight_controller_to_ground_station msg);
 void rx(us_since_boot_from_flight_controller_to_ground_station msg);
 void rx(current_time_from_flight_controller_to_ground_station msg);
@@ -1375,10 +1379,10 @@ void rx(inside_static_temperature_from_flight_controller_to_ground_station msg);
 void rx(inside_static_pressure_from_flight_controller_to_ground_station msg);
 void rx(IMU1_from_flight_controller_to_ground_station msg);
 void rx(IMU2_from_flight_controller_to_ground_station msg);
-void rx(local_timestamp_from_local_to_local msg);
 void parse_message(uint8_t id, uint8_t *buf);
 bool is_valid_id(uint8_t id);
 uint8_t id_to_len(uint8_t id);
-enum units id_to_source(uint8_t id);
-enum units id_to_target(uint8_t id);
+enum nodes id_to_sender(uint8_t id);
+enum nodes id_to_receiver(uint8_t id);
+enum categories id_to_category(uint8_t id);
 } // namespace fc

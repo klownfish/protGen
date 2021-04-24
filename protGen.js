@@ -9,7 +9,7 @@ class Schema {
         this.enums = {};
         this.messages = [];
 
-        this.currentId = 0;
+        this.currentId = -1;
         this.usedIds = []
 
         this.nodesEnum = []
@@ -166,14 +166,15 @@ class Schema {
     }
 
     getObject() {
-        let realEnums = []
-        for (let v in this.enums) {
-            realEnums.push(this.enums[v])
-        }
         this.addEnum("nodes", this.nodesEnum, true);
         this.addEnum("fields", this.fieldsEnum, true);
         this.addEnum("messages", this.messageNamesEnum, true);
         this.addEnum("categories", this.categoriesEnum, true);
+
+        let realEnums = []
+        for (let v in this.enums) {
+            realEnums.push(this.enums[v])
+        }
 
         let obj = {
             config: this.config,

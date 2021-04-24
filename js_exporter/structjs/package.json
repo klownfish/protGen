@@ -1,0 +1,45 @@
+{
+  "name": "@aksel/structjs",
+  "version": "2.0.0",
+  "description": "Python struct for javascript",
+  "main": "struct.mjs",
+  "type": "module",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheRealAksel/structjs.git"
+  },
+  "keywords": [
+    "python",
+    "javascript",
+    "struct",
+    "structure",
+    "pack",
+    "unpack",
+    "pack_into",
+    "unpack_from",
+    "calcsize",
+    "size",
+    "format"
+  ],
+  "author": "Aksel Jensen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheRealAksel/structjs/issues"
+  },
+  "homepage": "https://github.com/TheRealAksel/structjs#readme",
+  "eslintConfig": {
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "devDependencies": {
+    "mocha": "^7.1.2",
+    "should": "^13.2.3"
+  }
+}

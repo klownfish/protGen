@@ -162,6 +162,7 @@ for(let key in schema.messages) {
     }
     file += write_line(2, `return buf`)
 
+    //getters
     if (msg.bitField) {
         for (let index in msg.bitField) {
             file += write_line(1, `def get_${msg.bitField[index]}(self):`)
@@ -214,7 +215,7 @@ for(let key in schema.messages) {
     file += write_line(2, "return")
 }
 
-file += write_line(0, "def id_to_receiver(id):")
+file += write_line(0, "def id_to_message_class(id):")
 for(let key in schema.messages) {
     let message = schema.messages[key]
     file += write_line(1, `if id == ${message.id}:`)

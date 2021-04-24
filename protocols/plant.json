@@ -3,11 +3,57 @@
         "name": "prot",
         "idNativeType": "uint8"
     },
-    "enums": [],
+    "enums": [
+        {
+            "name": "nodes",
+            "entries": {
+                "web": 0,
+                "plant": 1
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        },
+        {
+            "name": "fields",
+            "entries": {
+                "SSID": 0,
+                "password": 1,
+                "plant_id": 2,
+                "lower_limit": 3,
+                "upper_limit": 4,
+                "humidity": 5
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        },
+        {
+            "name": "messages",
+            "entries": {
+                "wifi_config": 0,
+                "configure_plant": 1,
+                "get_active_plants": 2,
+                "get_humidity_measurement": 3,
+                "get_configuration": 4,
+                "active_plants": 5,
+                "humidity_measurement": 6,
+                "configuration": 7
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        },
+        {
+            "name": "categories",
+            "entries": {
+                "none": 0
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        }
+    ],
     "messages": [
         {
             "category": "none",
-            "id": 1,
+            "id": 0,
             "name": "wifi_config",
             "receiver": "plant",
             "sender": "web",
@@ -29,7 +75,7 @@
         },
         {
             "category": "none",
-            "id": 2,
+            "id": 1,
             "name": "configure_plant",
             "receiver": "plant",
             "sender": "web",
@@ -57,7 +103,7 @@
         },
         {
             "category": "none",
-            "id": 3,
+            "id": 2,
             "name": "get_active_plants",
             "receiver": "plant",
             "sender": "web",
@@ -66,7 +112,7 @@
         },
         {
             "category": "none",
-            "id": 4,
+            "id": 3,
             "name": "get_humidity_measurement",
             "receiver": "plant",
             "sender": "web",
@@ -82,7 +128,7 @@
         },
         {
             "category": "none",
-            "id": 5,
+            "id": 4,
             "name": "get_configuration",
             "receiver": "plant",
             "sender": "web",
@@ -98,7 +144,7 @@
         },
         {
             "category": "none",
-            "id": 6,
+            "id": 5,
             "name": "active_plants",
             "receiver": "web",
             "sender": "plant",
@@ -107,7 +153,7 @@
         },
         {
             "category": "none",
-            "id": 7,
+            "id": 6,
             "name": "humidity_measurement",
             "receiver": "web",
             "sender": "plant",
@@ -129,7 +175,7 @@
         },
         {
             "category": "none",
-            "id": 8,
+            "id": 7,
             "name": "configuration",
             "receiver": "web",
             "sender": "plant",

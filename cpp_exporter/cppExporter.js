@@ -58,7 +58,7 @@ void uint_to_scaledFloat(T value, ${float} scale, ${float}* out ) {
 }
 
 template <typename T>
-void packedFloat_to_uint(${float}* value, ${float} minValue, ${float} maxValue, T* out){
+void packedFloat_to_uint(${float} value, ${float} minValue, ${float} maxValue, T* out){
     T intMax = ~0;
     if(value < minValue) {
       *out = 0;
@@ -68,8 +68,8 @@ void packedFloat_to_uint(${float}* value, ${float} minValue, ${float} maxValue, 
       *out = intMax;
       return;
     }
-    ${float} ratio = (value - minValue) / (maxValue - minValue)
-    return 1 + ((intMax - 2)) * ratio
+    ${float} ratio = (value - minValue) / (maxValue - minValue);
+    *out = 1 + ((intMax - 2)) * ratio;
 }
   
 template <typename T>
@@ -243,6 +243,7 @@ for (let key in schema.messages) {
 //generate receiving functions
 for (let key in schema.messages) {
     let msg = schema.messages[key]
+    if (msg.duplicate) continue;
     cpp_file += `__attribute__((weak))\n`
     h_file += `void rx(${msg.name}_from_${msg.sender}_to_${msg.receiver} msg);\n`
     cpp_file += `void rx(${msg.name}_from_${msg.sender}_to_${msg.receiver} msg){}\n`
@@ -255,6 +256,7 @@ cpp_file +=
     switch(id) { \n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
+    if (msg.duplicate) continue;
     cpp_file += `    case ${msg.id}: {\n` +
     `        ${msg.name}_from_${msg.sender}_to_${msg.receiver} __message;\n` +
     `        __message.parse_buf(buf);\n` +
@@ -270,6 +272,7 @@ cpp_file +=
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
+    if (msg.duplicate) continue;
     cpp_file += `    case ${msg.id}:\n` +
     `        return true;\n` +
     `        break;\n`
@@ -285,6 +288,7 @@ cpp_file +=
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
+    if (msg.duplicate) continue;
     cpp_file += `    case ${msg.id}:\n` +
     `        return ${msg.totalSize};\n` +
     `        break;\n`
@@ -299,6 +303,7 @@ cpp_file +=
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
+    if (msg.duplicate) continue;
     cpp_file += `    case ${msg.id}:\n` +
     `        return nodes::${msg.sender};\n` +
     `        break;\n`
@@ -313,6 +318,7 @@ cpp_file +=
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
+    if (msg.duplicate) continue;
     cpp_file += `    case ${msg.id}:\n` +
     `        return nodes::${msg.receiver};\n` +
     `        break;\n`
@@ -326,6 +332,7 @@ cpp_file +=
 switch(id) {\n`
 for (let key in schema.messages) {
     let msg = schema.messages[key]
+    if (msg.duplicate) continue;
     cpp_file += `    case ${msg.id}:\n` +
     `        return categories::${msg.category};\n` +
     `        break;\n`

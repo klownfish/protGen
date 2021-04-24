@@ -29,6 +29,27 @@ def uint_to_packedFloat(value, minValue, maxValue, size):
     ratio = (value - 1) / (intMax - 2)
     return ratio * (maxValue - minValue) + minValue
 
+class nodes(Enum):
+    web = 0
+    plant = 1
+class fields(Enum):
+    SSID = 0
+    password = 1
+    plant_id = 2
+    lower_limit = 3
+    upper_limit = 4
+    humidity = 5
+class messages(Enum):
+    wifi_config = 0
+    configure_plant = 1
+    get_active_plants = 2
+    get_humidity_measurement = 3
+    get_configuration = 4
+    active_plants = 5
+    humidity_measurement = 6
+    configuration = 7
+class categories(Enum):
+    none = 0
 class wifi_config_from_web_to_plant:
     def __init__(self):
         self._sender = nodes.web
@@ -342,7 +363,7 @@ class configuration_from_plant_to_web:
     def parse_buf(self, buf):
         index = 0
         return
-def id_to_receiver(id):
+def id_to_message_class(id):
     if id == 1:
         receiver = wifi_config_from_web_to_plant()
         return receiver

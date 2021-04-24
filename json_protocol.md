@@ -133,8 +133,8 @@ and some other stuff to describe the following types
 ```
 {
     name: "foo",
-    type: "uint",
-    nativeType: "uint8",
+    type: "int",
+    nativeType: "int8",
     size: 1,
 }
 ```
@@ -178,5 +178,15 @@ A string. will always be sent as `size` bytes no matter what
     "type": "float",
     "nativeType": "float",
     "size": 4,
+}
+```
+
+#### id
+```
+{
+    name: "hej",
+    type: "id",
+    nativeType: "uint8",
+    size: 1,
 }
 ```

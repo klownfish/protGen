@@ -185,7 +185,7 @@ class wifi_config_from_web_to_plant {
         return data
     }
     parse_buf(buf) {
-        index = 0
+        let index = 0
         this._SSID = struct("<64s").unpack_from(buf, index)[0]
         index += 64
         this._password = struct("<64s").unpack_from(buf, index)[0]
@@ -200,7 +200,7 @@ class configure_plant_from_web_to_plant {
         this._message = messages.configure_plant
         this._category = categories.none
         this._id = 1
-        this._size = 17
+        this._size = 9
         this._plant_id = 0
         this._lower_limit = 0
         this._upper_limit = 0
@@ -221,14 +221,14 @@ class configure_plant_from_web_to_plant {
         this._upper_limit = value
     }
     build_buf() {
-        let buf = new ArrayBuffer(17)
+        let buf = new ArrayBuffer(9)
         let index = 0
         struct("<B").pack_into(buf, index, this._plant_id)
         index += 1
-        struct("<d").pack_into(buf, index, this._lower_limit)
-        index += 8
-        struct("<d").pack_into(buf, index, this._upper_limit)
-        index += 8
+        struct("<f").pack_into(buf, index, this._lower_limit)
+        index += 4
+        struct("<f").pack_into(buf, index, this._upper_limit)
+        index += 4
         return buf
     }
     get_plant_id() {
@@ -248,13 +248,13 @@ class configure_plant_from_web_to_plant {
         return data
     }
     parse_buf(buf) {
-        index = 0
+        let index = 0
         this._plant_id = struct("<B").unpack_from(buf, index)[0]
         index += 1
-        this._lower_limit = struct("<d").unpack_from(buf, index)[0]
-        index += 8
-        this._upper_limit = struct("<d").unpack_from(buf, index)[0]
-        index += 8
+        this._lower_limit = struct("<f").unpack_from(buf, index)[0]
+        index += 4
+        this._upper_limit = struct("<f").unpack_from(buf, index)[0]
+        index += 4
         return
     }
 }
@@ -283,7 +283,7 @@ class get_water_level_from_web_to_plant {
         return data
     }
     parse_buf(buf) {
-        index = 0
+        let index = 0
         return
     }
 }
@@ -322,7 +322,7 @@ class water_level_from_plant_to_web {
         return data
     }
     parse_buf(buf) {
-        index = 0
+        let index = 0
         this._water_level = struct("<f").unpack_from(buf, index)[0]
         index += 4
         return
@@ -363,7 +363,7 @@ class get_plant_info_from_web_to_plant {
         return data
     }
     parse_buf(buf) {
-        index = 0
+        let index = 0
         this._plant_id = struct("<B").unpack_from(buf, index)[0]
         index += 1
         return
@@ -444,7 +444,7 @@ class plant_info_from_plant_to_web {
         return data
     }
     parse_buf(buf) {
-        index = 0
+        let index = 0
         this._bit_field = struct("<B").unpack_from(buf, index)[0]
         index += 1
         this._plant_id = struct("<B").unpack_from(buf, index)[0]

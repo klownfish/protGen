@@ -87,19 +87,19 @@
                     "name": "plant_id"
                 },
                 {
-                    "type": "double",
-                    "size": 8,
-                    "nativeType": "double",
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
                     "name": "lower_limit"
                 },
                 {
-                    "type": "double",
-                    "size": 8,
-                    "nativeType": "double",
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
                     "name": "upper_limit"
                 }
             ],
-            "totalSize": 17
+            "totalSize": 9
         },
         {
             "category": "none",

@@ -206,7 +206,7 @@ for(let key in schema.messages) {
 
     //parse buf
     file += write_line(1, `parse_buf(buf) {`)
-    file += write_line(2, `index = 0`)
+    file += write_line(2, `let index = 0`)
     if (msg.bitField) {
         let bitType = structType[msg.bitFieldNativeType];
         file += write_line(2, `this._bit_field = struct("<${bitType}").unpack_from(buf, index)[0]`)

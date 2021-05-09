@@ -30,8 +30,8 @@ s.addMsg({
     receiver: "plant",
     fields: {
         plant_id: s.uint(1),
-        lower_limit: s.double(),
-        upper_limit: s.double()
+        lower_limit: s.float(),
+        upper_limit: s.float()
     }
 })
 

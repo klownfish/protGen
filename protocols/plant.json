@@ -21,7 +21,9 @@
                 "plant_id": 2,
                 "lower_limit": 3,
                 "upper_limit": 4,
-                "humidity": 5
+                "water_level": 5,
+                "humidity": 6,
+                "is_connected": 7
             },
             "size": 1,
             "nativeType": "uint8"
@@ -31,12 +33,10 @@
             "entries": {
                 "wifi_config": 0,
                 "configure_plant": 1,
-                "get_active_plants": 2,
-                "get_humidity_measurement": 3,
-                "get_configuration": 4,
-                "active_plants": 5,
-                "humidity_measurement": 6,
-                "configuration": 7
+                "get_water_level": 2,
+                "water_level": 3,
+                "get_plant_info": 4,
+                "plant_info": 5
             },
             "size": 1,
             "nativeType": "uint8"
@@ -104,7 +104,7 @@
         {
             "category": "none",
             "id": 2,
-            "name": "get_active_plants",
+            "name": "get_water_level",
             "receiver": "plant",
             "sender": "web",
             "fields": [],
@@ -113,23 +113,23 @@
         {
             "category": "none",
             "id": 3,
-            "name": "get_humidity_measurement",
-            "receiver": "plant",
-            "sender": "web",
+            "name": "water_level",
+            "receiver": "web",
+            "sender": "plant",
             "fields": [
                 {
-                    "type": "uint",
-                    "size": 1,
-                    "nativeType": "uint8",
-                    "name": "plant_id"
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "water_level"
                 }
             ],
-            "totalSize": 1
+            "totalSize": 4
         },
         {
             "category": "none",
             "id": 4,
-            "name": "get_configuration",
+            "name": "get_plant_info",
             "receiver": "plant",
             "sender": "web",
             "fields": [
@@ -145,16 +145,7 @@
         {
             "category": "none",
             "id": 5,
-            "name": "active_plants",
-            "receiver": "web",
-            "sender": "plant",
-            "fields": [],
-            "totalSize": 0
-        },
-        {
-            "category": "none",
-            "id": 6,
-            "name": "humidity_measurement",
+            "name": "plant_info",
             "receiver": "web",
             "sender": "plant",
             "fields": [
@@ -165,22 +156,30 @@
                     "name": "plant_id"
                 },
                 {
-                    "type": "double",
-                    "size": 8,
-                    "nativeType": "double",
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "lower_limit"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "upper_limit"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
                     "name": "humidity"
                 }
             ],
-            "totalSize": 9
-        },
-        {
-            "category": "none",
-            "id": 7,
-            "name": "configuration",
-            "receiver": "web",
-            "sender": "plant",
-            "fields": [],
-            "totalSize": 0
+            "bitField": [
+                "is_connected"
+            ],
+            "bitFieldSize": 1,
+            "bitFieldNativeType": "uint8",
+            "totalSize": 14
         }
     ]
 }

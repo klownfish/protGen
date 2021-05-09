@@ -240,13 +240,17 @@ for (let key in schema.messages) {
     h_file += "};\n\n\n"
 }
 
-//generate receiving functions
+//generate callback functions
 for (let key in schema.messages) {
     let msg = schema.messages[key]
     if (msg.duplicate) continue;
     cpp_file += `__attribute__((weak))\n`
     h_file += `void rx(${msg.name}_from_${msg.sender}_to_${msg.receiver} msg);\n`
     cpp_file += `void rx(${msg.name}_from_${msg.sender}_to_${msg.receiver} msg){}\n`
+
+    cpp_file += `__attribute__((weak))\n`
+    h_file += `void rx(${msg.name}_from_${msg.sender}_to_${msg.receiver} msg, void* misc);\n`
+    cpp_file += `void rx(${msg.name}_from_${msg.sender}_to_${msg.receiver} msg, void* misc){}\n`
 }
 
 //generate parse function
@@ -265,6 +269,24 @@ for (let key in schema.messages) {
 }
 cpp_file += "}\n"
 cpp_file += "}\n\n"
+
+//generate parse function with void pointer
+h_file += `void parse_message(${schema.config.idNativeType}_t id, uint8_t* buf, void* misc);`
+cpp_file +=
+`void parse_message(${schema.config.idNativeType}_t id, uint8_t* buf, void* misc) {
+    switch(id) { \n`
+for (let key in schema.messages) {
+    let msg = schema.messages[key]
+    if (msg.duplicate) continue;
+    cpp_file += `    case ${msg.id}: {\n` +
+    `        ${msg.name}_from_${msg.sender}_to_${msg.receiver} __message;\n` +
+    `        __message.parse_buf(buf);\n` +
+    `        rx(__message, misc);\n` +
+    `        break;}\n`
+}
+cpp_file += "}\n"
+cpp_file += "}\n\n"
+
 //generate is_valid_id function
 h_file += `bool is_valid_id(${schema.config.idNativeType}_t id);`
 cpp_file += 

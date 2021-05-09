@@ -50,7 +50,6 @@ let warning =
 ********************************/\n\n`
 let file = warning
 
-file += `import struct from "./structjs/struct.mjs";\n\n`
 //hand written functions to decode
 file +=
 `function scaledFloat_to_uint(value, scale) {
@@ -124,8 +123,9 @@ for(let key in schema.messages) {
     //create setters for bits
     if (msg.bitField) {
         for (let index in msg.bitField) {
-            file += write_line(1, `set_${msg.bitField[index]}(value)`)
-            file += write_line(2, `this._bit_field =  value * (this._bit_field | (1 << ${index})) + (not value) * (this._bit_field & ~(1 << ${index}))`)
+            file += write_line(1, `set_${msg.bitField[index]}(value) {`)
+            file += write_line(2, `this._bit_field =  value * (this._bit_field | (1 << ${index})) + (!value) * (this._bit_field & ~(1 << ${index}))`)
+            file += write_line(1, "}")
         }
     }
     //create setter for byte fields
@@ -149,8 +149,8 @@ for(let key in schema.messages) {
 
     //generate buf
     file += write_line(1, `build_buf() {`)
-    file += write_line(3, `let buf = new ArrayBuffer(${msg.totalSize})`)
-    file += write_line(3, `let index = 0`)
+    file += write_line(2, `let buf = new ArrayBuffer(${msg.totalSize})`)
+    file += write_line(2, `let index = 0`)
     if (msg.bitField) {
         let bitType = structType[msg.bitFieldNativeType];
         file += write_line(2, `struct("<${bitType}").pack_into(buf, index, this._bit_field)`)
@@ -158,7 +158,7 @@ for(let key in schema.messages) {
     }
     for (let field of msg.fields) {
         let type = field_to_struct(field)
-        file += write_line(2, `tmp += struct("<${type}").pack_into(buf, index, this._${field.name})`)
+        file += write_line(2, `struct("<${type}").pack_into(buf, index, this._${field.name})`)
         file += write_line(2, `index += ${field.size}`)
     }
     file += write_line(2, `return buf`)
@@ -232,10 +232,8 @@ for(let key in schema.messages) {
 }
 file += write_line(0, `}`)
 
-fs.writeFileSync(baseName + ".js", file)
-
-try {
-    fs.mkdirSync(output + "/structjs/")
-} catch {}
-fs.copyFileSync(__dirname + "/structjs/struct.mjs", output + "/structjs/struct.mjs")
-fs.copyFileSync(__dirname + "/structjs/struct.mjs", output + "/structjs/LICENSE")
+let struct = fs.readFileSync(__dirname + "/structjs/struct.mjs")
+if (process.argv[4] == "no") {
+    file = file.replace(/export /g, "")
+}
+fs.writeFileSync(baseName + ".js", struct + file)

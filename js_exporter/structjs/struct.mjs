@@ -1,3 +1,27 @@
+/* for struct library
+The MIT License (MIT)
+
+Copyright (c) 2016 Aksel Jensen (TheRealAksel at github)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 /*eslint-env es6*/
 const rechk = /^([<>])?(([1-9]\d*)?([xcbB?hHiIfdsp]))*$/
 const refmt = /([1-9]\d*)?([xcbB?hHiIfdsp])/g
@@ -24,7 +48,7 @@ const lut = le => ({
 })
 const errbuf = new RangeError("Structure larger than remaining buffer")
 const errval = new RangeError("Not enough values for structure")
-export default function struct(format) {
+function struct(format) {
     let fns = [], size = 0, m = rechk.exec(format)
     if (!m) { throw new RangeError("Invalid format string") }
     const t = lut('<' === m[1]), lu = (n, c) => t[c](n ? parseInt(n, 10) : 1)
@@ -57,15 +81,5 @@ export default function struct(format) {
     return Object.freeze({
         unpack, pack, unpack_from, pack_into, iter_unpack, format, size})
 }
-/*
-const pack = (format, ...values) => struct(format).pack(...values)
-const unpack = (format, buffer) => struct(format).unpack(buffer)
-const pack_into = (format, arrb, offs, ...values) =>
-    struct(format).pack_into(arrb, offs, ...values)
-const unpack_from = (format, arrb, offset) =>
-    struct(format).unpack_from(arrb, offset)
-const iter_unpack = (format, arrb) => struct(format).iter_unpack(arrb)
-const calcsize = format => struct(format).size
-module.exports = {
-    struct, pack, unpack, pack_into, unpack_from, iter_unpack, calcsize }
-*/
+//end struct library
+

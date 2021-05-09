@@ -36,61 +36,41 @@ s.addMsg({
 })
 
 s.addMsg({
-    name: "get_active_plants",
+    name: "get_water_level",
     sender: "web",
     receiver: "plant",
 })
 
 s.addMsg({
-    name: "get_humidity_measurement",
+    name: "water_level",
+    sender: "plant",
+    receiver: "web",
+    fields: {
+        water_level: s.float()
+    }
+})
+
+s.addMsg({
+    name: "get_plant_info",
     sender: "web",
     receiver: "plant",
     fields: {
-        plant_id: s.uint(1),
+        plant_id: s.uint(1)
     }
 })
 
 s.addMsg({
-    name: "get_configuration",
-    sender: "web",
-    receiver: "plant",
+    name: "plant_info",
+    sender: "plant",
+    receiver: "web",
+    bitField: [
+        "is_connected"
+    ],
     fields: {
         plant_id: s.uint(1),
-    }
-})
-
-s.addMsg({
-    name: "active_plants",
-    sender: "plant",
-    receiver: "web",
-    bitfields: [
-        "plant_0",
-        "plant_1",
-        "plant_2",
-        "plant_3",
-        "plant_4",
-        "plant_5",
-        "plant_6",
-        "plant_7",
-    ]
-})
-
-s.addMsg({
-    name: "humidity_measurement",
-    sender: "plant",
-    receiver: "web",
-    fields: {
-        plant_id: s.uint(1),
-        humidity: s.double(),
-    }
-})
-
-s.addMsg({
-    name: "configuration",
-    sender: "plant",
-    receiver: "web",
-    fields: {
-
+        lower_limit: s.float(),
+        upper_limit: s.float(),
+        humidity: s.float()
     }
 })
 

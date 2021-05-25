@@ -9,6 +9,16 @@ class Schema {
         this.enums = {};
         this.messages = [];
 
+        this.validFields = [
+            "sender",
+            "receiver",
+            "fields",
+            "id",
+            "name",
+            "bitField",
+            "category"
+        ]
+
         this.currentId = -1;
         this.usedIds = []
 
@@ -41,12 +51,6 @@ class Schema {
         if (!msg.receiver) {
             throw `Message has no receiver: name ${msg.name}`
         }
-        if (msg.field) {
-            console.log("did you mean fields?")
-        }
-        if (msg.bitFields) {
-            console.log("did you mean bitField?")
-        }
         if (!msg.category) {
             msg.category = "none"
         }
@@ -61,6 +65,18 @@ class Schema {
         }
         if (this.categoriesEnum.indexOf(msg.category) == -1) {
             this.categoriesEnum.push(msg.category);
+        }
+
+        for (let field in msg) {
+            let valid = false;
+            for (let name of this.validFields) {
+                if (field == name) {
+                    valid = true
+                }
+            }
+            if (!valid) {
+                throw `invalid field in message: message ${msg.name} field ${field}`
+            }
         }
 
         let outMsg = {}

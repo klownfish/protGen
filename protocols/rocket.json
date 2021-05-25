@@ -1,0 +1,392 @@
+{
+    "config": {
+        "name": "rocket",
+        "idNativeType": "uint8"
+    },
+    "enums": [
+        {
+            "name": "state",
+            "entries": {
+                "sleeping": 0,
+                "awake": 1,
+                "ready": 2,
+                "ascending": 3,
+                "falling": 4,
+                "landed": 5
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        },
+        {
+            "name": "nodes",
+            "entries": {
+                "local": 0,
+                "rocket": 1,
+                "ground": 2,
+                "relay": 3
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        },
+        {
+            "name": "fields",
+            "entries": {
+                "local_timestamp": 0,
+                "ms_since_boot": 1,
+                "declination": 2,
+                "this_to_42": 3,
+                "address": 4,
+                "altitude": 5,
+                "temperature": 6,
+                "acc_x": 7,
+                "acc_y": 8,
+                "acc_z": 9,
+                "gyro_x": 10,
+                "gyro_y": 11,
+                "gyro_z": 12,
+                "mag_x": 13,
+                "mag_y": 14,
+                "mag_z": 15,
+                "voltage": 16,
+                "state": 17,
+                "rssi": 18
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        },
+        {
+            "name": "messages",
+            "entries": {
+                "local_timestamp": 0,
+                "timestamp": 1,
+                "handshake": 2,
+                "simple_calibration": 3,
+                "mag_calibration": 4,
+                "wipe_flash": 5,
+                "play_music": 6,
+                "flash_address": 7,
+                "bmp": 8,
+                "mpu": 9,
+                "battery_voltage": 10,
+                "set_state": 11,
+                "state": 12,
+                "rssi": 13,
+                "ms_since_boot": 14
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        },
+        {
+            "name": "categories",
+            "entries": {
+                "none": 0
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        }
+    ],
+    "messages": [
+        {
+            "category": "none",
+            "id": 0,
+            "name": "local_timestamp",
+            "receiver": "local",
+            "sender": "local",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 4,
+                    "nativeType": "uint32",
+                    "name": "local_timestamp"
+                }
+            ],
+            "totalSize": 4
+        },
+        {
+            "category": "none",
+            "id": 1,
+            "name": "timestamp",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 4,
+                    "nativeType": "uint32",
+                    "name": "ms_since_boot"
+                }
+            ],
+            "totalSize": 4
+        },
+        {
+            "category": "none",
+            "id": 2,
+            "name": "handshake",
+            "receiver": "rocket",
+            "sender": "ground",
+            "fields": [],
+            "totalSize": 0
+        },
+        {
+            "category": "none",
+            "id": 3,
+            "name": "handshake",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [],
+            "totalSize": 0
+        },
+        {
+            "category": "none",
+            "id": 4,
+            "name": "simple_calibration",
+            "receiver": "rocket",
+            "sender": "ground",
+            "fields": [],
+            "totalSize": 0
+        },
+        {
+            "category": "none",
+            "id": 5,
+            "name": "mag_calibration",
+            "receiver": "rocket",
+            "sender": "ground",
+            "fields": [
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "declination"
+                }
+            ],
+            "totalSize": 4
+        },
+        {
+            "category": "none",
+            "id": 6,
+            "name": "wipe_flash",
+            "receiver": "rocket",
+            "sender": "ground",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 1,
+                    "nativeType": "uint8",
+                    "name": "this_to_42"
+                }
+            ],
+            "totalSize": 1
+        },
+        {
+            "category": "none",
+            "id": 7,
+            "name": "play_music",
+            "receiver": "rocket",
+            "sender": "ground",
+            "fields": [],
+            "totalSize": 0
+        },
+        {
+            "category": "none",
+            "id": 8,
+            "name": "flash_address",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 4,
+                    "nativeType": "uint32",
+                    "name": "address"
+                }
+            ],
+            "totalSize": 4
+        },
+        {
+            "category": "none",
+            "id": 9,
+            "name": "bmp",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "altitude"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "temperature"
+                }
+            ],
+            "totalSize": 8
+        },
+        {
+            "category": "none",
+            "id": 10,
+            "name": "mpu",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "acc_x"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "acc_y"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "acc_z"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gyro_x"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gyro_y"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gyro_z"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "mag_x"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "mag_y"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "mag_z"
+                }
+            ],
+            "totalSize": 36
+        },
+        {
+            "category": "none",
+            "id": 11,
+            "name": "battery_voltage",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "voltage"
+                }
+            ],
+            "totalSize": 4
+        },
+        {
+            "category": "none",
+            "id": 12,
+            "name": "set_state",
+            "receiver": "rocket",
+            "sender": "ground",
+            "fields": [
+                {
+                    "type": "enum",
+                    "enumName": "state",
+                    "nativeType": "uint8",
+                    "size": 1,
+                    "name": "state"
+                }
+            ],
+            "totalSize": 1
+        },
+        {
+            "category": "none",
+            "id": 13,
+            "name": "state",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "enum",
+                    "enumName": "state",
+                    "nativeType": "uint8",
+                    "size": 1,
+                    "name": "state"
+                }
+            ],
+            "totalSize": 1
+        },
+        {
+            "category": "none",
+            "id": 14,
+            "name": "rssi",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "scaledFloat",
+                    "size": 2,
+                    "scale": 100,
+                    "nativeType": "int16",
+                    "name": "rssi"
+                }
+            ],
+            "totalSize": 2
+        },
+        {
+            "category": "none",
+            "id": 15,
+            "name": "rssi",
+            "receiver": "ground",
+            "sender": "relay",
+            "fields": [
+                {
+                    "type": "scaledFloat",
+                    "size": 2,
+                    "scale": 100,
+                    "nativeType": "int16",
+                    "name": "rssi"
+                }
+            ],
+            "totalSize": 2
+        },
+        {
+            "category": "none",
+            "id": 16,
+            "name": "ms_since_boot",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 4,
+                    "nativeType": "uint32",
+                    "name": "ms_since_boot"
+                }
+            ],
+            "totalSize": 4
+        }
+    ]
+}

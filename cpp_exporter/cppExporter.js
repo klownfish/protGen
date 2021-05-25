@@ -19,7 +19,10 @@ GENERATED FILE DO NOT EDIT
 
 let h_file = warning 
 let cpp_file = warning
-h_file += `//pick if you want to use floats or doubles\n`
+h_file += `#ifndef _${schema.config.name}_H\n`
+h_file += `#define _${schema.config.name}_H\n`
+
+h_file += `//if you want to use floats or doubles\n`
 h_file += `#define ${schema.config.name}_FLOAT_DEF float\n\n`
 let float =`${schema.config.name}_FLOAT_DEF`
 cpp_file +=
@@ -30,7 +33,6 @@ h_file +=
 `#include <stdint.h>
 #include <string.h>
 #include <math.h>\n\n`
-
 
 h_file += `namespace  ${schema.config.name}{`
 cpp_file += `namespace  ${schema.config.name}{`
@@ -87,6 +89,17 @@ void uint_to_packedFloat(T value, ${float} minValue, ${float} maxValue, ${float}
     *out = ratio * (maxValue - minValue) + minValue;
 }
 
+
+class MessageBase {
+    public:
+        virtual void build_buf(uint8_t *buf, uint8_t *index){}
+        virtual void parse_buf(uint8_t *buf){}
+        virtual ${schema.config.idNativeType}_t get_id(){}
+        virtual enum categories get_category(){}
+        virtual enum nodes get_receiver(){}
+        virtual enum nodes get_sender(){}
+        virtual uint8_t get_size(){}
+};
 `
 
 //generate senders
@@ -94,7 +107,7 @@ for (let key in schema.messages) {
     let msg = schema.messages[key]
     //class definition
     h_file +=
-    `class ${msg.name}_from_${msg.sender}_to_${msg.receiver} {\n` +
+    `class ${msg.name}_from_${msg.sender}_to_${msg.receiver}: public MessageBase {\n` +
     `public:\n`
     //create fields
     for (let field of msg.fields) {
@@ -132,11 +145,15 @@ for (let key in schema.messages) {
     `enum messages message = messages::${msg.name};\n` +
     `enum nodes sender = nodes::${msg.sender};\n` +
     `enum nodes receiver = nodes::${msg.receiver};\n` +
-    `uint8_t get_size() {return size;}\n` +
-    `enum nodes get_sender() {return sender;}\n` +
-    `enum nodes get_receiver() {return receiver;}\n` +
+    `enum categories category = categories::${msg.category};\n` +
     `${schema.config.idNativeType}_t id = ${msg.id};\n` +
-    `${schema.config.idNativeType}_t get_id() {return id;}\n`
+
+    `enum categories get_category() override { return category;}\n` +
+    `uint8_t get_size() override { return size; }\n` +
+    `enum nodes get_sender() override { return sender; }\n` +
+    `enum nodes get_receiver() override { return receiver; }\n` +
+    `${schema.config.idNativeType}_t get_id() override { return id; }\n`
+
     for (let field of msg.fields) {
         //setters
         switch(field.type) {
@@ -212,7 +229,7 @@ for (let key in schema.messages) {
         }
     }
     //build buf
-    h_file += `void build_buf(uint8_t* buf, uint8_t* index) {\n` 
+    h_file += `void build_buf(uint8_t* buf, uint8_t* index) override {\n` 
     if (msg.bitField) {
         h_file += `memcpy(buf + *index, &bit_field, sizeof(bit_field));\n`
         h_file += `*index += sizeof(bit_field);\n`
@@ -224,7 +241,7 @@ for (let key in schema.messages) {
 
     h_file += `}\n`
     //parse buf
-    h_file += `void parse_buf(uint8_t* buf) {\n`
+    h_file += `void parse_buf(uint8_t* buf) override {\n`
     if (msg.fields.length || msg.bitField) {
         h_file += `uint8_t index = 0;\n` 
         if (msg.bitField) {
@@ -363,6 +380,8 @@ cpp_file += "}\n}\n\n"
 
 h_file += `}` // close namespace
 cpp_file += `}` // close namespace
+h_file += `#endif\n`
+
 
 fs.writeFileSync(`${baseName}.h`, h_file)
 fs.writeFileSync(`${baseName}.cpp`, cpp_file)

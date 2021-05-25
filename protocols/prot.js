@@ -125,9 +125,9 @@ const fields = {
     plant_id: 2,
     lower_limit: 3,
     upper_limit: 4,
-    water_level: 5,
-    humidity: 6,
-    is_connected: 7,
+    is_connected: 5,
+    water_level: 6,
+    humidity: 7,
 }
 const messages = {
     wifi_config: 0,
@@ -200,7 +200,8 @@ class configure_plant_from_web_to_plant {
         this._message = messages.configure_plant
         this._category = categories.none
         this._id = 1
-        this._size = 9
+        this._size = 10
+        this._bit_field = 0
         this._plant_id = 0
         this._lower_limit = 0
         this._upper_limit = 0
@@ -211,6 +212,9 @@ class configure_plant_from_web_to_plant {
     get_id() { return this._id }
     get_size() { return this._size }
     get_category() { return this._category }
+    set_is_connected(value) {
+        this._bit_field =  value * (this._bit_field | (1 << 0)) + (!value) * (this._bit_field & ~(1 << 0))
+    }
     set_plant_id(value) {
         this._plant_id = value
     }
@@ -221,8 +225,10 @@ class configure_plant_from_web_to_plant {
         this._upper_limit = value
     }
     build_buf() {
-        let buf = new ArrayBuffer(9)
+        let buf = new ArrayBuffer(10)
         let index = 0
+        struct("<B").pack_into(buf, index, this._bit_field)
+        index += 1
         struct("<B").pack_into(buf, index, this._plant_id)
         index += 1
         struct("<f").pack_into(buf, index, this._lower_limit)
@@ -230,6 +236,9 @@ class configure_plant_from_web_to_plant {
         struct("<f").pack_into(buf, index, this._upper_limit)
         index += 4
         return buf
+    }
+    get_is_connected() {
+        return this._bit_field & (1 << 0)
     }
     get_plant_id() {
         return this._plant_id
@@ -242,6 +251,7 @@ class configure_plant_from_web_to_plant {
     }
     get_all_data() {
         data = []
+        data.push({field: fields.is_connected, value: this.get_is_connected()})
         data.push({field: fields.plant_id, value: this.get_plant_id()})
         data.push({field: fields.lower_limit, value: this.get_lower_limit()})
         data.push({field: fields.upper_limit, value: this.get_upper_limit()})
@@ -249,6 +259,8 @@ class configure_plant_from_web_to_plant {
     }
     parse_buf(buf) {
         let index = 0
+        this._bit_field = struct("<B").unpack_from(buf, index)[0]
+        index += 1
         this._plant_id = struct("<B").unpack_from(buf, index)[0]
         index += 1
         this._lower_limit = struct("<f").unpack_from(buf, index)[0]

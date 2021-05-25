@@ -28,6 +28,9 @@ s.addMsg({
     name: "configure_plant",
     sender: "web",
     receiver: "plant",
+    bitField: [
+        "is_connected"
+    ],
     fields: {
         plant_id: s.uint(1),
         lower_limit: s.float(),

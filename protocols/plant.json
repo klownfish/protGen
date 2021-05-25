@@ -21,9 +21,9 @@
                 "plant_id": 2,
                 "lower_limit": 3,
                 "upper_limit": 4,
-                "water_level": 5,
-                "humidity": 6,
-                "is_connected": 7
+                "is_connected": 5,
+                "water_level": 6,
+                "humidity": 7
             },
             "size": 1,
             "nativeType": "uint8"
@@ -99,7 +99,12 @@
                     "name": "upper_limit"
                 }
             ],
-            "totalSize": 9
+            "bitField": [
+                "is_connected"
+            ],
+            "bitFieldSize": 1,
+            "bitFieldNativeType": "uint8",
+            "totalSize": 10
         },
         {
             "category": "none",

@@ -22,8 +22,8 @@ function build_small_table(iterator) {
     `<thead>\n` +
     `<tr>\n` +
     `<th>ID</th>\n` +
-    `<th>Source</th>\n` +
-    `<th>Target</th>\n` +
+    `<th>sender</th>\n` +
+    `<th>receiver</th>\n` +
     `<th>name</th>\n` +
     `</tr>\n` +
     `</thead>\n` +
@@ -34,8 +34,8 @@ function build_small_table(iterator) {
         let msg = iterator[id];
         output += "<tr>\n"
         output += `<td>${msg.id}</td>\n`
-        output += `<td>${msg.source}</td>\n`
-        output += `<td>${msg.target}</td>\n`
+        output += `<td>${msg.sender}</td>\n`
+        output += `<td>${msg.receiver}</td>\n`
         output += `<td>${msg.name}</td>\n`
         output += "</tr>\n"
     }
@@ -49,7 +49,10 @@ function build_small_table(iterator) {
 
 function build_message_table(msg) {
     let output = ''
-    output += `### ${msg.id} - ${msg.name} <br> ${msg.source} &rarr; ${msg.target}\n`
+    output += `### ${msg.id} - ${msg.name} <br> ${msg.sender} &rarr; ${msg.receiver}\n`
+    if (msg.description) {
+        output += msg.description + "\n\n"
+    }
     if (!msg.bitField && msg.fields.length == 0) {
         output += "*empty*\n"
         return output
@@ -117,17 +120,19 @@ function build_message_table(msg) {
     return output
 }
 
-let sources = {}
-let targets = {}
-for (let unit in schema.enums.units.entries) {
-    sources[unit] = []
-    targets[unit] = []
+let senders = {}
+let receivers = {}
+for (let enumerator of schema.enums) {
+    if (enumerator.name != "nodes") continue
+    for (let unit in enumerator.entries) {
+        senders[unit] = []
+        receivers[unit] = []
+    }
 }
-
 for (let id in schema.messages) {
     let msg = schema.messages[id]
-    sources[msg.source].push(msg)
-    targets[msg.target].push(msg)
+    senders[msg.sender].push(msg)
+    receivers[msg.receiver].push(msg)
 }
 
 output += `# ${schema.config.name} - Description\n`

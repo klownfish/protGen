@@ -7,12 +7,24 @@
         {
             "name": "state",
             "entries": {
-                "sleeping": 0,
-                "awake": 1,
-                "ready": 2,
-                "ascending": 3,
-                "falling": 4,
-                "landed": 5
+                "debug": 0,
+                "sleeping": 1,
+                "awake": 2,
+                "ready": 3,
+                "powered_flight": 4,
+                "passive_flight": 5,
+                "falling": 6,
+                "landed": 7
+            },
+            "size": 1,
+            "nativeType": "uint8"
+        },
+        {
+            "name": "fix_type",
+            "entries": {
+                "none": 0,
+                "fix2D": 1,
+                "fix3D": 2
             },
             "size": 1,
             "nativeType": "uint8"
@@ -23,7 +35,9 @@
                 "local": 0,
                 "rocket": 1,
                 "ground": 2,
-                "relay": 3
+                "everyone": 3,
+                "relay": 4,
+                "launchpad": 5
             },
             "size": 1,
             "nativeType": "uint8"
@@ -35,21 +49,39 @@
                 "ms_since_boot": 1,
                 "declination": 2,
                 "this_to_42": 3,
-                "address": 4,
-                "altitude": 5,
-                "temperature": 6,
-                "acc_x": 7,
-                "acc_y": 8,
-                "acc_z": 9,
-                "gyro_x": 10,
-                "gyro_y": 11,
-                "gyro_z": 12,
-                "mag_x": 13,
-                "mag_y": 14,
-                "mag_z": 15,
-                "voltage": 16,
-                "state": 17,
-                "rssi": 18
+                "is_enabled": 4,
+                "address": 5,
+                "pressure": 6,
+                "temperature": 7,
+                "acc_x": 8,
+                "acc_y": 9,
+                "acc_z": 10,
+                "gyro_x": 11,
+                "gyro_y": 12,
+                "gyro_z": 13,
+                "mag_x": 14,
+                "mag_y": 15,
+                "mag_z": 16,
+                "voltage": 17,
+                "state": 18,
+                "rssi": 19,
+                "pdop": 20,
+                "n_satellites": 21,
+                "fix_type": 22,
+                "altitude": 23,
+                "latitude": 24,
+                "longitude": 25,
+                "armed": 26,
+                "channel": 27,
+                "ax": 28,
+                "ay": 29,
+                "az": 30,
+                "gx": 31,
+                "gy": 32,
+                "gz": 33,
+                "hx": 34,
+                "hy": 35,
+                "hz": 36
             },
             "size": 1,
             "nativeType": "uint8"
@@ -60,18 +92,24 @@
                 "local_timestamp": 0,
                 "timestamp": 1,
                 "handshake": 2,
-                "simple_calibration": 3,
-                "mag_calibration": 4,
-                "wipe_flash": 5,
-                "play_music": 6,
-                "flash_address": 7,
-                "bmp": 8,
-                "mpu": 9,
-                "battery_voltage": 10,
-                "set_state": 11,
-                "state": 12,
-                "rssi": 13,
-                "ms_since_boot": 14
+                "mag_calibration": 3,
+                "wipe_flash": 4,
+                "play_music": 5,
+                "set_logging": 6,
+                "dump_flash": 7,
+                "flash_address": 8,
+                "bmp": 9,
+                "mpu": 10,
+                "battery_voltage": 11,
+                "set_state": 12,
+                "state": 13,
+                "rssi": 14,
+                "gps_state": 15,
+                "gps_pos": 16,
+                "ms_since_boot": 17,
+                "arm_pyro": 18,
+                "enable_pyro": 19,
+                "estimate": 20
             },
             "size": 1,
             "nativeType": "uint8"
@@ -122,32 +160,14 @@
             "category": "none",
             "id": 2,
             "name": "handshake",
-            "receiver": "rocket",
-            "sender": "ground",
+            "receiver": "everyone",
+            "sender": "everyone",
             "fields": [],
             "totalSize": 0
         },
         {
             "category": "none",
             "id": 3,
-            "name": "handshake",
-            "receiver": "ground",
-            "sender": "rocket",
-            "fields": [],
-            "totalSize": 0
-        },
-        {
-            "category": "none",
-            "id": 4,
-            "name": "simple_calibration",
-            "receiver": "rocket",
-            "sender": "ground",
-            "fields": [],
-            "totalSize": 0
-        },
-        {
-            "category": "none",
-            "id": 5,
             "name": "mag_calibration",
             "receiver": "rocket",
             "sender": "ground",
@@ -163,7 +183,7 @@
         },
         {
             "category": "none",
-            "id": 6,
+            "id": 4,
             "name": "wipe_flash",
             "receiver": "rocket",
             "sender": "ground",
@@ -179,8 +199,31 @@
         },
         {
             "category": "none",
-            "id": 7,
+            "id": 5,
             "name": "play_music",
+            "receiver": "rocket",
+            "sender": "ground",
+            "fields": [],
+            "totalSize": 0
+        },
+        {
+            "category": "none",
+            "id": 6,
+            "name": "set_logging",
+            "receiver": "rocket",
+            "sender": "ground",
+            "fields": [],
+            "bitField": [
+                "is_enabled"
+            ],
+            "bitFieldSize": 1,
+            "bitFieldNativeType": "uint8",
+            "totalSize": 1
+        },
+        {
+            "category": "none",
+            "id": 7,
+            "name": "dump_flash",
             "receiver": "rocket",
             "sender": "ground",
             "fields": [],
@@ -213,7 +256,7 @@
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "altitude"
+                    "name": "pressure"
                 },
                 {
                     "type": "float",
@@ -375,6 +418,64 @@
         {
             "category": "none",
             "id": 16,
+            "name": "gps_state",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "scaledFloat",
+                    "size": 2,
+                    "scale": 100,
+                    "nativeType": "uint16",
+                    "name": "pdop"
+                },
+                {
+                    "type": "uint",
+                    "size": 1,
+                    "nativeType": "uint8",
+                    "name": "n_satellites"
+                },
+                {
+                    "type": "enum",
+                    "enumName": "fix_type",
+                    "nativeType": "uint8",
+                    "size": 1,
+                    "name": "fix_type"
+                }
+            ],
+            "totalSize": 4
+        },
+        {
+            "category": "none",
+            "id": 17,
+            "name": "gps_pos",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "altitude"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "latitude"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "longitude"
+                }
+            ],
+            "totalSize": 12
+        },
+        {
+            "category": "none",
+            "id": 18,
             "name": "ms_since_boot",
             "receiver": "ground",
             "sender": "rocket",
@@ -387,6 +488,117 @@
                 }
             ],
             "totalSize": 4
+        },
+        {
+            "category": "none",
+            "id": 19,
+            "name": "arm_pyro",
+            "receiver": "launchpad",
+            "sender": "ground",
+            "fields": [],
+            "bitField": [
+                "armed"
+            ],
+            "bitFieldSize": 1,
+            "bitFieldNativeType": "uint8",
+            "totalSize": 1
+        },
+        {
+            "category": "none",
+            "id": 20,
+            "name": "enable_pyro",
+            "receiver": "launchpad",
+            "sender": "ground",
+            "fields": [
+                {
+                    "type": "uint",
+                    "size": 1,
+                    "nativeType": "uint8",
+                    "name": "channel"
+                }
+            ],
+            "totalSize": 1
+        },
+        {
+            "category": "none",
+            "id": 21,
+            "name": "estimate",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "ax"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "ay"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "az"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gx"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gy"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gz"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "hx"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "hy"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "hz"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "altitude"
+                }
+            ],
+            "totalSize": 40
+        }
+    ]
+}
+
+
+{
+    "enums": [],
+    "messages": [
+        {
+            "id": 78,
+            "extended_id": true
         }
     ]
 }

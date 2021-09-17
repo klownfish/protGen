@@ -124,7 +124,6 @@ for(let key in schema.messages) {
     file += write_line(2, "return self._size")
     file += write_line(1, "def get_category(self):")
     file += write_line(2, "return self._category")
-
     //create setters for bits
     if (msg.bitField) {
         for (let index in msg.bitField) {
@@ -176,7 +175,7 @@ for(let key in schema.messages) {
                 file += write_line(2, `return uint_to_scaledFloat(self._${field.name}, ${field.scale})`)
                 break;
             case "packedFloat":
-                file += write_line(2, `return uint_to_scaledFloat(self._${field.name}, ${field.min}, ${field.max}, ${field.size})`)
+                file += write_line(2, `return uint_to_packedFloat(self._${field.name}, ${field.min}, ${field.max}, ${field.size})`)
                 break;
             case "enum":
                 file += write_line(2, `return ${field.enumName}(self._${field.name})`)
@@ -223,4 +222,23 @@ for(let key in schema.messages) {
     file += write_line(2, `return receiver`)
 }
 
-fs.writeFileSync(baseName + ".py", file)
+file += write_line(0, "def is_specifier(sender, name, field):")
+for (let message of schema.messages) {
+    if (message.fields.length == 0) continue 
+    file += write_line(1, `if (messages.${message.name} == name and nodes.${message.sender} == sender):`)
+    for (let field of message.fields) {
+        file += write_line(2, `if (fields.${field.name} == field):`)
+        file += write_line(3, "return " + ((field.distinct || field.type == "id") ? "True" : "False"))
+    }
+}
+file += write_line(1, "return False")
+
+file += write_line(0, "def is_extended_id(id):")
+for (let message of schema.messages) {
+    if (!message.busId) continue
+    file += write_line(1, `if ${message.busId} == id:`)
+    file += write_line(2, `return ${message.extendedId}`)
+}
+file += write_line(1, "return")
+
+fs.writeFileSync(baseName + ".py", file.replace(/None/g, "LMAONone"))

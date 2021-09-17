@@ -142,10 +142,10 @@ for (let key in schema.messages) {
     //know fields and getters
     h_file +=
     `uint8_t size = ${msg.totalSize};\n` +
-    `enum messages message = messages::${msg.name};\n` +
-    `enum nodes sender = nodes::${msg.sender};\n` +
-    `enum nodes receiver = nodes::${msg.receiver};\n` +
-    `enum categories category = categories::${msg.category};\n` +
+    `enum ${schema.config.name}::messages message = ${schema.config.name}::messages::${msg.name};\n` +
+    `enum ${schema.config.name}::nodes sender = ${schema.config.name}::nodes::${msg.sender};\n` +
+    `enum ${schema.config.name}::nodes receiver = ${schema.config.name}::nodes::${msg.receiver};\n` +
+    `enum ${schema.config.name}::categories category = ${schema.config.name}::categories::${msg.category};\n` +
     `${schema.config.idNativeType}_t id = ${msg.id};\n` +
 
     `enum categories get_category() override { return category;}\n` +
@@ -197,7 +197,7 @@ for (let key in schema.messages) {
                 `${schema.config.name}_FLOAT_DEF get_${field.name}() {\n` +
                 `${schema.config.name}_FLOAT_DEF out;\n` +
                 `uint_to_packedFloat(${field.name}, ${field.min}, ${field.max}, &out);\n` +
-                `return out\n;`
+                `return out\n;` +
                 `}\n`
                 break;
             case "scaledFloat":
@@ -214,7 +214,6 @@ for (let key in schema.messages) {
                 `return ${field.name};\n`+
                 `}\n`
                 break;
-            
             case "fixedString":
                 h_file += 
                 `char* get_${field.name}() {\n` +

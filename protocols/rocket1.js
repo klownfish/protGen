@@ -34,20 +34,8 @@ s.addMsg({
 
 s.addMsg({
     name: "handshake",
-    sender: "ground",
-    receiver: "rocket",
-})
-
-s.addMsg({
-    name: "handshake",
-    sender: "rocket",
-    receiver: "ground",
-})
-
-s.addMsg({
-    name: "simple_calibration",
-    sender: "ground",
-    receiver: "rocket",
+    sender: "everyone",
+    receiver: "everyone",
 })
 
 s.addMsg({
@@ -75,6 +63,21 @@ s.addMsg({
 })
 
 s.addMsg({
+    name: "set_logging",
+    sender: "ground",
+    receiver: "rocket",
+    bitField: [
+        "is_enabled"
+    ]
+})
+
+s.addMsg({
+    name: "dump_flash",
+    sender: "ground",
+    receiver: "rocket",
+})
+
+s.addMsg({
     name: "flash_address",
     sender: "rocket",
     receiver: "ground",
@@ -88,7 +91,7 @@ s.addMsg({
     sender: "rocket",
     receiver: "ground",
     fields: {
-        altitude: s.float(),
+        pressure: s.float(),
         temperature: s.float()
     }
 })
@@ -120,10 +123,12 @@ s.addMsg({
 })
 
 s.addEnum("state", [
+    "debug",
     "sleeping",
     "awake",
     "ready",
-    "ascending",
+    "powered_flight",
+    "passive_flight",
     "falling",
     "landed"
 ])
@@ -164,12 +169,76 @@ s.addMsg({
     }
 })
 
+s.addEnum("fix_type", [
+    "none",
+    "fix2D",
+    "fix3D"
+])
+
+s.addMsg({
+    name: "gps_state",
+    sender: "rocket",
+    receiver: "ground",
+    fields: {
+        pdop: s.scaledFloat(2, 100, false),
+        n_satellites: s.uint(1),
+        fix_type: s.enumerator("fix_type")
+    }
+})
+
+s.addMsg({
+    name: "gps_pos",
+    sender: "rocket",
+    receiver: "ground",
+    fields: {
+        altitude: s.float(),
+        latitude: s.float(),
+        longitude: s.float(),
+    }
+})
+
 s.addMsg({
     name: "ms_since_boot",
     sender: "rocket",
     receiver: "ground",
     fields: {
         ms_since_boot: s.uint(4)
+    }
+})
+
+s.addMsg({
+    name: "arm_pyro",
+    sender: "ground",
+    receiver: "launchpad",
+    bitField: [
+        "armed"
+    ]
+})
+
+s.addMsg({
+    name: "enable_pyro",
+    sender: "ground",
+    receiver: "launchpad",
+    fields: {
+        channel: s.uint(1)
+    }
+})
+
+s.addMsg({
+    name: "estimate",
+    sender: "rocket",
+    receiver: "ground",
+    fields: {
+        ax: s.float(),
+        ay: s.float(),
+        az: s.float(),
+        gx: s.float(),
+        gy: s.float(),
+        gz: s.float(),
+        hx: s.float(),
+        hy: s.float(),
+        hz: s.float(),
+        altitude: s.float(),
     }
 })
 

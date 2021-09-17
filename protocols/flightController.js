@@ -19,17 +19,33 @@ let fc_to_gs_tm = 0x50
 
 let fc = "flight_controller"
 let gs = "ground_station"
-let ec = "edda_controller"
 
 let gs_tc = "ground_station"
 let gs_tm = "ground_station"
 let fc_tc = "flight_controller"
-let fc_can = "flight_controller"
-let ec_tc = "engine_controller"
-let ec_can = "engine_controller"
+
+
 
 s.setIdType("uint8")
 s.setName("fc")
+
+s.addEnum("flight_state", [
+    "sleeping",
+    "idle",
+    "ready",
+    "burning",
+    "ascending",
+    "descending",
+    "drogue",
+    "main_chute",
+    "landed"
+])
+
+s.addEnum("fix_status", [
+    "no_fix",
+    "fix_2D",
+    "fix_3D"
+])
 
 s.addMsg({
     id: 0xFF,
@@ -40,72 +56,6 @@ s.addMsg({
         timestamp: s.uint(4)
     }
 })
-//############# REMOVE THESE
-s.addMsg({
-    id: 64,
-    sender: "test",
-    receiver: "test",
-    name: "ms_since_boot",
-    fields: {
-        ms_since_boot: s.uint(4)
-    }
-})
-
-s.addMsg({
-    id: test++,
-    sender: "test",
-    receiver: "test",
-    name: "altitude",
-    fields: {
-        altitude: s.uint(2),
-    }
-})
-
-s.addMsg({
-    id: test++,
-    sender: "test",
-    receiver: "test",
-    name: "acceleration",
-    fields: {
-        altitude: s.uint(1),
-    }
-})
-
-s.addMsg({
-    id: test++,
-    sender: "test",
-    receiver: "test",
-    name: "pressure",
-    fields: {
-        altitude: s.uint(2),
-    }
-})
-
-s.addMsg({
-    id: test++,
-    sender: "test",
-    receiver: "test",
-    name: "catastrophe",
-    bitField: [
-        "catastrophe"
-    ]
-})
-
-s.addMsg({
-    id: test++,
-    sender: "test",
-    receiver: "test",
-    name: "gyro",
-    fields: {
-        x: s.uint(1),
-        y: s.uint(1),
-        z: s.uint(1)
-    }
-})
-
-//##################################remove these ^^^^
-
-//END TEST
 
 s.addMsg({
     id: gs_to_fc++,
@@ -121,18 +71,10 @@ s.addMsg({
     id: gs_to_fc++,
     sender: gs,
     receiver: fc_tc,
-    name: "set_power_mode",
-})
-
-s.addMsg({
-    id: gs_to_fc++,
-    sender: gs,
-    receiver: fc_tc,
-    name: "set_radio_equipment",
-    bitField: [
-        "is_fpv_en",
-        "is_tm_en",
-    ]   
+    name: "set_state",
+    fields: {
+        state: s.enumerator("flight_state")
+    }
 })
 
 s.addMsg({
@@ -231,32 +173,6 @@ s.addMsg({
     id: fc_to_gs++,
     sender: fc,
     receiver: gs_tc,
-    name: "gnss_data",
-    fields: {
-        gnss_time: s.uint(4),
-        latitude: s.int(4),
-        longitude: s.int(4),
-        h_dop: s.scaledFloat(2, 100, false),
-        n_satellites: s.uint(1)
-    }
-})
-
-s.addMsg({
-    id: fc_to_gs++,
-    sender: fc,
-    receiver: gs_tc,
-    name: "flight_controller_status",
-    fields: {
-        HW_state: s.uint(1),
-        SW_state: s.uint(1),
-        mission_state: s.uint(1),
-    }
-})
-
-s.addMsg({
-    id: fc_to_gs++,
-    sender: fc,
-    receiver: gs_tc,
     name: "return_data_logging",
     bitField: [
         "is_logging_en"
@@ -281,6 +197,8 @@ s.addMsg({
     name: "return_handshake",
 })
 
+
+
 ///////////////////////////////fc telemetry
 s.addMsg({
     id: fc_to_gs_tm++,
@@ -288,16 +206,7 @@ s.addMsg({
     receiver: gs_tm,
     name: "ms_since_boot",
     fields : {
-        ms_since_boot: s.uint(2)
-    }
-})
-s.addMsg({
-    id: fc_to_gs_tm++,
-    sender: fc,
-    receiver: gs_tm,
-    name: "us_since_boot",
-    fields: {
-        us_since_boot: s.uint(4)
+        ms_since_boot: s.uint(4)
     }
 })
 
@@ -305,33 +214,9 @@ s.addMsg({
     id: fc_to_gs_tm++,
     sender: fc,
     receiver: gs_tm,
-    name: "current_time",
+    name: "GNSS_data",
     fields: {
-        current_time: s.uint(4)
-    }
-})
-s.addMsg({
-    id: fc_to_gs_tm++,
-    sender: fc,
-    receiver: gs_tm,
-    name: "GNSS_data_1",
-    fields: {
-        gnss_time: s.uint(4),
-        latitude: s.int(4),
-        longitude: s.int(4),
-    }
-})
-s.addEnum("fix_status", [
-    "no_fix",
-    "fix_2D",
-    "fix_3D"
-])
-s.addMsg({
-    id: fc_to_gs_tm++,
-    sender: fc,
-    receiver: gs_tm,
-    name: "GNSS_data_2",
-    fields: {
+        gnss_time: s.float(),
         altitude: s.scaledFloat(4, 10, true),
         heading: s.int(2),
         horiz_speed: s.scaledFloat(2, 10, true),
@@ -345,10 +230,10 @@ s.addMsg({
     id: fc_to_gs_tm++,
     sender: fc,
     receiver: gs_tm,
-    name: "inside_static_temperature",
+    name: "ms_raw",
     fields: {
-        temperature_1: s.scaledFloat(4, 100, true),
-        temperature_2: s.scaledFloat(4, 100, true)
+        pressure: s.float(),
+        temperature: s.float()
     }
 })
 
@@ -356,10 +241,10 @@ s.addMsg({
     id: fc_to_gs_tm++,
     sender: fc,
     receiver: gs_tm,
-    name: "inside_static_pressure",
+    name: "bmp_raw",
     fields: {
-        pressure_1: s.scaledFloat(4, 100, true),
-        pressure_2: s.scaledFloat(4, 100, true)
+        pressure: s.float(),
+        temperature: s.float()
     }
 })
 
@@ -367,17 +252,18 @@ s.addMsg({
     id: fc_to_gs_tm++,
     sender: fc,
     receiver: gs_tm,
-    name: "IMU1",
+    name: "imu_raw",
     fields: {
-        accel_x: s.uint(2),
-        accel_y: s.uint(2),
-        accel_z: s.uint(2),
-        gyro_x: s.uint(2),
-        gyro_y: s.uint(2),
-        gyro_z: s.uint(2),
-        magnet_x: s.uint(2),
-        magnet_y: s.uint(2),
-        magnet_z: s.uint(2),
+        imu_id: s.uint(1),
+        accel_x: s.float(),
+        accel_y: s.float(),
+        accel_z: s.float(),
+        gyro_x: s.float(),
+        gyro_y: s.float(),
+        gyro_z: s.float(),
+        magnet_x: s.float(),
+        magnet_y: s.float(),
+        magnet_z: s.float()
     }
 })
 
@@ -385,19 +271,22 @@ s.addMsg({
     id: fc_to_gs_tm++,
     sender: fc,
     receiver: gs_tm,
-    name: "IMU2",
+    name: "position",
     fields: {
-        accel_x: s.uint(2),
-        accel_y: s.uint(2),
-        accel_z: s.uint(2),
-        gyro_x: s.uint(2),
-        gyro_y: s.uint(2),
-        gyro_z: s.uint(2),
-        magnet_x: s.uint(2),
-        magnet_y: s.uint(2),
-        magnet_z: s.uint(2),
+        altitude: s.float(),
+        longitude: s.float(),
+        latitude: s.float()
     }
 })
 
+s.addMsg({
+    id: fc_to_gs_tm++,
+    sender: fc,
+    receiver: gs_tm,
+    name: "differential_pressure",
+    fields: {
+        differential_pressure: s.float()
+    }
+})
 
 s.createJson(output);

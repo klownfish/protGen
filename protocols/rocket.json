@@ -53,15 +53,15 @@
                 "address": 5,
                 "pressure": 6,
                 "temperature": 7,
-                "acc_x": 8,
-                "acc_y": 9,
-                "acc_z": 10,
-                "gyro_x": 11,
-                "gyro_y": 12,
-                "gyro_z": 13,
-                "mag_x": 14,
-                "mag_y": 15,
-                "mag_z": 16,
+                "ax": 8,
+                "ay": 9,
+                "az": 10,
+                "gx": 11,
+                "gy": 12,
+                "gz": 13,
+                "mx": 14,
+                "my": 15,
+                "mz": 16,
                 "voltage": 17,
                 "state": 18,
                 "rssi": 19,
@@ -73,15 +73,15 @@
                 "longitude": 25,
                 "armed": 26,
                 "channel": 27,
-                "ax": 28,
-                "ay": 29,
-                "az": 30,
-                "gx": 31,
-                "gy": 32,
-                "gz": 33,
-                "hx": 34,
-                "hy": 35,
-                "hz": 36
+                "hx": 28,
+                "hy": 29,
+                "hz": 30,
+                "vx": 31,
+                "vy": 32,
+                "vz": 33,
+                "px": 34,
+                "py": 35,
+                "pz": 36
             },
             "size": 1,
             "nativeType": "uint8"
@@ -100,16 +100,17 @@
                 "flash_address": 8,
                 "bmp": 9,
                 "mpu": 10,
-                "battery_voltage": 11,
-                "set_state": 12,
-                "state": 13,
-                "rssi": 14,
-                "gps_state": 15,
-                "gps_pos": 16,
-                "ms_since_boot": 17,
-                "arm_pyro": 18,
-                "enable_pyro": 19,
-                "estimate": 20
+                "bmi": 11,
+                "battery_voltage": 12,
+                "set_state": 13,
+                "state": 14,
+                "rssi": 15,
+                "gps_state": 16,
+                "gps_pos": 17,
+                "ms_since_boot": 18,
+                "arm_pyro": 19,
+                "enable_pyro": 20,
+                "estimate": 21
             },
             "size": 1,
             "nativeType": "uint8"
@@ -278,55 +279,55 @@
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "acc_x"
+                    "name": "ax"
                 },
                 {
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "acc_y"
+                    "name": "ay"
                 },
                 {
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "acc_z"
+                    "name": "az"
                 },
                 {
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "gyro_x"
+                    "name": "gx"
                 },
                 {
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "gyro_y"
+                    "name": "gy"
                 },
                 {
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "gyro_z"
+                    "name": "gz"
                 },
                 {
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "mag_x"
+                    "name": "mx"
                 },
                 {
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "mag_y"
+                    "name": "my"
                 },
                 {
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "mag_z"
+                    "name": "mz"
                 }
             ],
             "totalSize": 36
@@ -334,6 +335,52 @@
         {
             "category": "none",
             "id": 11,
+            "name": "bmi",
+            "receiver": "ground",
+            "sender": "rocket",
+            "fields": [
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "ax"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "ay"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "az"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gx"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gy"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "gz"
+                }
+            ],
+            "totalSize": 24
+        },
+        {
+            "category": "none",
+            "id": 12,
             "name": "battery_voltage",
             "receiver": "ground",
             "sender": "rocket",
@@ -349,7 +396,7 @@
         },
         {
             "category": "none",
-            "id": 12,
+            "id": 13,
             "name": "set_state",
             "receiver": "rocket",
             "sender": "ground",
@@ -366,7 +413,7 @@
         },
         {
             "category": "none",
-            "id": 13,
+            "id": 14,
             "name": "state",
             "receiver": "ground",
             "sender": "rocket",
@@ -383,7 +430,7 @@
         },
         {
             "category": "none",
-            "id": 14,
+            "id": 15,
             "name": "rssi",
             "receiver": "ground",
             "sender": "rocket",
@@ -400,7 +447,7 @@
         },
         {
             "category": "none",
-            "id": 15,
+            "id": 16,
             "name": "rssi",
             "receiver": "ground",
             "sender": "relay",
@@ -417,7 +464,7 @@
         },
         {
             "category": "none",
-            "id": 16,
+            "id": 17,
             "name": "gps_state",
             "receiver": "ground",
             "sender": "rocket",
@@ -447,7 +494,7 @@
         },
         {
             "category": "none",
-            "id": 17,
+            "id": 18,
             "name": "gps_pos",
             "receiver": "ground",
             "sender": "rocket",
@@ -475,7 +522,7 @@
         },
         {
             "category": "none",
-            "id": 18,
+            "id": 19,
             "name": "ms_since_boot",
             "receiver": "ground",
             "sender": "rocket",
@@ -491,7 +538,7 @@
         },
         {
             "category": "none",
-            "id": 19,
+            "id": 20,
             "name": "arm_pyro",
             "receiver": "launchpad",
             "sender": "ground",
@@ -505,7 +552,7 @@
         },
         {
             "category": "none",
-            "id": 20,
+            "id": 21,
             "name": "enable_pyro",
             "receiver": "launchpad",
             "sender": "ground",
@@ -521,7 +568,7 @@
         },
         {
             "category": "none",
-            "id": 21,
+            "id": 22,
             "name": "estimate",
             "receiver": "ground",
             "sender": "rocket",
@@ -584,21 +631,40 @@
                     "type": "float",
                     "size": 4,
                     "nativeType": "float",
-                    "name": "altitude"
+                    "name": "vx"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "vy"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "vz"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "px"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "py"
+                },
+                {
+                    "type": "float",
+                    "size": 4,
+                    "nativeType": "float",
+                    "name": "pz"
                 }
             ],
-            "totalSize": 40
-        }
-    ]
-}
-
-
-{
-    "enums": [],
-    "messages": [
-        {
-            "id": 78,
-            "extended_id": true
+            "totalSize": 60
         }
     ]
 }

@@ -1,0 +1,7535 @@
+{
+  "config": {
+    "name": "EDDA",
+    "idNativeType": "uint8"
+  },
+  "enums": [
+    {
+      "name": "fields",
+      "entries": {
+        "current_time_ms": 0,
+        "current_time_us": 1,
+        "debug_messages_mode": 2,
+        "debug_status_leds_mode": 3,
+        "uptime_ms": 4,
+        "max_tx_queue_size": 5,
+        "max_rx_queue_size": 6,
+        "mean_tx_queue_size": 7,
+        "mean_rx_queue_size": 8,
+        "round_trip_time_us": 9,
+        "destination_node": 10,
+        "receiver_node": 11,
+        "debug_mode": 12,
+        "powercan_channel": 13,
+        "edda_signature": 14,
+        "request": 15,
+        "system_state": 16,
+        "gate_state": 17,
+        "response": 18,
+        "result": 19,
+        "checks_failed": 20,
+        "checks_performed": 21,
+        "total_checks": 22,
+        "w": 23,
+        "e": 24,
+        "n": 25,
+        "h": 26,
+        "o": 27,
+        "p": 28,
+        "r": 29,
+        "b": 30,
+        "i": 31,
+        "t": 32,
+        "current_ampere": 33,
+        "voltage_volt": 34,
+        "power_watt": 35,
+        "error": 36,
+        "sensor_index": 37,
+        "temperature_celsius": 38,
+        "measurement_index": 39,
+        "pressure_pascal": 40,
+        "pressure_mbar": 41,
+        "coefficient_number": 42,
+        "coefficient_value": 43,
+        "board_index": 44,
+        "resistance_ohm": 45,
+        "ratio_fraction": 46,
+        "relative_humidity_percentage": 47,
+        "is_heater_on": 48,
+        "acceleration_x_gforce": 49,
+        "acceleration_y_gforce": 50,
+        "acceleration_z_gforce": 51,
+        "sign": 52,
+        "ambient_light_lux": 53,
+        "type": 54,
+        "thread": 55,
+        "task_time_us": 56,
+        "truncated_start_time_us": 57,
+        "loop_time_us": 58,
+        "bus": 59,
+        "position_on_board": 60,
+        "serial_byte0": 61,
+        "serial_byte1": 62,
+        "serial_byte2": 63,
+        "serial_byte3": 64,
+        "serial_byte4": 65,
+        "serial_byte5": 66,
+        "found_family_code": 67,
+        "found_crc": 68,
+        "kind": 69,
+        "channel": 70,
+        "measurement_reference": 71,
+        "failure_reason": 72,
+        "value": 73,
+        "threshold": 74,
+        "validity": 75,
+        "reference_voltage_volt": 76,
+        "differential_voltage_volt": 77,
+        "positive_voltage_volt": 78,
+        "negative_voltage_volt": 79,
+        "frequency_hertz": 80,
+        "found_device_address": 81,
+        "missing_device_address": 82,
+        "devices_successfully_found": 83,
+        "addresses_with_error": 84,
+        "search_time_us": 85,
+        "location": 86,
+        "register_address": 87,
+        "read_data": 88,
+        "write_data": 89,
+        "expected_data": 90,
+        "scanned_address": 91,
+        "warning_count": 92,
+        "error_count": 93,
+        "bus_index": 94,
+        "position_on_bus": 95,
+        "byte0": 96,
+        "start_time_ms": 97,
+        "byte1": 98,
+        "searched_family_code": 99,
+        "devices_insuccessfully_found": 100,
+        "search_time_ms": 101,
+        "byte2": 102,
+        "raw_fault_register": 103,
+        "byte3": 104,
+        "byte4": 105,
+        "byte5": 106,
+        "byte6": 107
+      },
+      "size": 2,
+      "nativeType": "uint16"
+    },
+    {
+      "name": "messages",
+      "entries": {
+        "CurrentTimePing": 0,
+        "CurrentTimePong": 1,
+        "SayHi": 2,
+        "Hello": 3,
+        "CanStatistics": 4,
+        "CanLatency": 5,
+        "SetDebugStatusLedsModeRequest": 6,
+        "SetDebugMessagesModeRequest": 7,
+        "PowerCAN_SetDebugMode": 8,
+        "PowerCAN_GetState": 9,
+        "PowerCAN_TransitionRequest": 10,
+        "PowerCAN_Hello": 11,
+        "PowerCAN_CurrentState": 12,
+        "PowerCAN_TransitionResponse": 13,
+        "PowerCAN_CheckResult": 14,
+        "WenHop": 15,
+        "WenOrbit": 16,
+        "PowerInputMeasurement": 17,
+        "PowerInputMeasurementError": 18,
+        "ColdSideTemperature": 19,
+        "RawTransducerVoltage": 20,
+        "TransducerPressure": 21,
+        "TransducerError": 22,
+        "AmbientPressure": 23,
+        "AmbientPressureCoefficient": 24,
+        "AmbientPressureError": 25,
+        "PlatinumSensorTemperature": 26,
+        "PlatinumSensorResistance": 27,
+        "PlatinumSensorRatio": 28,
+        "ThermocoupleTypeKTemperature": 29,
+        "ThermocoupleColdsideTemperature": 30,
+        "Humidity": 31,
+        "HumidityError": 32,
+        "Acceleration": 33,
+        "AccelerationError": 34,
+        "AccelerationSelfTest": 35,
+        "AmbientLight": 36,
+        "AmbientLightError": 37,
+        "TaskInfo": 38,
+        "LoopInfo": 39,
+        "OneWireDevicePairedWithSensor": 40,
+        "OneWireSearchFamilyMismatch": 41,
+        "OneWireSearchCRCMismatch": 42,
+        "OneWireSearchFoundDevice": 43,
+        "PowerCAN_Temperature": 44,
+        "PowerCAN_Voltage": 45,
+        "PowerCAN_ChannelMeasurementPower": 46,
+        "PowerCAN_ChannelMeasurementVoltage": 47,
+        "PowerCAN_ChannelMeasurementCurrent": 48,
+        "PowerCAN_LoadMeasurementResistance": 49,
+        "PowerCAN_LoadMeasurementVoltage": 50,
+        "PowerCAN_LoadMeasurementPower": 51,
+        "PowerCAN_LoadMeasurementCurrent": 52,
+        "PowerCAN_FailedLoadMeasurementValue": 53,
+        "PowerCAN_FailedLoadMeasurementThreshold": 54,
+        "PowerCAN_ResistanceMeasurementResistance": 55,
+        "PowerCAN_ResistanceMeasurementReferenceVoltage": 56,
+        "PowerCAN_ResistanceMeasurementDifferentialVoltage": 57,
+        "PowerCAN_ResistanceMeasurementPositiveVoltage": 58,
+        "PowerCAN_ResistanceMeasurementNegativeVoltage": 59,
+        "PowerCAN_I2CBusStarted": 60,
+        "PowerCAN_I2CSearchStarted": 61,
+        "PowerCAN_I2CSearchFoundDevice": 62,
+        "PowerCAN_I2CSearchMissingDevice": 63,
+        "PowerCAN_I2CSearchEnded": 64,
+        "PowerCAN_LTC2992Error": 65,
+        "PowerCAN_ADS122C04Error": 66,
+        "PowerCAN_I2CSearchError": 67,
+        "PowerCAN_ErrorStatistics": 68,
+        "DS2482Error": 69,
+        "PartialDebugMessage1": 70,
+        "OneWireSearchStarted": 71,
+        "I2CBusStarted": 72,
+        "DS28E18QError": 73,
+        "PartialDebugMessage2": 74,
+        "OneWireSearchEnded": 75,
+        "I2CSearchStarted": 76,
+        "MAX31850KError": 77,
+        "PartialDebugMessage3": 78,
+        "OneWireDeviceStartupSuccess": 79,
+        "I2CSearchError": 80,
+        "MAX31856Error": 81,
+        "PartialDebugMessage4": 82,
+        "OneWireDeviceStartupFailure": 83,
+        "I2CSearchFoundDevice": 84,
+        "MAX31865Error": 85,
+        "PartialDebugMessage5": 86,
+        "I2CSearchEnded": 87,
+        "PartialDebugMessage6": 88,
+        "PartialDebugMessage7": 89
+      },
+      "size": 2,
+      "nativeType": "uint16"
+    },
+    {
+      "name": "categories",
+      "entries": {
+        "none": 0
+      },
+      "size": 2,
+      "nativeType": "uint16"
+    },
+    {
+      "name": "nodes",
+      "entries": {
+        "Flight_Controller": 0,
+        "Edda_Controller": 1,
+        "Edda_Telemetry": 2,
+        "Edda_Pressure_Top": 3,
+        "Edda_Pressure_Bottom": 4,
+        "Edda_Power_Control_Boards": 10,
+        "Ground_Controller": 16
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "AccelerationSelfTestDirection",
+      "entries": {
+        "Positive": 0,
+        "Negative": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "AccelerationSelfTestResult",
+      "entries": {
+        "Success": 0,
+        "Failure": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "ADS122C04Error",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "DebugMessagesMode",
+      "entries": {
+        "Enabled": 0,
+        "Disabled": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "DebugStatusLedsMode",
+      "entries": {
+        "Enabled": 0,
+        "Disabled": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "DS2482Error",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6,
+        "BusShortDetected": 7,
+        "NoDevicesResponded": 8,
+        "ConfigError": 9,
+        "WaitOnBusyTimeout": 10,
+        "ResetFailure": 11
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "DS28E18QError",
+      "entries": {
+        "RequestCRCFailure": 0,
+        "ResponseCRCFailure": 1,
+        "InvalidRequestLength": 2,
+        "InvalidResponseLength": 3,
+        "TransactionFailed": 4,
+        "ExecutionError": 5,
+        "PowerOnResetError": 6,
+        "FailedNackAtCommand": 7,
+        "InvalidInput": 8,
+        "InvalidResult": 9,
+        "InvalidStatusByte": 10,
+        "Unknown": 11
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "I2CBus",
+      "entries": {
+        "Wire0": 0,
+        "Wire1": 1,
+        "Wire2": 2,
+        "Unknown": 3
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "I2CError",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "INA260Error",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6,
+        "UnexpectedManufacturer": 7,
+        "UnexpectedDie": 8,
+        "UnexpectedConfiguration": 9,
+        "UnexpectedMask": 10,
+        "UnexpectedAlertLimit": 11
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "LIS331Error",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6,
+        "FailedSelfTestX": 7,
+        "FailedSelfTestY": 8,
+        "FailedSelfTestZ": 9,
+        "InitializationTimeout": 10
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "LoopType",
+      "entries": {
+        "MainLoop": 0,
+        "ChitchatLoop": 1,
+        "RGBLoop": 2,
+        "GenericThreadLoop": 3,
+        "EddaLoop": 4
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "LTR303Error",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6,
+        "UnexpectedManufacturer": 7,
+        "UnexpectedPartNumber": 8,
+        "ReadOldData": 9,
+        "DataIsInvalid": 10,
+        "DataWasReadWithWrongGain": 11
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "MAX31850KError",
+      "entries": {
+        "CRCMismatch": 0,
+        "OneWireUnknownError": 1,
+        "SensorShortToVDD": 2,
+        "SensorShortToGND": 3,
+        "SensorOpenCircuit": 4
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "MS5803Error",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6,
+        "D1BelowBounds": 7,
+        "D1AboveBounds": 8,
+        "D2BelowBounds": 9,
+        "D2AboveBounds": 10,
+        "Value_dT_BelowBounds": 11,
+        "Value_dT_AboveBounds": 12,
+        "Value_TEMP_BelowBounds": 13,
+        "Value_TEMP_AboveBounds": 14,
+        "Value_OFF_BelowBounds": 15,
+        "Value_OFF_AboveBounds": 16,
+        "Value_SENS_BelowBounds": 17,
+        "Value_SENS_AboveBounds": 18,
+        "Value_P_BelowBounds": 19,
+        "Value_P_AboveBounds": 20
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "Nodes",
+      "entries": {
+        "EddaController": 1,
+        "EddaTelemetry": 2,
+        "EddaPressureTop": 3,
+        "EddaPressureBottom": 4,
+        "GroundController": 16,
+        "FlightController": 0,
+        "EddaPowerControlBoards": 10
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "OneWireBus",
+      "entries": {
+        "Bus0A": 0,
+        "Bus0B": 1,
+        "Bus1A": 2,
+        "Bus1B": 3,
+        "Unknown": 4
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PlatinumSensorIndex",
+      "entries": {
+        "RTD_0": 0,
+        "RTD_1": 1,
+        "Unknown": 2
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_ADS122C04Error",
+      "entries": {
+        "I2CArbitration": 0,
+        "I2CBus": 1,
+        "I2CBusy": 2,
+        "I2CNack": 3,
+        "I2CUnknownError": 4,
+        "RegisterWriteFailed": 5,
+        "RegisterResetFailed": 6
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_ADS122C04ErrorLocation",
+      "entries": {
+        "WriteRegister": 0,
+        "ReadRegister": 1,
+        "Reset": 2,
+        "Start": 3,
+        "Stop": 4,
+        "ReadData": 5,
+        "None": 6
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_CheckResult",
+      "entries": {
+        "SomeFailed": 0,
+        "AllFailed": 1,
+        "AllPassed": 2,
+        "NotYetDone": 3
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_DebugMode",
+      "entries": {
+        "Enabled": 0,
+        "Disabled": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_GateState",
+      "entries": {
+        "Grounded": 0,
+        "ResistanceMeasurement": 1,
+        "High": 2
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_I2CBus",
+      "entries": {
+        "Wire0": 0,
+        "Wire1": 1,
+        "Wire2": 2,
+        "Unknown": 3
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_I2CError",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_LoadMeasurementResult",
+      "entries": {
+        "Passed": 0,
+        "Failed": 1,
+        "Invalid": 2
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_LTC2992Error",
+      "entries": {
+        "I2CArbitration": 0,
+        "I2CBus": 1,
+        "I2CBusy": 2,
+        "I2CNack": 3,
+        "I2CUnknownError": 4,
+        "RegisterWriteFailed": 5,
+        "RegisterResetFailed": 6
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_LTC2992ErrorLocation",
+      "entries": {
+        "WriteRegister": 0,
+        "ReadRegister": 1,
+        "Reset": 2,
+        "LoadVoltage": 3,
+        "BoardVoltage": 4,
+        "LoadCurrent": 5,
+        "BoardCurrent": 6,
+        "LoadPower": 7,
+        "BoardPower": 8,
+        "GPIO1": 9,
+        "GPIO2": 10,
+        "GPIO3": 11,
+        "GPIO4": 12,
+        "None": 13
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_MeasurementChannel",
+      "entries": {
+        "Load": 0,
+        "Board": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_MeasurementFailureReason",
+      "entries": {
+        "PowerAboveMax": 0,
+        "PowerBelowMin": 1,
+        "CurrentAboveMax": 2,
+        "CurrentBelowMin": 3,
+        "VoltageAboveMax": 4,
+        "VoltageBelowMin": 5,
+        "ResistanceAboveMax": 6,
+        "ResistanceBelowMin": 7
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_MeasurementReference",
+      "entries": {
+        "Internal": 0,
+        "ExternalReference": 1,
+        "Supply": 2
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_ResistanceMeasurementReference",
+      "entries": {
+        "Internal": 0,
+        "ExternalReference": 1,
+        "Supply": 2
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_ResistanceMeasurementValidity",
+      "entries": {
+        "Valid": 0,
+        "Invalid": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_SystemState",
+      "entries": {
+        "Idle": 0,
+        "Arming": 1,
+        "Armed": 2,
+        "Firing": 3
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_TemperatureKind",
+      "entries": {
+        "ADC": 0,
+        "Gates": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_TransitionRequest",
+      "entries": {
+        "Arm": 0,
+        "Disarm": 1,
+        "Fire": 2,
+        "StopFire": 3
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_TransitionResponse",
+      "entries": {
+        "Success": 0,
+        "Failure": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCAN_VoltageKind",
+      "entries": {
+        "Board3V3": 0
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PowerCANChannel",
+      "entries": {
+        "Channel0_Unknown": 0,
+        "Channel1_Ignition": 1,
+        "Channel2_VentSolenoid": 2,
+        "Channel3_MainValveSolenoid": 3,
+        "Channel4_Unknown": 4,
+        "Channel5_Unknown": 5,
+        "Channel6_Unknown": 6,
+        "Channel7_Unknown": 7,
+        "Channel8_Unknown": 8,
+        "Channel9_Unknown": 9,
+        "Channel10_Unknown": 10,
+        "Channel11_Unknown": 11,
+        "Channel12_Unknown": 12,
+        "Channel13_Unknown": 13,
+        "Channel14_Unknown": 14,
+        "Channel15_Unknown": 15,
+        "Unknown": 16
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "PressureSensorIndex",
+      "entries": {
+        "Transducer_0": 0,
+        "Transducer_1": 1,
+        "Transducer_2": 2,
+        "Transducer_3": 3
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "SHT31Error",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "TaskType",
+      "entries": {
+        "Startup": 0,
+        "CANSetup": 1,
+        "PeripheralSetup": 2,
+        "SensorSetup": 3,
+        "ThreadSetup": 4,
+        "RGBSetup": 5,
+        "MainLoop": 6,
+        "ChitchatLoop": 7,
+        "RGBLoop": 8,
+        "GenericThreadLoop": 9,
+        "EddaLoop": 10,
+        "Wire0Start": 11,
+        "Wire1Start": 12,
+        "Wire2Start": 13,
+        "StartTemperatureBusA": 14,
+        "StartTemperatureBusB": 15
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "TemperatureBoardIndex",
+      "entries": {
+        "Board0": 0,
+        "Board1": 1
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "TemperatureSensorIndex",
+      "entries": {
+        "InternalTemperature": 0,
+        "PowerRegulator": 1,
+        "AmbientPressureSensor": 2,
+        "HumiditySensor": 3,
+        "Unknown": 4
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "ThermocoupleIndex",
+      "entries": {
+        "Therm_0": 0,
+        "Therm_1": 1,
+        "Therm_2": 2,
+        "Therm_3": 3,
+        "Therm_4": 4,
+        "Therm_5": 5,
+        "Therm_6": 6,
+        "Therm_7": 7,
+        "Therm_8": 8,
+        "Therm_9": 9,
+        "Unknown": 10
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "Thread",
+      "entries": {
+        "Thread0": 0,
+        "Thread1": 1,
+        "Thread2": 2,
+        "Thread3": 3,
+        "Thread4": 4,
+        "Thread5": 5,
+        "Thread6": 6,
+        "Thread7": 7,
+        "Unknown": 8
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "TransducerError",
+      "entries": {
+        "None": 0,
+        "CRCMismatch": 1,
+        "I2CUnknownError": 2,
+        "I2CReceiveBufferEmpty": 3,
+        "I2CAddressNack": 4,
+        "I2CDataNack": 5,
+        "I2CTransmitBufferFull": 6,
+        "Undervoltage": 7,
+        "Overvoltage": 8
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    },
+    {
+      "name": "TransducerVoltageMeasurementIndex",
+      "entries": {
+        "Transducer_0": 0,
+        "Transducer_1": 1,
+        "Transducer_2": 2,
+        "Transducer_3": 3,
+        "Voltage_5V": 4,
+        "Voltage_Ref": 5,
+        "Unknown": 6
+      },
+      "size": 1,
+      "nativeType": "uint8"
+    }
+  ],
+  "messages": [
+    {
+      "id": 0,
+      "busId": 0,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CurrentTimePing",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Ping the on-board Edda Controller with the current timestamp.",
+      "fields": [
+        {
+          "name": "current_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "current_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "busId": 1,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CurrentTimePong",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "The response for a timestamp ping.",
+      "fields": [
+        {
+          "name": "current_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "current_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "busId": 2,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "SayHi",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 0,
+      "description": "Ask all the nodes node to say hi, thereby requesting their state.",
+      "fields": []
+    },
+    {
+      "id": 2,
+      "busId": 2,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SayHi",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Telemetry",
+      "category": "none",
+      "totalSize": 0,
+      "description": "Ask all the nodes node to say hi, thereby requesting their state.",
+      "fields": []
+    },
+    {
+      "id": 2,
+      "busId": 2,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SayHi",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Pressure_Top",
+      "category": "none",
+      "totalSize": 0,
+      "description": "Ask all the nodes node to say hi, thereby requesting their state.",
+      "fields": []
+    },
+    {
+      "id": 2,
+      "busId": 2,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SayHi",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Pressure_Bottom",
+      "category": "none",
+      "totalSize": 0,
+      "description": "Ask all the nodes node to say hi, thereby requesting their state.",
+      "fields": []
+    },
+    {
+      "id": 3,
+      "busId": 3,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "Hello",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The response to a SayHi request. Use the states to request updated debug/power modes if they don't match what is expected.",
+      "fields": [
+        {
+          "name": "debug_messages_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugMessagesMode",
+          "distinct": false
+        },
+        {
+          "name": "debug_status_leds_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugStatusLedsMode",
+          "distinct": false
+        },
+        {
+          "name": "uptime_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "busId": 4,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "Hello",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The response to a SayHi request. Use the states to request updated debug/power modes if they don't match what is expected.",
+      "fields": [
+        {
+          "name": "debug_messages_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugMessagesMode",
+          "distinct": false
+        },
+        {
+          "name": "debug_status_leds_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugStatusLedsMode",
+          "distinct": false
+        },
+        {
+          "name": "uptime_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "busId": 5,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "Hello",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The response to a SayHi request. Use the states to request updated debug/power modes if they don't match what is expected.",
+      "fields": [
+        {
+          "name": "debug_messages_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugMessagesMode",
+          "distinct": false
+        },
+        {
+          "name": "debug_status_leds_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugStatusLedsMode",
+          "distinct": false
+        },
+        {
+          "name": "uptime_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "busId": 6,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "Hello",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The response to a SayHi request. Use the states to request updated debug/power modes if they don't match what is expected.",
+      "fields": [
+        {
+          "name": "debug_messages_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugMessagesMode",
+          "distinct": false
+        },
+        {
+          "name": "debug_status_leds_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugStatusLedsMode",
+          "distinct": false
+        },
+        {
+          "name": "uptime_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "busId": 7,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CanStatistics",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Some statistics for the CAN driver. Sent after receiving a CanLatency message.",
+      "fields": [
+        {
+          "name": "max_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "max_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "busId": 8,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CanStatistics",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Some statistics for the CAN driver. Sent after receiving a CanLatency message.",
+      "fields": [
+        {
+          "name": "max_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "max_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "busId": 9,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CanStatistics",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Some statistics for the CAN driver. Sent after receiving a CanLatency message.",
+      "fields": [
+        {
+          "name": "max_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "max_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "busId": 10,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CanStatistics",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Some statistics for the CAN driver. Sent after receiving a CanLatency message.",
+      "fields": [
+        {
+          "name": "max_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "max_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "busId": 11,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CanStatistics",
+      "sender": "Ground_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Some statistics for the CAN driver. Sent after receiving a CanLatency message.",
+      "fields": [
+        {
+          "name": "max_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "max_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_tx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "mean_rx_queue_size",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "busId": 12,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CanLatency",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "Send the current round-trip-time.",
+      "fields": [
+        {
+          "name": "round_trip_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "destination_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "busId": 13,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CanLatency",
+      "sender": "Ground_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "Send the current round-trip-time.",
+      "fields": [
+        {
+          "name": "round_trip_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "destination_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "busId": 48,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "SetDebugStatusLedsModeRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Request to set the RGB leds of a node on/off",
+      "fields": [
+        {
+          "name": "receiver_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        },
+        {
+          "name": "debug_status_leds_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugStatusLedsMode",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "busId": 48,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SetDebugStatusLedsModeRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Telemetry",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Request to set the RGB leds of a node on/off",
+      "fields": [
+        {
+          "name": "receiver_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        },
+        {
+          "name": "debug_status_leds_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugStatusLedsMode",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "busId": 48,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SetDebugStatusLedsModeRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Pressure_Top",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Request to set the RGB leds of a node on/off",
+      "fields": [
+        {
+          "name": "receiver_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        },
+        {
+          "name": "debug_status_leds_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugStatusLedsMode",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "busId": 48,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SetDebugStatusLedsModeRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Pressure_Bottom",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Request to set the RGB leds of a node on/off",
+      "fields": [
+        {
+          "name": "receiver_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        },
+        {
+          "name": "debug_status_leds_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugStatusLedsMode",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "busId": 49,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "SetDebugMessagesModeRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Request to set the debug messages of a node on/off",
+      "fields": [
+        {
+          "name": "receiver_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        },
+        {
+          "name": "debug_messages_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugMessagesMode",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "busId": 49,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SetDebugMessagesModeRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Telemetry",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Request to set the debug messages of a node on/off",
+      "fields": [
+        {
+          "name": "receiver_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        },
+        {
+          "name": "debug_messages_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugMessagesMode",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "busId": 49,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SetDebugMessagesModeRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Pressure_Top",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Request to set the debug messages of a node on/off",
+      "fields": [
+        {
+          "name": "receiver_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        },
+        {
+          "name": "debug_messages_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugMessagesMode",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "busId": 49,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SetDebugMessagesModeRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Pressure_Bottom",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Request to set the debug messages of a node on/off",
+      "fields": [
+        {
+          "name": "receiver_node",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Nodes",
+          "distinct": true
+        },
+        {
+          "name": "debug_messages_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DebugMessagesMode",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "busId": 50,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_SetDebugMode",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "debug_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_DebugMode",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "busId": 50,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "PowerCAN_SetDebugMode",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Power_Control_Boards",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "debug_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_DebugMode",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "busId": 51,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_GetState",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "fields": [
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "busId": 51,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "PowerCAN_GetState",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Power_Control_Boards",
+      "category": "none",
+      "totalSize": 1,
+      "fields": [
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "busId": 52,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_TransitionRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "fields": [
+        {
+          "name": "edda_signature",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "request",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_TransitionRequest",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "busId": 52,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "PowerCAN_TransitionRequest",
+      "sender": "Ground_Controller",
+      "receiver": "Edda_Power_Control_Boards",
+      "category": "none",
+      "totalSize": 4,
+      "fields": [
+        {
+          "name": "edda_signature",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "request",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_TransitionRequest",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "busId": 64,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_SetDebugMode",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "debug_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_DebugMode",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "busId": 64,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "PowerCAN_SetDebugMode",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Power_Control_Boards",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "debug_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_DebugMode",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "busId": 65,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_GetState",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "fields": [
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "busId": 65,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "PowerCAN_GetState",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Power_Control_Boards",
+      "category": "none",
+      "totalSize": 1,
+      "fields": [
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "busId": 66,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_TransitionRequest",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "fields": [
+        {
+          "name": "edda_signature",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "request",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_TransitionRequest",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "busId": 66,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "PowerCAN_TransitionRequest",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Power_Control_Boards",
+      "category": "none",
+      "totalSize": 4,
+      "fields": [
+        {
+          "name": "edda_signature",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "request",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_TransitionRequest",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "busId": 67,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_Hello",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "debug_mode",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_DebugMode",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "busId": 68,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_CurrentState",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "system_state",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_SystemState",
+          "distinct": false
+        },
+        {
+          "name": "gate_state",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_GateState",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "busId": 69,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_TransitionResponse",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "request",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_TransitionRequest",
+          "distinct": false
+        },
+        {
+          "name": "response",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_TransitionResponse",
+          "distinct": false
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "busId": 70,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_CheckResult",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "result",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_CheckResult",
+          "distinct": false
+        },
+        {
+          "name": "checks_failed",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "checks_performed",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "total_checks",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "busId": 144,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CurrentTimePing",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Telemetry",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Ping nodes with the current timestamp.",
+      "fields": [
+        {
+          "name": "current_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "current_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "busId": 144,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "CurrentTimePing",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Pressure_Top",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Ping nodes with the current timestamp.",
+      "fields": [
+        {
+          "name": "current_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "current_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "busId": 144,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "CurrentTimePing",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Pressure_Bottom",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Ping nodes with the current timestamp.",
+      "fields": [
+        {
+          "name": "current_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "current_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 145,
+      "busId": 145,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CurrentTimePong",
+      "sender": "Edda_Telemetry",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "The response for a timestamp ping.",
+      "fields": [
+        {
+          "name": "current_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "current_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 146,
+      "busId": 146,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CurrentTimePong",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "The response for a timestamp ping.",
+      "fields": [
+        {
+          "name": "current_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "current_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 147,
+      "busId": 147,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "CurrentTimePong",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "The response for a timestamp ping.",
+      "fields": [
+        {
+          "name": "current_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "current_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 148,
+      "busId": 148,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "SayHi",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Controller",
+      "category": "none",
+      "totalSize": 0,
+      "description": "Ask all the nodes node to say hi, thereby requesting their state.",
+      "fields": []
+    },
+    {
+      "id": 148,
+      "busId": 148,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SayHi",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Telemetry",
+      "category": "none",
+      "totalSize": 0,
+      "description": "Ask all the nodes node to say hi, thereby requesting their state.",
+      "fields": []
+    },
+    {
+      "id": 148,
+      "busId": 148,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SayHi",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Pressure_Top",
+      "category": "none",
+      "totalSize": 0,
+      "description": "Ask all the nodes node to say hi, thereby requesting their state.",
+      "fields": []
+    },
+    {
+      "id": 148,
+      "busId": 148,
+      "extendedId": null,
+      "duplicate": true,
+      "name": "SayHi",
+      "sender": "Edda_Controller",
+      "receiver": "Edda_Pressure_Bottom",
+      "category": "none",
+      "totalSize": 0,
+      "description": "Ask all the nodes node to say hi, thereby requesting their state.",
+      "fields": []
+    },
+    {
+      "id": 149,
+      "busId": 149,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "WenHop",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The question which we all ask, really.",
+      "fields": [
+        {
+          "name": "w",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "e",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "n",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "h",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "o",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "p",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 150,
+      "busId": 150,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "WenHop",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The question which we all ask, really.",
+      "fields": [
+        {
+          "name": "w",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "e",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "n",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "h",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "o",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "p",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 151,
+      "busId": 151,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "WenHop",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The question which we all ask, really.",
+      "fields": [
+        {
+          "name": "w",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "e",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "n",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "h",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "o",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "p",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 152,
+      "busId": 152,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "WenHop",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The question which we all ask, really.",
+      "fields": [
+        {
+          "name": "w",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "e",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "n",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "h",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "o",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "p",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 153,
+      "busId": 153,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "WenOrbit",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "The question which we all ask, really.",
+      "fields": [
+        {
+          "name": "w",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "e",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "n",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "o",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "r",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "b",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "i",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "t",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 154,
+      "busId": 154,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "WenOrbit",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "The question which we all ask, really.",
+      "fields": [
+        {
+          "name": "w",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "e",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "n",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "o",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "r",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "b",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "i",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "t",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 155,
+      "busId": 155,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "WenOrbit",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "The question which we all ask, really.",
+      "fields": [
+        {
+          "name": "w",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "e",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "n",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "o",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "r",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "b",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "i",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "t",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 156,
+      "busId": 156,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "WenOrbit",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "The question which we all ask, really.",
+      "fields": [
+        {
+          "name": "w",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "e",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "n",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "o",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "r",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "b",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "i",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "t",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 157,
+      "busId": 157,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerInputMeasurement",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The input voltage, used current & used power by the voltage regulator of this board.",
+      "fields": [
+        {
+          "name": "current_ampere",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -15,
+          "max": 15
+        },
+        {
+          "name": "voltage_volt",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": 0,
+          "max": 36
+        },
+        {
+          "name": "power_watt",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -540,
+          "max": 540
+        }
+      ]
+    },
+    {
+      "id": 158,
+      "busId": 158,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerInputMeasurement",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The input voltage, used current & used power by the voltage regulator of this board.",
+      "fields": [
+        {
+          "name": "current_ampere",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -15,
+          "max": 15
+        },
+        {
+          "name": "voltage_volt",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": 0,
+          "max": 36
+        },
+        {
+          "name": "power_watt",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -540,
+          "max": 540
+        }
+      ]
+    },
+    {
+      "id": 159,
+      "busId": 159,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerInputMeasurement",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The input voltage, used current & used power by the voltage regulator of this board.",
+      "fields": [
+        {
+          "name": "current_ampere",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -15,
+          "max": 15
+        },
+        {
+          "name": "voltage_volt",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": 0,
+          "max": 36
+        },
+        {
+          "name": "power_watt",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -540,
+          "max": 540
+        }
+      ]
+    },
+    {
+      "id": 160,
+      "busId": 160,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerInputMeasurement",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "The input voltage, used current & used power by the voltage regulator of this board.",
+      "fields": [
+        {
+          "name": "current_ampere",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -15,
+          "max": 15
+        },
+        {
+          "name": "voltage_volt",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": 0,
+          "max": 36
+        },
+        {
+          "name": "power_watt",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -540,
+          "max": 540
+        }
+      ]
+    },
+    {
+      "id": 161,
+      "busId": 161,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerInputMeasurementError",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the board power input sensor.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "INA260Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 162,
+      "busId": 162,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerInputMeasurementError",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the board power input sensor.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "INA260Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 163,
+      "busId": 163,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerInputMeasurementError",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the board power input sensor.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "INA260Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 164,
+      "busId": 164,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerInputMeasurementError",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the board power input sensor.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "INA260Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 165,
+      "busId": 165,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "ColdSideTemperature",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A cold-side temperature measurement.",
+      "fields": [
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "temperature_celsius",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -55,
+          "max": 125
+        }
+      ]
+    },
+    {
+      "id": 166,
+      "busId": 166,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "ColdSideTemperature",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A cold-side temperature measurement.",
+      "fields": [
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "temperature_celsius",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -55,
+          "max": 125
+        }
+      ]
+    },
+    {
+      "id": 167,
+      "busId": 167,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "ColdSideTemperature",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A cold-side temperature measurement.",
+      "fields": [
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "temperature_celsius",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -55,
+          "max": 125
+        }
+      ]
+    },
+    {
+      "id": 168,
+      "busId": 168,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "ColdSideTemperature",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A cold-side temperature measurement.",
+      "fields": [
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "temperature_celsius",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -55,
+          "max": 125
+        }
+      ]
+    },
+    {
+      "id": 169,
+      "busId": 169,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "RawTransducerVoltage",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "The raw voltage reading for one of four pressure transducers.",
+      "fields": [
+        {
+          "name": "measurement_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TransducerVoltageMeasurementIndex",
+          "distinct": true
+        },
+        {
+          "name": "voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -0.2,
+          "max": 5.2
+        }
+      ]
+    },
+    {
+      "id": 170,
+      "busId": 170,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "RawTransducerVoltage",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "The raw voltage reading for one of four pressure transducers.",
+      "fields": [
+        {
+          "name": "measurement_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TransducerVoltageMeasurementIndex",
+          "distinct": true
+        },
+        {
+          "name": "voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -0.2,
+          "max": 5.2
+        }
+      ]
+    },
+    {
+      "id": 171,
+      "busId": 171,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "TransducerPressure",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "The computed pressure for one of four pressure transducers, NOT compensated with ambient pressure.",
+      "fields": [
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PressureSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "pressure_pascal",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -1000000,
+          "max": 10000000
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "busId": 172,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "TransducerPressure",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "The computed pressure for one of four pressure transducers, NOT compensated with ambient pressure.",
+      "fields": [
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PressureSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "pressure_pascal",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -1000000,
+          "max": 10000000
+        }
+      ]
+    },
+    {
+      "id": 173,
+      "busId": 173,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "TransducerError",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Sent when errors occur while reading a pressure transducer.",
+      "fields": [
+        {
+          "name": "measurement_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TransducerVoltageMeasurementIndex",
+          "distinct": true
+        },
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TransducerError",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 174,
+      "busId": 174,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "TransducerError",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "description": "Sent when errors occur while reading a pressure transducer.",
+      "fields": [
+        {
+          "name": "measurement_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TransducerVoltageMeasurementIndex",
+          "distinct": true
+        },
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TransducerError",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 175,
+      "busId": 175,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AmbientPressure",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "description": "The measured ambient pressure.",
+      "fields": [
+        {
+          "name": "pressure_mbar",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 10000
+        }
+      ]
+    },
+    {
+      "id": 176,
+      "busId": 176,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AmbientPressure",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "description": "The measured ambient pressure.",
+      "fields": [
+        {
+          "name": "pressure_mbar",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 10000
+        }
+      ]
+    },
+    {
+      "id": 177,
+      "busId": 177,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AmbientPressureCoefficient",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "Sent when ambient pressure coefficients are obtained.",
+      "fields": [
+        {
+          "name": "coefficient_number",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "coefficient_value",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 178,
+      "busId": 178,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AmbientPressureCoefficient",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "Sent when ambient pressure coefficients are obtained.",
+      "fields": [
+        {
+          "name": "coefficient_number",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "coefficient_value",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 179,
+      "busId": 179,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AmbientPressureError",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the ambient pressure.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "MS5803Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 180,
+      "busId": 180,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AmbientPressureError",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the ambient pressure.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "MS5803Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 181,
+      "busId": 181,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PlatinumSensorTemperature",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "A platinum RTD temperature measurement.",
+      "fields": [
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PlatinumSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "temperature_celsius",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -200,
+          "max": 850
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "busId": 182,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PlatinumSensorResistance",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "A platinum RTD resistance measurement.",
+      "fields": [
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PlatinumSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "resistance_ohm",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 5000
+        }
+      ]
+    },
+    {
+      "id": 183,
+      "busId": 183,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PlatinumSensorRatio",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "A platinum RTD ratio measurement.",
+      "fields": [
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PlatinumSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "ratio_fraction",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "id": 184,
+      "busId": 184,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "ThermocoupleTypeKTemperature",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "A thermocouple (Type K) temperature measurement.",
+      "fields": [
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "ThermocoupleIndex",
+          "distinct": true
+        },
+        {
+          "name": "temperature_celsius",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -200,
+          "max": 1350
+        }
+      ]
+    },
+    {
+      "id": 185,
+      "busId": 185,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "ThermocoupleColdsideTemperature",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "description": "A thermocouple cold-side temperature measurement.",
+      "fields": [
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "ThermocoupleIndex",
+          "distinct": true
+        },
+        {
+          "name": "temperature_celsius",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -55,
+          "max": 125
+        }
+      ]
+    },
+    {
+      "id": 187,
+      "busId": 187,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "Humidity",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A measurement of the relative humidity inside Kastrullen.",
+      "fields": [
+        {
+          "name": "relative_humidity_percentage",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": 0,
+          "max": 100
+        },
+        {
+          "name": "is_heater_on",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 188,
+      "busId": 188,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "HumidityError",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the humidity inside Kastrullen.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "SHT31Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 189,
+      "busId": 189,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "Acceleration",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "A measurement of the engine accelerometer.",
+      "fields": [
+        {
+          "name": "acceleration_x_gforce",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -20,
+          "max": 20
+        },
+        {
+          "name": "acceleration_y_gforce",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -20,
+          "max": 20
+        },
+        {
+          "name": "acceleration_z_gforce",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -20,
+          "max": 20
+        }
+      ]
+    },
+    {
+      "id": 190,
+      "busId": 190,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AccelerationError",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the engine accelerometer.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "LIS331Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 191,
+      "busId": 191,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AccelerationSelfTest",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Acceleration self-test.",
+      "fields": [
+        {
+          "name": "sign",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "AccelerationSelfTestDirection",
+          "distinct": true
+        },
+        {
+          "name": "result",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "AccelerationSelfTestResult",
+          "distinct": false
+        },
+        {
+          "name": "acceleration_x_gforce",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -20,
+          "max": 20
+        },
+        {
+          "name": "acceleration_y_gforce",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -20,
+          "max": 20
+        },
+        {
+          "name": "acceleration_z_gforce",
+          "size": 2,
+          "type": "packedFloat",
+          "nativeType": "uint16",
+          "min": -20,
+          "max": 20
+        }
+      ]
+    },
+    {
+      "id": 192,
+      "busId": 192,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AmbientLight",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "description": "A measurement of the ambient light.",
+      "fields": [
+        {
+          "name": "ambient_light_lux",
+          "size": 4,
+          "type": "float",
+          "nativeType": "float"
+        }
+      ]
+    },
+    {
+      "id": 193,
+      "busId": 193,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "AmbientLightError",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "Sent when errors occur while reading the ambient light.",
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "LTR303Error",
+          "distinct": false
+        }
+      ]
+    },
+    {
+      "id": 198,
+      "busId": 198,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "TaskInfo",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Sent (if debug messages are enabled) for each task.",
+      "fields": [
+        {
+          "name": "type",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TaskType",
+          "distinct": true
+        },
+        {
+          "name": "thread",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Thread",
+          "distinct": true
+        },
+        {
+          "name": "task_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "truncated_start_time_us",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 199,
+      "busId": 199,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "TaskInfo",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Sent (if debug messages are enabled) for each task.",
+      "fields": [
+        {
+          "name": "type",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TaskType",
+          "distinct": true
+        },
+        {
+          "name": "thread",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Thread",
+          "distinct": true
+        },
+        {
+          "name": "task_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "truncated_start_time_us",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 200,
+      "busId": 200,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "TaskInfo",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Sent (if debug messages are enabled) for each task.",
+      "fields": [
+        {
+          "name": "type",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TaskType",
+          "distinct": true
+        },
+        {
+          "name": "thread",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Thread",
+          "distinct": true
+        },
+        {
+          "name": "task_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "truncated_start_time_us",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 201,
+      "busId": 201,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "TaskInfo",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Sent (if debug messages are enabled) for each task.",
+      "fields": [
+        {
+          "name": "type",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TaskType",
+          "distinct": true
+        },
+        {
+          "name": "thread",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Thread",
+          "distinct": true
+        },
+        {
+          "name": "task_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "truncated_start_time_us",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 202,
+      "busId": 202,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "LoopInfo",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Sent (if debug messages are enabled) for each loop.",
+      "fields": [
+        {
+          "name": "type",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "LoopType",
+          "distinct": true
+        },
+        {
+          "name": "thread",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Thread",
+          "distinct": true
+        },
+        {
+          "name": "loop_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "truncated_start_time_us",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 203,
+      "busId": 203,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "LoopInfo",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Sent (if debug messages are enabled) for each loop.",
+      "fields": [
+        {
+          "name": "type",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "LoopType",
+          "distinct": true
+        },
+        {
+          "name": "thread",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Thread",
+          "distinct": true
+        },
+        {
+          "name": "loop_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "truncated_start_time_us",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 204,
+      "busId": 204,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "LoopInfo",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Sent (if debug messages are enabled) for each loop.",
+      "fields": [
+        {
+          "name": "type",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "LoopType",
+          "distinct": true
+        },
+        {
+          "name": "thread",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Thread",
+          "distinct": true
+        },
+        {
+          "name": "loop_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "truncated_start_time_us",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 205,
+      "busId": 205,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "LoopInfo",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "description": "Sent (if debug messages are enabled) for each loop.",
+      "fields": [
+        {
+          "name": "type",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "LoopType",
+          "distinct": true
+        },
+        {
+          "name": "thread",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "Thread",
+          "distinct": true
+        },
+        {
+          "name": "loop_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "truncated_start_time_us",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 207,
+      "busId": 207,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "OneWireDevicePairedWithSensor",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "position_on_board",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 208,
+      "busId": 208,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "OneWireSearchFamilyMismatch",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "serial_byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "found_family_code",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 209,
+      "busId": 209,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "OneWireSearchCRCMismatch",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "serial_byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "found_crc",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 210,
+      "busId": 210,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "OneWireSearchFoundDevice",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "serial_byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 215,
+      "busId": 215,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_Temperature",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "fields": [
+        {
+          "name": "kind",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_TemperatureKind",
+          "distinct": true
+        },
+        {
+          "name": "temperature_celsius",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -100,
+          "max": 300
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 216,
+      "busId": 216,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_Voltage",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "fields": [
+        {
+          "name": "kind",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_VoltageKind",
+          "distinct": true
+        },
+        {
+          "name": "voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -30,
+          "max": 30
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 217,
+      "busId": 217,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ChannelMeasurementPower",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "fields": [
+        {
+          "name": "channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementChannel",
+          "distinct": true
+        },
+        {
+          "name": "power_watt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 1000
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 218,
+      "busId": 218,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ChannelMeasurementVoltage",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "fields": [
+        {
+          "name": "channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementChannel",
+          "distinct": true
+        },
+        {
+          "name": "voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -30,
+          "max": 30
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 219,
+      "busId": 219,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ChannelMeasurementCurrent",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "fields": [
+        {
+          "name": "channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementChannel",
+          "distinct": true
+        },
+        {
+          "name": "current_ampere",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 30
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 220,
+      "busId": 220,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_LoadMeasurementResistance",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementReference",
+          "distinct": false
+        },
+        {
+          "name": "result",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_LoadMeasurementResult",
+          "distinct": false
+        },
+        {
+          "name": "resistance_ohm",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 100000
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 221,
+      "busId": 221,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_LoadMeasurementVoltage",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementReference",
+          "distinct": false
+        },
+        {
+          "name": "result",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_LoadMeasurementResult",
+          "distinct": false
+        },
+        {
+          "name": "voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": -30,
+          "max": 30
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 222,
+      "busId": 222,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_LoadMeasurementPower",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementReference",
+          "distinct": false
+        },
+        {
+          "name": "result",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_LoadMeasurementResult",
+          "distinct": false
+        },
+        {
+          "name": "power_watt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 1000
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 223,
+      "busId": 223,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_LoadMeasurementCurrent",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementReference",
+          "distinct": false
+        },
+        {
+          "name": "result",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_LoadMeasurementResult",
+          "distinct": false
+        },
+        {
+          "name": "current_ampere",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 30
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 224,
+      "busId": 224,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_FailedLoadMeasurementValue",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementReference",
+          "distinct": false
+        },
+        {
+          "name": "failure_reason",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementFailureReason",
+          "distinct": false
+        },
+        {
+          "name": "value",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 1000000
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 225,
+      "busId": 225,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_FailedLoadMeasurementThreshold",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementReference",
+          "distinct": false
+        },
+        {
+          "name": "failure_reason",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_MeasurementFailureReason",
+          "distinct": false
+        },
+        {
+          "name": "threshold",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 1000000
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 226,
+      "busId": 226,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ResistanceMeasurementResistance",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementReference",
+          "distinct": true
+        },
+        {
+          "name": "validity",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementValidity",
+          "distinct": false
+        },
+        {
+          "name": "resistance_ohm",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 100000
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 227,
+      "busId": 227,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ResistanceMeasurementReferenceVoltage",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementReference",
+          "distinct": true
+        },
+        {
+          "name": "validity",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementValidity",
+          "distinct": false
+        },
+        {
+          "name": "reference_voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 5
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 228,
+      "busId": 228,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ResistanceMeasurementDifferentialVoltage",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementReference",
+          "distinct": true
+        },
+        {
+          "name": "validity",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementValidity",
+          "distinct": false
+        },
+        {
+          "name": "differential_voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 5
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 229,
+      "busId": 229,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ResistanceMeasurementPositiveVoltage",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementReference",
+          "distinct": true
+        },
+        {
+          "name": "validity",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementValidity",
+          "distinct": false
+        },
+        {
+          "name": "positive_voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 5
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 230,
+      "busId": 230,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ResistanceMeasurementNegativeVoltage",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "measurement_reference",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementReference",
+          "distinct": true
+        },
+        {
+          "name": "validity",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ResistanceMeasurementValidity",
+          "distinct": false
+        },
+        {
+          "name": "negative_voltage_volt",
+          "size": 4,
+          "type": "packedFloat",
+          "nativeType": "uint32",
+          "min": 0,
+          "max": 5
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 231,
+      "busId": 231,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_I2CBusStarted",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "frequency_hertz",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 232,
+      "busId": 232,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_I2CSearchStarted",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 233,
+      "busId": 233,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_I2CSearchFoundDevice",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "found_device_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 234,
+      "busId": 234,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_I2CSearchMissingDevice",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "missing_device_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 235,
+      "busId": 235,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_I2CSearchEnded",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 8,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "devices_successfully_found",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "addresses_with_error",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "search_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 236,
+      "busId": 236,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_LTC2992Error",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_LTC2992Error",
+          "distinct": false
+        },
+        {
+          "name": "location",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_LTC2992ErrorLocation",
+          "distinct": false
+        },
+        {
+          "name": "register_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "read_data",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "write_data",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "expected_data",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 237,
+      "busId": 237,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ADS122C04Error",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ADS122C04Error",
+          "distinct": false
+        },
+        {
+          "name": "location",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_ADS122C04ErrorLocation",
+          "distinct": false
+        },
+        {
+          "name": "register_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "read_data",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "write_data",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "expected_data",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 238,
+      "busId": 238,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_I2CSearchError",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCAN_I2CError",
+          "distinct": false
+        },
+        {
+          "name": "scanned_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 239,
+      "busId": 239,
+      "extendedId": null,
+      "duplicate": false,
+      "name": "PowerCAN_ErrorStatistics",
+      "sender": "Edda_Power_Control_Boards",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "warning_count",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "error_count",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        },
+        {
+          "name": "powercan_channel",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PowerCANChannel",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 442,
+      "busId": 186,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "DS2482Error",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DS2482Error",
+          "distinct": false
+        },
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "bus_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "position_on_bus",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "position_on_board",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 450,
+      "busId": 194,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "PartialDebugMessage1",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 451,
+      "busId": 195,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "PartialDebugMessage1",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 452,
+      "busId": 196,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "PartialDebugMessage1",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 453,
+      "busId": 197,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "PartialDebugMessage1",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 462,
+      "busId": 206,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "OneWireSearchStarted",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "start_time_ms",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 467,
+      "busId": 211,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "I2CBusStarted",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "frequency_hertz",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 468,
+      "busId": 212,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "I2CBusStarted",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "frequency_hertz",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 469,
+      "busId": 213,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "I2CBusStarted",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "frequency_hertz",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 470,
+      "busId": 214,
+      "extendedId": 1,
+      "duplicate": false,
+      "name": "I2CBusStarted",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "frequency_hertz",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 698,
+      "busId": 186,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "DS28E18QError",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "DS28E18QError",
+          "distinct": false
+        },
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "bus_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "position_on_bus",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "position_on_board",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 706,
+      "busId": 194,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "PartialDebugMessage2",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 707,
+      "busId": 195,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "PartialDebugMessage2",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 708,
+      "busId": 196,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "PartialDebugMessage2",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 709,
+      "busId": 197,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "PartialDebugMessage2",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 718,
+      "busId": 206,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "OneWireSearchEnded",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "searched_family_code",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "devices_successfully_found",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "devices_insuccessfully_found",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "search_time_ms",
+          "size": 2,
+          "type": "uint",
+          "nativeType": "uint16"
+        }
+      ]
+    },
+    {
+      "id": 723,
+      "busId": 211,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "I2CSearchStarted",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 724,
+      "busId": 212,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "I2CSearchStarted",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 725,
+      "busId": 213,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "I2CSearchStarted",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 726,
+      "busId": 214,
+      "extendedId": 2,
+      "duplicate": false,
+      "name": "I2CSearchStarted",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 1,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 954,
+      "busId": 186,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "MAX31850KError",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "MAX31850KError",
+          "distinct": false
+        },
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "ThermocoupleIndex",
+          "distinct": true
+        }
+      ]
+    },
+    {
+      "id": 962,
+      "busId": 194,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "PartialDebugMessage3",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 963,
+      "busId": 195,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "PartialDebugMessage3",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 964,
+      "busId": 196,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "PartialDebugMessage3",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 965,
+      "busId": 197,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "PartialDebugMessage3",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 974,
+      "busId": 206,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "OneWireDeviceStartupSuccess",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "serial_byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 979,
+      "busId": 211,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "I2CSearchError",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CError",
+          "distinct": false
+        },
+        {
+          "name": "scanned_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 980,
+      "busId": 212,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "I2CSearchError",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CError",
+          "distinct": false
+        },
+        {
+          "name": "scanned_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 981,
+      "busId": 213,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "I2CSearchError",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CError",
+          "distinct": false
+        },
+        {
+          "name": "scanned_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 982,
+      "busId": 214,
+      "extendedId": 3,
+      "duplicate": false,
+      "name": "I2CSearchError",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "error",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CError",
+          "distinct": false
+        },
+        {
+          "name": "scanned_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1210,
+      "busId": 186,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "MAX31856Error",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "ThermocoupleIndex",
+          "distinct": true
+        },
+        {
+          "name": "raw_fault_register",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1218,
+      "busId": 194,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "PartialDebugMessage4",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1219,
+      "busId": 195,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "PartialDebugMessage4",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1220,
+      "busId": 196,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "PartialDebugMessage4",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1221,
+      "busId": 197,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "PartialDebugMessage4",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 4,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1230,
+      "busId": 206,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "OneWireDeviceStartupFailure",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "OneWireBus",
+          "distinct": true
+        },
+        {
+          "name": "serial_byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "serial_byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1235,
+      "busId": 211,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "I2CSearchFoundDevice",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "found_device_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1236,
+      "busId": 212,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "I2CSearchFoundDevice",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "found_device_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1237,
+      "busId": 213,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "I2CSearchFoundDevice",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "found_device_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1238,
+      "busId": 214,
+      "extendedId": 4,
+      "duplicate": false,
+      "name": "I2CSearchFoundDevice",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 2,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "found_device_address",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1466,
+      "busId": 186,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "MAX31865Error",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 3,
+      "fields": [
+        {
+          "name": "board_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "TemperatureBoardIndex",
+          "distinct": true
+        },
+        {
+          "name": "sensor_index",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "PlatinumSensorIndex",
+          "distinct": true
+        },
+        {
+          "name": "raw_fault_register",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1474,
+      "busId": 194,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "PartialDebugMessage5",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1475,
+      "busId": 195,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "PartialDebugMessage5",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1476,
+      "busId": 196,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "PartialDebugMessage5",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1477,
+      "busId": 197,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "PartialDebugMessage5",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 5,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1491,
+      "busId": 211,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "I2CSearchEnded",
+      "sender": "Edda_Controller",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "devices_successfully_found",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "addresses_with_error",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "search_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 1492,
+      "busId": 212,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "I2CSearchEnded",
+      "sender": "Edda_Telemetry",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "devices_successfully_found",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "addresses_with_error",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "search_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 1493,
+      "busId": 213,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "I2CSearchEnded",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "devices_successfully_found",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "addresses_with_error",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "search_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 1494,
+      "busId": 214,
+      "extendedId": 5,
+      "duplicate": false,
+      "name": "I2CSearchEnded",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Ground_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "fields": [
+        {
+          "name": "bus",
+          "size": 1,
+          "type": "enum",
+          "nativeType": "uint8",
+          "enumName": "I2CBus",
+          "distinct": true
+        },
+        {
+          "name": "devices_successfully_found",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "addresses_with_error",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "search_time_us",
+          "size": 4,
+          "type": "uint",
+          "nativeType": "uint32"
+        }
+      ]
+    },
+    {
+      "id": 1730,
+      "busId": 194,
+      "extendedId": 6,
+      "duplicate": false,
+      "name": "PartialDebugMessage6",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1731,
+      "busId": 195,
+      "extendedId": 6,
+      "duplicate": false,
+      "name": "PartialDebugMessage6",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1732,
+      "busId": 196,
+      "extendedId": 6,
+      "duplicate": false,
+      "name": "PartialDebugMessage6",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1733,
+      "busId": 197,
+      "extendedId": 6,
+      "duplicate": false,
+      "name": "PartialDebugMessage6",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 6,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1986,
+      "busId": 194,
+      "extendedId": 7,
+      "duplicate": false,
+      "name": "PartialDebugMessage7",
+      "sender": "Edda_Controller",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte6",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1987,
+      "busId": 195,
+      "extendedId": 7,
+      "duplicate": false,
+      "name": "PartialDebugMessage7",
+      "sender": "Edda_Telemetry",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte6",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1988,
+      "busId": 196,
+      "extendedId": 7,
+      "duplicate": false,
+      "name": "PartialDebugMessage7",
+      "sender": "Edda_Pressure_Top",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte6",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    },
+    {
+      "id": 1989,
+      "busId": 197,
+      "extendedId": 7,
+      "duplicate": false,
+      "name": "PartialDebugMessage7",
+      "sender": "Edda_Pressure_Bottom",
+      "receiver": "Flight_Controller",
+      "category": "none",
+      "totalSize": 7,
+      "description": "A chunk of a log message, emulating a serial connection over CAN. All messages are sent sequentially, so they can be read in order.",
+      "fields": [
+        {
+          "name": "byte0",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte1",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte2",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte3",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte4",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte5",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        },
+        {
+          "name": "byte6",
+          "size": 1,
+          "type": "uint",
+          "nativeType": "uint8"
+        }
+      ]
+    }
+  ]
+}

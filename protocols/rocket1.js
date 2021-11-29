@@ -101,15 +101,29 @@ s.addMsg({
     sender: "rocket",
     receiver: "ground",
     fields: {
-        acc_x: s.float(),
-        acc_y: s.float(),
-        acc_z: s.float(),
-        gyro_x: s.float(),
-        gyro_y: s.float(),
-        gyro_z: s.float(),
-        mag_x: s.float(),
-        mag_y: s.float(),
-        mag_z: s.float(),
+        ax: s.float(),
+        ay: s.float(),
+        az: s.float(),
+        gx: s.float(),
+        gy: s.float(),
+        gz: s.float(),
+        mx: s.float(),
+        my: s.float(),
+        mz: s.float(),
+    }
+})
+
+s.addMsg({
+    name: "bmi",
+    sender: "rocket",
+    receiver: "ground",
+    fields: {
+        ax: s.float(),
+        ay: s.float(),
+        az: s.float(),
+        gx: s.float(),
+        gy: s.float(),
+        gz: s.float(),
     }
 })
 
@@ -238,7 +252,12 @@ s.addMsg({
         hx: s.float(),
         hy: s.float(),
         hz: s.float(),
-        altitude: s.float(),
+        vx: s.float(),
+        vy: s.float(),
+        vz: s.float(),
+        px: s.float(),
+        py: s.float(),
+        pz: s.float()
     }
 })
 

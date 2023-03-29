@@ -1,5 +1,7 @@
 "use strict";
 
+const { assert } = require('console');
+
 class Schema {
     constructor() {
         this.config = {
@@ -16,7 +18,8 @@ class Schema {
             "id",
             "name",
             "bitField",
-            "category"
+            "category",
+            "description"
         ]
 
         this.currentId = -1;
@@ -29,7 +32,7 @@ class Schema {
     }
 
     setIdType(type) {
-        this.config.idNativeType =type 
+        this.config.idNativeType =type
     }
 
     setName(name) {
@@ -169,7 +172,7 @@ class Schema {
         for (let v in enumerator) {
             let key = enumerator[v];
             reversed[key] = Number(v);
-        } 
+        }
         enumerator = reversed;
 
         let obj = {}
@@ -210,11 +213,9 @@ class Schema {
     verifyIntSize(size) {
         return size == this.actualSizeToUintSize(size)
     }
-    
+
     actualSizeToUintSize(size) {
-        if (size <= 0)
-            return 0
-        else if (size <= 1)
+        if (size <= 1)
             return 1
         else if (size <= 2)
             return 2;
@@ -224,11 +225,12 @@ class Schema {
             return 8;
         else if (size <= 16)
             return 16;
+        return 0
     }
-    
+
     sizeToUint(size) {
         if (size <= 0)
-            return "void"
+            assert("invalid integer size")
         else if (size <= 1)
             return "uint8"
         else if (size <= 2)
@@ -240,12 +242,12 @@ class Schema {
         else if (size <= 16)
             return "uint128";
     }
-    
-    fixedString(max_len) {
+
+    fixedBytes(len) {
         let obj = {
-            type: "fixedString",
-            size: max_len, //account for null terminator
-            nativeType: "fixedString"
+            type: "fixedBytes",
+            size: len, //account for null terminator
+            nativeType: "fixedBytes"
         }
         return obj;
     }
@@ -258,7 +260,7 @@ class Schema {
         };
         return obj;
     }
-    
+
     float() {
         let obj = {
             type: "float",
@@ -267,23 +269,23 @@ class Schema {
         }
         return obj;
     }
-    
+
     int(size) {
         if (!this.verifyIntSize(size)) {
-            throw `size can not be converted to an int: ${size}` 
+            throw `size can not be converted to an int: ${size}`
         }
         let type = this.sizeToUint(size).substring(1);
         let obj = {
             type: "int",
             size: size,
-            nativeType: type 
+            nativeType: type
         }
         return obj;
     }
-    
+
     uint(size) {
         if (!this.verifyIntSize(size)) {
-            throw `size can not be converted to an int: ${size}` 
+            throw `size can not be converted to an int: ${size}`
         }
         let obj = {
             type: "uint",
@@ -292,10 +294,10 @@ class Schema {
         }
         return obj;
     }
-    
+
     packedFloat(size, min, max) {
         if (!this.verifyIntSize(size)) {
-            throw `size can not be converted to an int: ${size}` 
+            throw `size can not be converted to an int: ${size}`
         }
         let obj = {
             type: "packedFloat",
@@ -306,10 +308,10 @@ class Schema {
         }
         return obj
     }
-    
+
     scaledFloat(size, scale, signed) {
         if (!this.verifyIntSize(size)) {
-            throw `size can not be converted to an int: ${size}` 
+            throw `size can not be converted to an int: ${size}`
         }
         let type = this.sizeToUint(size)
 
@@ -324,7 +326,7 @@ class Schema {
         }
         return obj
     }
-    
+
     enumerator(name) {
         if (this.enums[name] == null) {
             throw `undefined enum: ${name}`

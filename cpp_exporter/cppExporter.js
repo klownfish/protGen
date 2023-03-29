@@ -12,12 +12,12 @@ let raw = fs.readFileSync(input).toString()
 let schema = JSON.parse(raw);
 let baseName = output + `/${schema.config.name}`
 
-let warning = 
+let warning =
 `/*****************************
 GENERATED FILE DO NOT EDIT
 ******************************/\n\n`
 
-let h_file = warning 
+let h_file = warning
 let cpp_file = warning
 h_file += `#ifndef _${schema.config.name}_H\n`
 h_file += `#define _${schema.config.name}_H\n`
@@ -73,7 +73,7 @@ void packedFloat_to_uint(${float} value, ${float} minValue, ${float} maxValue, T
     ${float} ratio = (value - minValue) / (maxValue - minValue);
     *out = 1 + ((intMax - 2)) * ratio;
 }
-  
+
 template <typename T>
 void uint_to_packedFloat(T value, ${float} minValue, ${float} maxValue, ${float}* out){
     T intMax = ~0;
@@ -116,8 +116,8 @@ for (let key in schema.messages) {
             h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
             continue
         }
-        if (field.type == "fixedString") {
-            h_file += `char ${field.name}[${field.size}];\n`
+        if (field.type == "fixedBytes") {
+            h_file += `uint8_t ${field.name}[${field.size}];\n`
             h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
             continue
         }
@@ -125,7 +125,7 @@ for (let key in schema.messages) {
         h_file += `static_assert((sizeof(${field.name}) == ${field.size}), "invalid size");\n`
     }
 
-    //create 
+    //create
     if (msg.bitField) {
         h_file += `${msg.bitFieldNativeType}_t bit_field = 0;\n`
         h_file += `static_assert((sizeof(bit_field) == ${msg.bitFieldSize}), "invalid size");\n`
@@ -158,31 +158,31 @@ for (let key in schema.messages) {
         //setters
         switch(field.type) {
             case "packedFloat":
-                h_file += 
+                h_file +=
                 `void set_${field.name}(${schema.config.name}_FLOAT_DEF value) {\n` +
                 `packedFloat_to_uint(value, ${field.min}, ${field.max}, &${field.name});\n` +
                 `}\n`
                 break;
             case "scaledFloat":
-                h_file += 
+                h_file +=
                 `void set_${field.name}(${schema.config.name}_FLOAT_DEF value) {\n` +
                 `scaledFloat_to_uint(value, ${field.scale}, &${field.name});\n` +
                 `}\n`
                 break;
             case "enum":
-                h_file += 
+                h_file +=
                 `void set_${field.name}(enum ${field.enumName} value) {\n` +
                 `${field.name} = value;\n`+
                 `}\n`
                 break;
-            case "fixedString":
-                h_file += 
-                `void set_${field.name}(char* value) {\n` +
+            case "fixedBytes":
+                h_file +=
+                `void set_${field.name}(uint8_t* value) {\n` +
                 `memcpy(${field.name}, value, sizeof(*${field.name}));\n`+
                 `}\n`
                 break;
             default:
-                h_file += 
+                h_file +=
                 `void set_${field.name}(${field.nativeType}_t value) {\n` +
                 `${field.name} = value;\n`+
                 `}\n`
@@ -193,7 +193,7 @@ for (let key in schema.messages) {
     for (let field of msg.fields) {
         switch(field.type) {
             case "packedFloat":
-                h_file += 
+                h_file +=
                 `${schema.config.name}_FLOAT_DEF get_${field.name}() {\n` +
                 `${schema.config.name}_FLOAT_DEF out;\n` +
                 `uint_to_packedFloat(${field.name}, ${field.min}, ${field.max}, &out);\n` +
@@ -201,7 +201,7 @@ for (let key in schema.messages) {
                 `}\n`
                 break;
             case "scaledFloat":
-                h_file += 
+                h_file +=
                 `${schema.config.name}_FLOAT_DEF get_${field.name}() {\n` +
                 `${schema.config.name}_FLOAT_DEF out;\n` +
                 `uint_to_scaledFloat(${field.name}, ${field.scale}, &out);\n` +
@@ -209,47 +209,47 @@ for (let key in schema.messages) {
                 `}\n`
                 break;
             case "enum":
-                h_file += 
+                h_file +=
                 `enum ${field.enumName} get_${field.name}() {\n` +
                 `return ${field.name};\n`+
                 `}\n`
                 break;
-            case "fixedString":
-                h_file += 
-                `char* get_${field.name}() {\n` +
-                `return ${field.name};\n`+
+            case "fixedBytes":
+                h_file +=
+                `void get_${field.name}(uint8_t *buf) {\n` +
+                `memcpy(buf, ${field.name}, sizeof(${field.name});\n`+
                 `}\n`
                 break;
             default:
-                h_file += 
+                h_file +=
                 `${field.nativeType}_t get_${field.name}() {\n` +
                 `return ${field.name};\n`+
                 `}\n`
         }
     }
     //build buf
-    h_file += `void build_buf(uint8_t* buf, uint8_t* index) override {\n` 
+    h_file += `void build_buf(uint8_t* buf, uint8_t* index) override {\n`
     if (msg.bitField) {
         h_file += `memcpy(buf + *index, &bit_field, sizeof(bit_field));\n`
         h_file += `*index += sizeof(bit_field);\n`
     }
     for (let field of msg.fields) {
-        h_file += `memcpy(buf + *index, &${field.name}, sizeof(${field.name}));\n` 
-        h_file += `*index += sizeof(${field.name});\n`  
+        h_file += `memcpy(buf + *index, &${field.name}, sizeof(${field.name}));\n`
+        h_file += `*index += sizeof(${field.name});\n`
     }
 
     h_file += `}\n`
     //parse buf
     h_file += `void parse_buf(uint8_t* buf) override {\n`
     if (msg.fields.length || msg.bitField) {
-        h_file += `uint8_t index = 0;\n` 
+        h_file += `uint8_t index = 0;\n`
         if (msg.bitField) {
             h_file += `memcpy(&bit_field, buf +  index, sizeof(bit_field));\n`
             h_file += `index += sizeof(bit_field);\n`
         }
         for (let field of msg.fields) {
-            h_file += `memcpy(&${field.name}, buf + index, sizeof(${field.name}));\n` 
-            h_file += `index += sizeof(${field.name});\n`  
+            h_file += `memcpy(&${field.name}, buf + index, sizeof(${field.name}));\n`
+            h_file += `index += sizeof(${field.name});\n`
         }
     }
     h_file += `}\n`
@@ -305,7 +305,7 @@ cpp_file += "}\n\n"
 
 //generate is_valid_id function
 h_file += `bool is_valid_id(${schema.config.idNativeType}_t id);`
-cpp_file += 
+cpp_file +=
 `bool is_valid_id(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
@@ -321,7 +321,7 @@ cpp_file += "}\n}\n\n"
 
 //generate length function
 h_file += `uint8_t id_to_len(${schema.config.idNativeType}_t id);`
-cpp_file += 
+cpp_file +=
 `uint8_t id_to_len(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
@@ -336,7 +336,7 @@ cpp_file += "}\n}\n\n"
 
 //generate sender funtion
 h_file += `enum nodes id_to_sender(${schema.config.idNativeType}_t id);`
-cpp_file += 
+cpp_file +=
 `enum nodes id_to_sender(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
@@ -351,7 +351,7 @@ cpp_file += "}\n}\n\n"
 
 //generate receiver funtion
 h_file += `enum nodes id_to_receiver(${schema.config.idNativeType}_t id);`
-cpp_file += 
+cpp_file +=
 `enum nodes id_to_receiver(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {
@@ -365,7 +365,7 @@ cpp_file += "}\n}\n\n"
 
 //generate category funtion
 h_file += `enum categories id_to_category(${schema.config.idNativeType}_t id);`
-cpp_file += 
+cpp_file +=
 `enum categories id_to_category(${schema.config.idNativeType}_t id){
 switch(id) {\n`
 for (let key in schema.messages) {

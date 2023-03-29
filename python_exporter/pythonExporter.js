@@ -26,7 +26,7 @@ let structType = {
 
 function field_to_struct(field) {
     let type
-    if (field.nativeType == "fixedString") {
+    if (field.nativeType == "fixedBytes") {
         type = field.size + "s"  
     } else {
         type = structType[field.nativeType]
